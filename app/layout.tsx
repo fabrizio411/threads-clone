@@ -1,6 +1,8 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+
+import '@/sass/reset.scss'
+import '@/sass/global.scss'
 
 const inter = Inter({ subsets: ['latin'] })
 

@@ -1,0 +1,14 @@
+@import './var';
+
+:root, html, body {
+    height: 100%;
+    background-color: $bg-1;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    scroll-behavior: smooth;
+}
