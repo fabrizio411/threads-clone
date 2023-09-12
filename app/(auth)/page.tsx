@@ -1,12 +1,12 @@
-import Image from 'next/image'
-import React from 'react'
-
+import AuthForm from './components/AuthForm'
 import './style.scss'
 
 const AuthPage = () => {
   return (
     <main className='page auth-page'>
-      <div className='bg-image'></div>
+      <div className='bg-image'>
+        <AuthForm />
+      </div>
     </main>
   )
 }

@@ -1,0 +1,93 @@
+@import '/sass/var';
+
+.authform-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 90%;
+
+    .title {
+        color: $text-1;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    .form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .btn {
+            position: relative;
+            cursor: pointer;
+            height: 56px;
+            display: grid;
+            place-items: center;
+            background-color: $bg-white;
+            border: none;
+            border-radius: 10px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: $bg-1;
+            transition: transform .1s ease;
+
+            &:disabled {
+                color: $text-2;
+                background-color: $bg-white-hover;
+                cursor: not-allowed;
+            }
+
+            &:hover {
+                background-color: $bg-white-hover;
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
+
+
+            .icon {
+                fill: $text-2;
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .icon.disabled {
+                fill: $bg-1;
+            }
+        }
+    }
+
+    .variants {
+        color: $text-2;
+        font-size: .9rem;
+
+        .action {
+            margin-left: 5px;
+            padding: 3px;
+            border: none;
+            background-color: transparent;
+            color: $text-1;
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                color: $bg-white-hover;
+            }
+
+            &:disabled {
+                cursor: default;
+            }
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .authform-component {
+        width: 370px;
+    }
+}
