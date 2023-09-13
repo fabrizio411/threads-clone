@@ -1,6 +1,6 @@
 @import '/sass/var';
 
-.input-component {
+.input-component.placeholder {
     height: 56px;
     background-color: $bg-2;
     border: none;
@@ -23,5 +23,54 @@
 }
 
 .input-component.error {
-    border: 3px solid rgb(95, 27, 27);
+    border: 3px solid $error-red;
+}
+
+
+.input-component.label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    background-color: $bg-2;
+    cursor: text;
+
+    &:hover {
+        background-color: $bg-hover;
+    }
+
+    .label {
+        cursor: text;
+        color: $text-1;
+        font-weight: 700;
+        font-size: .9rem;
+    }
+
+    .input {
+        padding-top: 5px;
+        border: none;
+        background-color: transparent;
+        color: $text-1;
+        font-size: .85rem;
+        outline: none;
+
+        &::placeholder {
+            color: $text-3;
+        }
+
+        &:disabled {
+            cursor: default;
+        }
+    }
+
+    .required-dot {
+        height: 10px;
+        width: 10px;
+        background-color: $error-red;
+        border-radius: 100%;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }

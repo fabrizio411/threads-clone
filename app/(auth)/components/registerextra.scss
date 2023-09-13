@@ -1,0 +1,157 @@
+@import '/sass/var';
+
+@keyframes openOverlay {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@keyframes closeOverlay {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+
+.registerextra-component {
+    transform: scale(0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+
+    .overlay {
+        z-index: 5;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .content {
+        z-index: 10;
+        width: 90%;
+        height: 500px;
+        padding-bottom: 20px;
+        background-color: $bg-1;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        transition: transform .3s ease-out;
+
+        .nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+
+            div {
+                height: 24px;
+                cursor: pointer;
+                fill: $bg-white;
+                transform: scale(1.1);
+
+                &:hover {
+                    fill: $bg-white-hover;
+                }
+
+                .arrow-fowrard {
+                    transform: rotate(180deg);
+                }
+
+                .arrow-fowrard.disabled {
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+        .title-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+
+            .title {
+                font-weight: 700;
+                font-size: 1.5rem;
+                color: $text-1;
+            }
+
+            .text {
+                font-size: .8rem;
+                color: $text-2;
+                font-weight: 300;
+            }
+        }
+
+        .stage-box {
+            width: 100%;
+            flex: 1;
+            display: grid;
+            place-items: center;
+            
+        }
+
+        .extra-btn {
+            width: 90%;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: $bg-2;
+            color: $text-1;
+            font-weight: 600;
+            font-size: .9rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $bg-hover;
+            }
+        }
+
+        .extra-btn.disabled {
+            color: $text-2;
+            cursor: not-allowed;
+
+            &:hover {
+                background-color: $bg-2;
+            }
+        }
+    }
+
+    @media (min-width: 600px) {
+        .content {
+            width: 400px;
+        }
+    }
+}
+
+.registerextra-component.active {
+    transform: scale(1);
+    .overlay {
+        animation: openOverlay .3s ease;
+    }
+
+    .content {
+        transform: scale(1);
+        animation: openOverlay .3s ease;
+    }
+}
+
+.registerextra-component.inactive {
+    transition: transform 0s .3s;
+    transform: scale(0);
+
+    .overlay {
+        animation: closeOverlay .3s ease;
+    }
+
+    .content {
+        transform: scale(0);
+        animation: closeOverlay .3s ease;
+    }
+}

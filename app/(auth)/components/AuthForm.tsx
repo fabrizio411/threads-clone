@@ -7,6 +7,7 @@ import './authform.scss'
 import Input from '@/components/inputs/Input'
 import ThreadsIcon from '@/components/icons/ThreadsIcon'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
+import RegisterExtra from './RegisterExtra'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -14,33 +15,43 @@ const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoading, setIsLoading] = useState(false)
   const [isValidData, setIsValidData] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [isValidEmail, setIsValidEmail] = useState(true)
+  const [isEmailErrors, setIsEmailErrors] = useState(false)
 
   const toggleVariants = useCallback(() => {
     if (variant === 'LOGIN') setVariant('REGISTER')
     else setVariant('LOGIN')
   }, [variant])
 
-  const { watch, register, handleSubmit, formState: {errors} } = useForm<FieldValues>({
+  const { watch, register, handleSubmit, formState: {errors}, getValues, setValue } = useForm<FieldValues>({
     defaultValues: {
       name: '',
       username: '',
+      bio: '',
       email: '',
       password: ''
     }
   })
 
-  const usernameValue = watch('username')
+  const emailValue = watch('email')
   const passwordValue = watch('password')
 
+
   useEffect(() => {
-    if (usernameValue && passwordValue) {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    setIsValidEmail(emailPattern.test(emailValue))
+    if (!isValidEmail) setIsEmailErrors(true)
+    else setIsEmailErrors(false)
+    if (!emailValue) setIsEmailErrors(false)
+
+    if (isValidEmail && emailValue && passwordValue) {
       setIsValidData(true)
     } else setIsValidData(false)
-  
-    
-  }, [usernameValue, passwordValue])
+  }, [emailValue, passwordValue])
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsOpen(false)
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
@@ -51,6 +62,13 @@ const AuthForm = () => {
       // nextauth
     }
   }
+
+  const registerExtraInfo = (e: any) => {
+    if (variant === 'REGISTER') {
+      e.preventDefault()
+      setIsOpen(true)
+    }
+  }
   
   return (
     <section className='authform-component'>
@@ -59,9 +77,9 @@ const AuthForm = () => {
       </h1>
 
       <form className='form' onSubmit={handleSubmit(onSubmit)}>
-        <Input id='username' placeholder='Username' register={register} errors={errors} disabled={isLoading} required/>
-        <Input id='password' type='password' placeholder='Password' register={register} errors={errors} disabled={isLoading} required/>
-        <button className='btn' disabled={!isValidData || isLoading} >
+        <Input inputClass='PLACEHOLDER' id='email' type='email' isEmailErrors={isEmailErrors}  placeholder='Email Address' register={register} errors={errors} disabled={isLoading} required/>
+        <Input inputClass='PLACEHOLDER' id='password' type='password' placeholder='Password' register={register} errors={errors} disabled={isLoading} required/>
+        <button className='btn' type={variant === 'LOGIN' ? 'submit' : 'button'} disabled={!isValidData || isLoading} onClick={(e) => registerExtraInfo(e)}>
           {isLoading ? (
             <LoadingSpinner height='24px' width='24px'/>
           ) : (
@@ -71,6 +89,7 @@ const AuthForm = () => {
             </>
           )}
         </button>
+        <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch}/>
       </form>
 
       <p className='variants'>
