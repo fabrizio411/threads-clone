@@ -8,16 +8,29 @@ import Input from '@/components/inputs/Input'
 import ThreadsIcon from '@/components/icons/ThreadsIcon'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 import RegisterExtra from './RegisterExtra'
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
 const AuthForm = () => {
+  const session = useSession()
+  const router = useRouter()
+
   const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoading, setIsLoading] = useState(false)
   const [isValidData, setIsValidData] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isValidEmail, setIsValidEmail] = useState(true)
   const [isEmailErrors, setIsEmailErrors] = useState(false)
+
+  useEffect(() => {
+    console.log(session?.status)
+    if (session?.status === 'authenticated') {
+      router.push('/home')
+    }
+  }, [session?.status, router])
 
   const toggleVariants = useCallback(() => {
     if (variant === 'LOGIN') setVariant('REGISTER')
@@ -37,7 +50,6 @@ const AuthForm = () => {
   const emailValue = watch('email')
   const passwordValue = watch('password')
 
-
   useEffect(() => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
     setIsValidEmail(emailPattern.test(emailValue))
@@ -55,11 +67,28 @@ const AuthForm = () => {
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
-      // axios
+      axios.post('/api/register', data)
+      .then(() => signIn('credentials', data))
+      .catch(() => console.log('Register Error'))
+      .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {
-      // nextauth
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+      .then((callback) => {
+        if (callback?.error) {
+          console.log('Invalid Credentials')
+        }
+
+        if (callback?.ok && !callback?.error) {
+          router.push('/home')
+        }
+      })
+      .catch(() => console.log('Auth Error'))
+      .finally(() => setIsLoading(false))
     }
   }
 
@@ -89,7 +118,9 @@ const AuthForm = () => {
             </>
           )}
         </button>
-        <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch}/>
+        {variant === 'REGISTER' && (
+          <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch}/>
+        )}
       </form>
 
       <p className='variants'>
