@@ -1,0 +1,102 @@
+@import '/sass/var';
+
+.nav-component {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background-color: $bg-1;
+
+    .desktop {
+        display: none;
+    }
+
+    nav, ul, li, .item {
+        height: 100%;
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+
+        li {
+            flex: 1;
+
+            .item {
+                z-index: 5;
+                display: grid;
+                place-items: center;
+                position: relative;
+
+                .bg {
+                    z-index: 4;
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    background-color: transparent;
+                    border-radius: 10px;
+                    scale: 0.9;
+                    transition: scale .2s ease;
+                }
+
+                &:hover {
+                    .bg {
+                        background-color: $bg-hover-2;
+                        scale: 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .nav-component {
+        height: 74px;
+        padding: 6px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        top: 0;
+
+        nav {
+            padding: 0 70px;
+            width: $content-width;
+        }
+
+        .desktop {
+            display: block;
+        }
+
+        .desktop.logo {
+            svg {
+                fill: $text-1;
+                transition: scale .2s ease;
+
+                &:hover {
+                    scale: 1.05;
+                }
+            }
+        }
+
+        .desktop.menu {
+            position: relative;
+
+            svg {
+                box-sizing: content-box;
+                padding: 6px;
+                cursor: pointer;
+                transition: color .2s ease;
+                
+                
+                &:hover {
+                    color: $text-1;
+                }
+            }
+        }
+    }
+}
