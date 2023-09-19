@@ -1,5 +1,16 @@
 @import './var';
 
 .page {
-    height: 100%;
+    background-color: red;
+    min-height: 100%;
+    box-sizing: content-box;
+    margin-bottom: 60px;
+}
+
+@media (min-width: 600px) {
+    .page  {
+        margin: 0;
+        box-sizing: border-box;
+        padding-top: 74px;
+    }
 }
