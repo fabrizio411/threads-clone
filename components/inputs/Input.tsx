@@ -47,7 +47,12 @@ const Input: React.FC<InputProps> = ({
 
       {inputClass === 'LABEL' && (
         <div className={`input-component label ${errors[id] && 'error'}`}>
-          <label className='label' htmlFor={id}>{placeholder}</label>
+          <label className='label' htmlFor={id}>
+            {placeholder}
+            {errors[id] && (
+              <p className='error-msg'>{errors[id]?.message as string}</p>
+            )}
+          </label>
           <input
             className='input' 
             id={id}

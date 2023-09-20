@@ -11,6 +11,8 @@ import RegisterExtra from './RegisterExtra'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { UserRegisterValidation, UserLoginrValidation } from '@/libs/validations/user'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -19,14 +21,14 @@ const AuthForm = () => {
   const router = useRouter()
 
   const [variant, setVariant] = useState<Variant>('LOGIN')
-  const [isLoading, setIsLoading] = useState(false)
-  const [isValidData, setIsValidData] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const [isValidEmail, setIsValidEmail] = useState(true)
-  const [isEmailErrors, setIsEmailErrors] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isValidData, setIsValidData] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true)
+  const [isEmailErrors, setIsEmailErrors] = useState<boolean>(false)
+  const [loginErrors, setLoginErrors] = useState<string>('')
 
   useEffect(() => {
-    console.log(session?.status)
     if (session?.status === 'authenticated') {
       router.push('/home')
     }
@@ -37,15 +39,25 @@ const AuthForm = () => {
     else setVariant('LOGIN')
   }, [variant])
 
-  const { watch, register, handleSubmit, formState: {errors}, getValues, setValue } = useForm<FieldValues>({
+  let userValidation = zodResolver(UserLoginrValidation)
+  useEffect(() => {
+    if (variant === 'REGISTER') userValidation = zodResolver(UserRegisterValidation)
+    else userValidation = zodResolver(UserLoginrValidation)
+  }, [variant])
+
+  const { watch, register, handleSubmit, formState: {errors}, setValue } = useForm<FieldValues>({
+    resolver: zodResolver(UserRegisterValidation),
     defaultValues: {
-      name: '',
-      username: '',
-      bio: '',
       email: '',
       password: ''
     }
   })
+
+  useEffect(() => {
+    if (errors?.email || errors?.password) {
+      setIsOpen(false)
+    }
+  }, [errors])
 
   const emailValue = watch('email')
   const passwordValue = watch('password')
@@ -69,7 +81,7 @@ const AuthForm = () => {
     if (variant === 'REGISTER') {
       axios.post('/api/register', data)
       .then(() => signIn('credentials', data))
-      .catch(() => console.log('Register Error'))
+      .catch((err: any) => console.log('Register Error', err))
       .finally(() => setIsLoading(false))
     }
 
@@ -80,14 +92,14 @@ const AuthForm = () => {
       })
       .then((callback) => {
         if (callback?.error) {
-          console.log('Invalid Credentials')
+          setLoginErrors('Incorrect email or password')
         }
 
         if (callback?.ok && !callback?.error) {
           router.push('/home')
         }
       })
-      .catch(() => console.log('Auth Error'))
+      .catch(() => setLoginErrors('Authentication Error'))
       .finally(() => setIsLoading(false))
     }
   }
@@ -107,7 +119,16 @@ const AuthForm = () => {
 
       <form className='form' onSubmit={handleSubmit(onSubmit)}>
         <Input inputClass='PLACEHOLDER' id='email' type='email' isEmailErrors={isEmailErrors}  placeholder='Email Address' register={register} errors={errors} disabled={isLoading} required/>
+        {errors?.email && (
+          <p className='error-msg'>{errors.email.message as string}</p>
+        )}
         <Input inputClass='PLACEHOLDER' id='password' type='password' placeholder='Password' register={register} errors={errors} disabled={isLoading} required/>
+        {errors?.password && (
+          <p className='error-msg'>{errors.password.message as string}</p>
+        )}
+        {loginErrors && variant === 'LOGIN' && (
+          <p className='error-msg'>{loginErrors}</p>
+        )}
         <button className='btn' type={variant === 'LOGIN' ? 'submit' : 'button'} disabled={!isValidData || isLoading} onClick={(e) => registerExtraInfo(e)}>
           {isLoading ? (
             <LoadingSpinner height='24px' width='24px'/>

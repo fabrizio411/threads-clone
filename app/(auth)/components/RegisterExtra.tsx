@@ -25,6 +25,10 @@ const RegisterExtra: React.FC<RegisterExtraProps> = ({ className, setIsOpen, reg
   const [stage, setStage] = useState<Stage>(1)
   const [isValidData, setIsValidData] = useState(false)
 
+  useEffect(() => {
+    if (errors?.name || errors?.username || errors?.bio) setStage(1)
+  }, [errors])
+
   const closeForm = () => {
     setIsOpen(false)
   }

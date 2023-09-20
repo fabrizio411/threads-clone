@@ -19,6 +19,12 @@
         flex-direction: column;
         gap: 8px;
 
+        .error-msg {
+            color: $error-red;
+            font-weight: 600;
+            font-size: .8rem;
+        }
+
         .btn {
             position: relative;
             cursor: pointer;

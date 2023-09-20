@@ -1,14 +1,15 @@
 @import '/sass/var';
 
 .menu-modal {
-    display: none;
+    width: 0px;
+    border: none;
     position: absolute;
     right: 0;
     background-color: $bg-2;
-    width: 150px;
     border-radius: 15px;
-    border: 1px solid $bg-border-2;
     overflow: hidden;
+    transition: width .2s ease;
+    white-space: nowrap;
 
     ul {
         list-style: none;
@@ -34,5 +35,6 @@
 }
 
 .menu-modal.active {
-    display: block;
+    width: 150px;
+    border: 1px solid $bg-border-2;
 }
