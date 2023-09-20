@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
 
 import './authform.scss'
+import Link from 'next/link'
 import Input from '@/components/inputs/Input'
 import ThreadsIcon from '@/components/icons/ThreadsIcon'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
@@ -16,11 +17,14 @@ import { UserRegisterValidation, UserLoginrValidation } from '@/libs/validations
 
 type Variant = 'LOGIN' | 'REGISTER'
 
-const AuthForm = () => {
+interface AuthFormProps {
+  variant: string,
+}
+
+const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
   const session = useSession()
   const router = useRouter()
 
-  const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isValidData, setIsValidData] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -30,26 +34,29 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      router.push('/home')
+      router.push('/')
     }
   }, [session?.status, router])
 
-  const toggleVariants = useCallback(() => {
-    if (variant === 'LOGIN') setVariant('REGISTER')
-    else setVariant('LOGIN')
-  }, [variant])
-
-  let userValidation = zodResolver(UserLoginrValidation)
-  useEffect(() => {
-    if (variant === 'REGISTER') userValidation = zodResolver(UserRegisterValidation)
-    else userValidation = zodResolver(UserLoginrValidation)
-  }, [variant])
+  let hrefURL
+  let userValidation
+  if (variant === 'REGISTER') {
+    userValidation = zodResolver(UserRegisterValidation)
+    hrefURL = '/login'
+  }
+  else {
+    userValidation = zodResolver(UserLoginrValidation)
+    hrefURL = '/register'
+  }
 
   const { watch, register, handleSubmit, formState: {errors}, setValue } = useForm<FieldValues>({
-    resolver: zodResolver(UserRegisterValidation),
+    resolver: userValidation,
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      name: '',
+      username: '',
+      bio: ''
     }
   })
 
@@ -146,9 +153,9 @@ const AuthForm = () => {
 
       <p className='variants'>
         {variant === 'LOGIN' ? 'New in Threads?' : 'Already have an account?'}
-        <button className='action' onClick={toggleVariants} disabled={isLoading}>
+        <Link className='action' href={hrefURL}>
           {variant === 'LOGIN' ? 'Register' : 'Login'} 
-        </button>
+        </Link>
       </p>
     </section>
   )
