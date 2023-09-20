@@ -2,20 +2,19 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
-
-import './authform.scss'
-import Link from 'next/link'
-import Input from '@/components/inputs/Input'
-import ThreadsIcon from '@/components/icons/ThreadsIcon'
-import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
-import RegisterExtra from './RegisterExtra'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserRegisterValidation, UserLoginrValidation } from '@/libs/validations/user'
+import axios from 'axios'
+import Link from 'next/link'
 
-type Variant = 'LOGIN' | 'REGISTER'
+import Input from '@/components/inputs/Input'
+import RegisterExtra from './RegisterExtra'
+import ThreadsIcon from '@/components/icons/ThreadsIcon'
+import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
+
+import './authform.scss'
 
 interface AuthFormProps {
   variant: string,
@@ -56,7 +55,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
       password: '',
       name: '',
       username: '',
-      bio: ''
+      bio: '',
+      image: ''
     }
   })
 
@@ -86,10 +86,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
-      axios.post('/api/register', data)
-      .then(() => signIn('credentials', data))
-      .catch((err: any) => console.log('Register Error', err))
-      .finally(() => setIsLoading(false))
+      // axios.post('/api/register', data)
+      // .then(() => signIn('credentials', data))
+      // .catch((err: any) => console.log('Register Error', err))
+      // .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {

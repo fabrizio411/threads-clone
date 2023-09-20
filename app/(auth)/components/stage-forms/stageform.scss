@@ -1,16 +1,52 @@
 @import '/sass/var';
 
-.stage-form-one {
+.stage-form-one-component {
     width: 90%;
-    border-radius: 10px;
-    border: 1px solid $bg-border;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 
-    .hr-bar {
-        border-top: 1px solid #343434;
+    .image-upload-box {
+        position: relative;
+        width: 70px;
+        height: 70px;
+
+        .image {
+            border-radius: 100%;
+        }
+
+        .plus-box {
+            background-color: $bg-white;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 20px;
+            height: 20px;
+            bottom: 0;
+            right: 0;
+            box-sizing: content-box;
+            border: 2px solid $bg-border;
+            border-radius: 100%;
+        }
+    }
+
+    .stage-form-one {
         width: 100%;
+        border-radius: 10px;
+        border: 1px solid $bg-border;
+        overflow: hidden;
+    
+        .hr-bar {
+            border-top: 1px solid #343434;
+            width: 100%;
+        }
     }
 }
+
+
 
 .stage-form-two {
     display: flex;

@@ -67,6 +67,28 @@ const Input: React.FC<InputProps> = ({
           )}
         </div>
       )}
+
+      {inputClass === 'LABEL/TEXTAREA' && (
+        <div className={`input-component label ${errors[id] && 'error'}`}>
+          <label className='label' htmlFor={id}>
+            {placeholder}
+            {errors[id] && (
+              <p className='error-msg'>{errors[id]?.message as string}</p>
+            )}
+          </label>
+          <textarea
+            className='input textarea' 
+            id={id}
+            disabled={disabled}
+            placeholder={`+ write ${id}`}
+            {...register(id, { required })}
+            autoComplete={autoComplete}
+          />
+          {required && !isValidData && (
+            <div className='required-dot'></div>
+          )}
+        </div>
+      )}
     </>
 
   )
