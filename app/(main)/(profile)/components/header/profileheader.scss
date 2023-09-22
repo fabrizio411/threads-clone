@@ -1,0 +1,22 @@
+@import '/sass/var';
+
+.profile-header-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 0 12px;
+
+    svg {
+        height: 24px;
+        width: 24px;
+        fill: $bg-white;
+        color: $bg-white;
+    }
+}
+
+@media (min-width: 600px) {
+    .profile-header-component {
+        display: none;
+    }
+}

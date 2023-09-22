@@ -1,9 +1,26 @@
+import GlobeIcon from '@/components/icons/GlobeIcon'
+import MenuIcon from '@/components/icons/nav-icons/MenuIcon'
 import './profileheader.scss'
+import Link from 'next/link'
+import LockIcon from '@/components/icons/LockIcon'
 
-const ProfileHeader = () => {
+interface ProfileHeaderProps {
+  isPrivate: boolean
+}
+
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isPrivate }) => {
   return (
     <section className='profile-header-component'>
-      Header
+      <Link href='/settings'>
+        {isPrivate ? (
+          <GlobeIcon/>
+        ) : (
+          <LockIcon/>
+        )}
+      </Link>
+      <Link href='/settings'>
+        <MenuIcon/>
+      </Link>
     </section>
   )
 }

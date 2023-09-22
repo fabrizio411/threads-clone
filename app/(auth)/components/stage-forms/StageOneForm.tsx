@@ -17,6 +17,7 @@ interface StageOneProps {
 const StageOneForm: React.FC<StageOneProps> = ({ register, errors, isLoading, watch }) => {
   const [isNameValid, setIsNameValid] = useState<boolean>(false)
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false)
+  const [imageURL, setImageURL] = useState<string>('/images/placeholder.jpg')
 
   const nameValue = watch('name')
   const usernameValue = watch('username')

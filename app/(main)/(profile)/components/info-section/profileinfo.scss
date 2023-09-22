@@ -1,0 +1,73 @@
+@import '/sass/var';
+
+.profile-info-component {
+    color: rgb(238, 140, 140);
+    padding: 0 15px;
+    
+    .main-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+
+        .personal-info {
+            color: $text-1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            
+            .name {
+                font-size: 1.4rem;
+                font-weight: 700;
+            }
+        }
+
+        .image-box {
+            position: relative;
+            height: 70px;
+            width: 70px;
+            border-radius: 100%;
+            overflow: hidden;
+        }
+    }
+
+    .bio {
+        color: $text-1;
+        margin-top: 20px;
+    }
+
+    .followers {
+        color: $text-3;
+        font-weight: 300;
+        margin-top: 15px;
+    }
+
+    .action-btn-box {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        gap: 15px;
+
+        .btn {
+            flex: 1;
+            background-color: $bg-1;
+            border: 1px solid $bg-border;
+            border-radius: 8px;
+            color: $text-1;
+            font-size: .95rem;
+            font-weight: 500;
+            padding: 6px;
+            cursor: pointer;
+
+            &:active {
+                background-color: $bg-2;
+            }
+        }
+    }
+
+    @media (min-width: 600px) {
+        .action-btn-box {
+            display: none;
+        }
+    }
+}
