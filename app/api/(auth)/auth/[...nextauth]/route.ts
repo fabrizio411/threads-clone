@@ -1,12 +1,10 @@
 import bcrypt from 'bcrypt'
 import NextAuth, { AuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-
-import prisma from '@/libs/prismadb'
+import User from '@/libs/models/user.model'
+import { connectDB } from '@/libs/mongoose'
 
 export const authOptions: AuthOptions = {
-    adapter: PrismaAdapter(prisma),
     providers: [
         CredentialsProvider({
             name: 'credentials',
@@ -19,11 +17,9 @@ export const authOptions: AuthOptions = {
                     throw new Error('Invalid Credentials')
                 }
 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email
-                    }
-                })
+                connectDB()
+
+                const user = await User.findOne({ email: credentials.email })
 
                 if (!user || !user?.password) {
                     throw new Error('Invalid Credentials')

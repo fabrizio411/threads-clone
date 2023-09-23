@@ -15,6 +15,7 @@ import ThreadsIcon from '@/components/icons/ThreadsIcon'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 import './authform.scss'
+import { JsonObjectExpression } from 'typescript'
 
 interface AuthFormProps {
   variant: string,
@@ -25,11 +26,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isValidData, setIsValidData] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [loginErrors, setLoginErrors] = useState<string>('')
+  const [isValidData, setIsValidData] = useState<boolean>(false)
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true)
   const [isEmailErrors, setIsEmailErrors] = useState<boolean>(false)
-  const [loginErrors, setLoginErrors] = useState<string>('')
+  const [isInputLoading, setIsInputLoading] = useState<boolean>(false)
+  const [usernameAviable, setUsernameAviable] = useState<boolean>(true)
+  const [emailAviable, setEmailAviable] = useState<boolean>(true)
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
@@ -67,7 +71,41 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
   }, [errors])
 
   const emailValue = watch('email')
+  const usernameValue = watch ('username')
   const passwordValue = watch('password')
+
+
+
+  useEffect(() => {
+    if (isValidEmail && emailValue && variant === 'REGISTER') {
+      setIsInputLoading(true)
+      axios.post('/api/checkdata', emailValue)
+      .then(() => setEmailAviable(true))
+      .catch((err: any) => {
+        console.log('Validation Error', err)
+        setEmailAviable(false)
+      })
+      .finally(() => setIsInputLoading(false))
+    }
+    
+    if (emailValue.length === 0) setEmailAviable(true)
+  }, [emailValue])
+
+  useEffect(() => {
+    if (usernameValue.length > 2 && variant === 'REGISTER') {
+      setIsInputLoading(true)
+      axios.post('/api/checkdata', usernameValue)
+      .then(() => setUsernameAviable(true))
+      .catch((err: any) => {
+        console.log('Validation Error', err)
+        setUsernameAviable(false)
+      })
+      .finally(() => setIsInputLoading(false))
+    }
+
+    if (usernameValue.length === 0) setUsernameAviable(true)
+
+  }, [usernameValue])
 
   useEffect(() => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
@@ -76,20 +114,20 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     else setIsEmailErrors(false)
     if (!emailValue) setIsEmailErrors(false)
 
-    if (isValidEmail && emailValue && passwordValue) {
+    if (isValidEmail && emailValue && passwordValue && emailAviable && !isInputLoading) {
       setIsValidData(true)
     } else setIsValidData(false)
-  }, [emailValue, passwordValue])
+  }, [emailValue, passwordValue, emailAviable, isInputLoading])
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsOpen(false)
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
-      // axios.post('/api/register', data)
-      // .then(() => signIn('credentials', data))
-      // .catch((err: any) => console.log('Register Error', err))
-      // .finally(() => setIsLoading(false))
+      axios.post('/api/register', data)
+      .then(() => signIn('credentials', data))
+      .catch((err: any) => console.log('Register Error', err))
+      .finally(() => setIsLoading(false))
     }
 
     if (variant === 'LOGIN') {
@@ -125,7 +163,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
       </h1>
 
       <form className='form' onSubmit={handleSubmit(onSubmit)}>
-        <Input inputClass='PLACEHOLDER' id='email' type='email' isEmailErrors={isEmailErrors}  placeholder='Email Address' register={register} errors={errors} disabled={isLoading} required/>
+        <Input inputClass='PLACEHOLDER' id='email' type='email' isEmailErrors={isEmailErrors} inputLoading={isInputLoading} placeholder='Email Address' register={register} errors={errors} disabled={isLoading} required/>
+        {!emailAviable && variant === 'REGISTER' && (
+          <p className='error-msg'>Email is not aviable</p>
+        )}
         {errors?.email && (
           <p className='error-msg'>{errors.email.message as string}</p>
         )}
@@ -147,7 +188,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
           )}
         </button>
         {variant === 'REGISTER' && (
-          <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch}/>
+          <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch} inputLoading={isInputLoading} validationError={!usernameAviable}/>
         )}
       </form>
 

@@ -11,10 +11,12 @@ interface StageOneProps {
   register: UseFormRegister<FieldValues>,
   errors: FieldErrors,
   isLoading: boolean,
-  watch: UseFormWatch<FieldValues>
+  watch: UseFormWatch<FieldValues>,
+  validationError: boolean,
+  inputLoading: boolean
 }
 
-const StageOneForm: React.FC<StageOneProps> = ({ register, errors, isLoading, watch }) => {
+const StageOneForm: React.FC<StageOneProps> = ({ register, errors, isLoading, watch, validationError, inputLoading }) => {
   const [isNameValid, setIsNameValid] = useState<boolean>(false)
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false)
   const [imageURL, setImageURL] = useState<string>('/images/placeholder.jpg')
@@ -42,7 +44,7 @@ const StageOneForm: React.FC<StageOneProps> = ({ register, errors, isLoading, wa
       <div className='stage-form-one'>
         <Input inputClass='LABEL' autoComplete='off' id='name' type='text' placeholder='Full Name' register={register} errors={errors} disabled={isLoading} isValidData={isNameValid} required />
         <div className='hr-bar'></div>
-        <Input inputClass='LABEL' autoComplete='off' id='username' type='text' placeholder='Username' register={register} errors={errors} disabled={isLoading} isValidData={isUsernameValid} required />
+        <Input inputClass='LABEL' validationError={validationError} inputLoading={inputLoading} autoComplete='off' id='username' type='text' placeholder='Username' register={register} errors={errors} disabled={isLoading} isValidData={isUsernameValid} required />
         <div className='hr-bar'></div>
         <Input inputClass='LABEL/TEXTAREA' autoComplete='off' id='bio' type='text' placeholder='Bio' register={register} errors={errors} disabled={isLoading} />
       </div>

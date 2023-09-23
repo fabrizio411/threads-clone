@@ -1,6 +1,6 @@
+import User from '@/libs/models/user.model'
+import { connectDB } from '@/libs/mongoose'
 import bcrypt from 'bcrypt'
-
-import prisma from '@/libs/prismadb'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -14,18 +14,20 @@ export async function POST(request: Request) {
 
         const hashedPassword = await bcrypt.hash(password, 12)
 
-        const user = await prisma.user.create({
-            data: {
-                name,
-                username,
-                email,
-                password: hashedPassword,
-                bio,
-                isPrivate
-            }
+        connectDB()
+
+        const newUser = new User({
+            name,
+            username,
+            email,
+            password: hashedPassword,
+            bio,
+            isPrivate
         })
+
+        const createdUser = newUser.save()
         
-        return NextResponse.json(user)
+        return NextResponse.json(createdUser)
     } catch (error: any) {
         console.log('REGISTRATION_ERROR', error)
         return new NextResponse('Internal Error', { status: 500 })

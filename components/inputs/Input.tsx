@@ -2,6 +2,7 @@
 
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
 import './input.scss'
+import LoadingSpinner from '../icons/spinner/LoadingSpinner'
 
 interface InputProps {
   id: string,
@@ -14,7 +15,9 @@ interface InputProps {
   required?: boolean,
   isValidData?: boolean,
   inputClass: string, // PLACEHOLDER | LABEL
-  autoComplete?: string
+  autoComplete?: string,
+  validationError?: boolean,
+  inputLoading?: boolean
 }
 
 const Input: React.FC<InputProps> = ({
@@ -28,11 +31,13 @@ const Input: React.FC<InputProps> = ({
   required,
   isValidData,
   inputClass,
-  autoComplete
+  autoComplete,
+  validationError,
+  inputLoading
 }) => {
 
   return (
-    <>
+    <div className='input-component-container'>
       {inputClass === 'PLACEHOLDER' && (
         <input 
           className={`input-component placeholder ${isEmailErrors && 'error'} ${errors[id] && 'error'}`} 
@@ -51,6 +56,9 @@ const Input: React.FC<InputProps> = ({
             {placeholder}
             {errors[id] && (
               <p className='error-msg'>{errors[id]?.message as string}</p>
+            )}
+            {validationError && (
+              <p className='error-msg'>{`${id} is not aviable`}</p>
             )}
           </label>
           <input
@@ -89,7 +97,13 @@ const Input: React.FC<InputProps> = ({
           )}
         </div>
       )}
-    </>
+
+      {inputLoading && (
+        <div className='input-loading-box'>
+          <LoadingSpinner height='24px' width='24px' />
+        </div>
+      )}
+    </div>
 
   )
 }
