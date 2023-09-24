@@ -64,8 +64,20 @@
             }
         }
     }
+}
 
-    @media (min-width: 600px) {
+@media (min-width: 600px) {
+    .profile-info-component {
+        width: 100%;
+        margin-top: 30px;
+
+        .main-info {
+            .image-box {
+                height: 90px;
+                width: 90px;
+            }
+        }
+
         .action-btn-box {
             display: none;
         }

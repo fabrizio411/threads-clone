@@ -1,0 +1,10 @@
+@import '/sass/var';
+
+@media (min-width: 600px) {
+    .profile-page {
+        width: $content-width;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

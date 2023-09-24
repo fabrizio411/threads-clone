@@ -1,6 +1,6 @@
 'use client'
 
-import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue, UseFormWatch, Control } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 
 import StageOneForm from './stage-forms/StageOneForm'
@@ -20,10 +20,11 @@ interface RegisterExtraProps {
   setValue: UseFormSetValue<FieldValues>,
   watch: UseFormWatch<FieldValues>,
   validationError: boolean,
-  inputLoading: boolean
+  inputLoading: boolean,
+  control: Control
 }
 
-const RegisterExtra: React.FC<RegisterExtraProps> = ({ className, setIsOpen, register, errors, isLoading, setValue, watch, validationError, inputLoading }) => {
+const RegisterExtra: React.FC<RegisterExtraProps> = ({ className, setIsOpen, register, errors, isLoading, setValue, watch, validationError, inputLoading, control }) => {
   const [stage, setStage] = useState<Stage>(1)
   const [isValidData, setIsValidData] = useState(false)
 
@@ -86,7 +87,7 @@ const RegisterExtra: React.FC<RegisterExtraProps> = ({ className, setIsOpen, reg
         
         {stage === 1 ? (
           <div className='stage-box'>
-            <StageOneForm register={register} watch={watch} errors={errors} isLoading={isLoading} validationError={validationError} inputLoading={inputLoading}/>
+            <StageOneForm control={control} register={register} watch={watch} errors={errors} isLoading={isLoading} validationError={validationError} inputLoading={inputLoading}/>
           </div>
         ) : (
           <div className='stage-box'>

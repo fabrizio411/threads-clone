@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server'
 export async function POST(request: Request) {
     try {
         const body = await request.json()
-        const { name, username, email, password, bio, isPrivate } = body
+        const { name, username, email, password, bio, isPrivate, image } = body
 
         if (!name || !email || !username || !password) {
             return new NextResponse('Missing Info', { status: 400 })
@@ -22,7 +22,8 @@ export async function POST(request: Request) {
             email,
             password: hashedPassword,
             bio,
-            isPrivate
+            isPrivate,
+            image
         })
 
         const createdUser = newUser.save()

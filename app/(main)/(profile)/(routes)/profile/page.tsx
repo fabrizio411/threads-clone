@@ -2,22 +2,14 @@ import { User } from '@prisma/client'
 import ProfileHeader from '../../components/header/ProfileHeader'
 import ProfileInfo from '../../components/info-section/ProfileInfo'
 import './style.scss'
+import { getUser } from '@/libs/actions/user.actions'
 
 const ProfilePage = async (ads: User) => {
 
-  const user = {
-    name: 'Ryleed',
-    username: '_unacuentarandom_',
-    bio: 'test bio',
-    image: '',
-    isPrivate: true,
-    followersIds: ['dad', 'asd', 'asd', 'asd'],
-    followingIds: ['dad', 'asd', 'asd', 'asd' , 'asd', 'asd', 'asd' ],
-    followersPendingIds: ['dad', 'asd']
-  }
+  const user = await getUser()
 
   return (
-    <div className='page'>
+    <div className='page profile-page'>
       <ProfileHeader isPrivate={user.isPrivate}/>
       <ProfileInfo user={user}/>
     </div>

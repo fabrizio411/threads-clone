@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -15,7 +15,6 @@ import ThreadsIcon from '@/components/icons/ThreadsIcon'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 import './authform.scss'
-import { JsonObjectExpression } from 'typescript'
 
 interface AuthFormProps {
   variant: string,
@@ -52,7 +51,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     hrefURL = '/register'
   }
 
-  const { watch, register, handleSubmit, formState: {errors}, setValue } = useForm<FieldValues>({
+  const { watch, control,  register, handleSubmit, formState: {errors}, setValue } = useForm<FieldValues>({
     resolver: userValidation,
     defaultValues: {
       email: '',
@@ -73,8 +72,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
   const emailValue = watch('email')
   const usernameValue = watch ('username')
   const passwordValue = watch('password')
-
-
 
   useEffect(() => {
     if (isValidEmail && emailValue && variant === 'REGISTER') {
@@ -124,8 +121,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
+
+
+
       axios.post('/api/register', data)
-      .then(() => signIn('credentials', data))
+      .then(async () => signIn('credentials', data))
       .catch((err: any) => console.log('Register Error', err))
       .finally(() => setIsLoading(false))
     }
@@ -188,7 +188,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
           )}
         </button>
         {variant === 'REGISTER' && (
-          <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch} inputLoading={isInputLoading} validationError={!usernameAviable}/>
+          <RegisterExtra className={isOpen ? 'active' : 'inactive'} setIsOpen={setIsOpen} control={control} register={register} errors={errors} isLoading={isLoading} setValue={setValue} watch={watch} inputLoading={isInputLoading} validationError={!usernameAviable}/>
         )}
       </form>
 

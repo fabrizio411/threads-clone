@@ -11,14 +11,11 @@ interface ProfileInfoProps {
     bio: string,
     image: string,
     isPrivate: boolean,
-    followersIds: string[],
-    followingIds:  string[],
-    followersPendingIds: string[]
   }
 }
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
-  const { name, username, bio, image, isPrivate, followersIds, followingIds, followersPendingIds } = user  
+  const { name, username, bio, image, isPrivate } = user  
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -42,7 +39,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
       </div>
       <p className='bio'>{bio}</p>
       <div className='followers' onClick={handleFollowersModal}>
-        {followersIds.length} followers
+        0 followers
       </div>
       <div className='action-btn-box'>
         <button className='btn'>Edit Profile</button>

@@ -11,7 +11,8 @@ export const UserRegisterValidation = z.object({
         .max(1000, { message: 'Name mus be at most 1000 characters'}).optional(),
     email: z.string().email(),
     password: z.string()
-        .min(8, { message: 'Password must be at least 8 characters'})
+        .min(8, { message: 'Password must be at least 8 characters'}),
+    image: z.string().optional()
 })
 
 export const UserLoginrValidation = z.object({

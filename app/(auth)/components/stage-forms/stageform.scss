@@ -10,26 +10,35 @@
 
     .image-upload-box {
         position: relative;
-        width: 70px;
-        height: 70px;
 
         .image {
             border-radius: 100%;
+            cursor: pointer;
         }
 
+
         .plus-box {
+            cursor: pointer;
             background-color: $bg-white;
             position: absolute;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            width: 20px;
-            height: 20px;
+            align-items: center;
+            width: 25px;
+            height: 25px;
             bottom: 0;
             right: 0;
             box-sizing: content-box;
             border: 2px solid $bg-border;
             border-radius: 100%;
+
+            &:hover {
+                background-color: $bg-white-hover;
+            }
+
+            svg {
+                scale: 1.05;
+            }
         }
     }
 

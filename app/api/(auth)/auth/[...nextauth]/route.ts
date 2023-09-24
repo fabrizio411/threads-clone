@@ -21,6 +21,8 @@ export const authOptions: AuthOptions = {
 
                 const user = await User.findOne({ email: credentials.email })
 
+                user.image = ''
+
                 if (!user || !user?.password) {
                     throw new Error('Invalid Credentials')
                 }
