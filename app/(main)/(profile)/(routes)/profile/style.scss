@@ -1,5 +1,9 @@
 @import '/sass/var';
 
+.profile-page {
+    width: 100%;
+}
+
 @media (min-width: 600px) {
     .profile-page {
         width: $content-width;

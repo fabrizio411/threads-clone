@@ -3,6 +3,7 @@ import ProfileHeader from '../../components/header/ProfileHeader'
 import ProfileInfo from '../../components/info-section/ProfileInfo'
 import './style.scss'
 import { getUser } from '@/libs/actions/user.actions'
+import ProfileDisplay from '../../components/threads/ProfileDisplay'
 
 const ProfilePage = async (ads: User) => {
 
@@ -12,6 +13,7 @@ const ProfilePage = async (ads: User) => {
     <div className='page profile-page'>
       <ProfileHeader isPrivate={user.isPrivate}/>
       <ProfileInfo user={user}/>
+      <ProfileDisplay />
     </div>
   )
 }

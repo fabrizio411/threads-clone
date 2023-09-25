@@ -12,9 +12,9 @@ const useNavRoutes = () => {
     const routes = useMemo(() => [
         {
             label: 'Home',
-            href: '/home',
+            href: '/',
             icon: HomeIcon,
-            active: pathname === '/home'
+            active: pathname === '/'
         },
         {
             label: 'Search',

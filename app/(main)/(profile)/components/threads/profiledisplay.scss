@@ -1,0 +1,65 @@
+@import '/sass/var';
+
+.profile-display-component {
+    color: $text-3;
+    width: 100%;
+    padding-top: 15px;
+
+    .section-nav {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid $bg-border;
+        position: relative;
+
+        @keyframes activeSection {
+            0% {scale: 1}
+            50% {scale: 0.9}
+            100% {scale: 1}
+        }
+
+        .section-title {
+            cursor: pointer;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            color: $text-2;
+            font-size: .9rem;
+            font-weight: 600;
+            transition: color .2s ease;
+        }
+
+        .section-title.active {
+            color: $text-1;
+            animation: activeSection .4s ease-in;
+        }
+
+        .border {
+            width: calc(100% / 3);
+            border-top: 2px solid $bg-white;
+            position: absolute;
+            bottom: 0;
+            transition: left .4s ease;
+        }
+    }
+
+    .content-display-box {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+
+        .content {
+            width: fit-content;
+            display: flex;
+            position: relative;
+            transition: left .4s ease;
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .threads-display-component {
+        padding: 15px;
+    }
+}

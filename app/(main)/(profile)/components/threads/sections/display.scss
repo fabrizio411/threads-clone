@@ -1,0 +1,13 @@
+@import '/sass/var';
+
+.display-section {
+    width: 100vw;
+    padding-top: 50px;
+    text-align: center;
+}
+
+@media (min-width: 600px) {
+    .display-section {
+        width: $content-width;
+    }
+}
