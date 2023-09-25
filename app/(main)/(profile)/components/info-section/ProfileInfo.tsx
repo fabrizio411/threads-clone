@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import './profileinfo.scss'
 import { useState } from 'react'
+import ImageModal from './image-modal/ImageModal'
 
 interface ProfileInfoProps {
   user: {
@@ -15,13 +16,13 @@ interface ProfileInfoProps {
 }
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
-  const { name, username, bio, image, isPrivate } = user  
+  const { name, username, bio, image } = user  
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isImageOpen, setIsImageOpen] = useState<boolean>(false)
 
-  const handleFollowersModal = () => {
-    if (isOpen) setIsOpen(false)
-    else setIsOpen(true)
+  const handleImageOpen = () => {
+    if (isImageOpen) setIsImageOpen(false)
+    else setIsImageOpen(true)
   }
 
   const imageURL = image || '/images/placeholder.jpg'
@@ -33,18 +34,22 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
           <h3 className='name'>{name}</h3>
           <p className='username'>{username}</p>
         </div>
-        <div className='image-box'>
-          <Image src={imageURL} alt='profile-pic' fill />
-        </div>
+        <button className='image-box' onClick={handleImageOpen}>
+          <Image className='img' src={imageURL} alt='profile-pic' fill />
+        </button>
       </div>
       <p className='bio'>{bio}</p>
-      <div className='followers' onClick={handleFollowersModal}>
+      <div className='followers'>
         0 followers
       </div>
       <div className='action-btn-box'>
         <button className='btn'>Edit Profile</button>
         <button className='btn'>Share Profile</button>
       </div>
+
+      {isImageOpen && (
+        <ImageModal image={image} handleOpenModal={handleImageOpen}/>
+      )}
     </section>
   )
 }

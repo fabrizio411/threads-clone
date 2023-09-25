@@ -23,11 +23,19 @@
         }
 
         .image-box {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
             position: relative;
             height: 70px;
             width: 70px;
             border-radius: 100%;
             overflow: hidden;
+            transition: scale .1s ease;
+
+            &:active {
+                scale: 0.9;
+            }
         }
     }
 

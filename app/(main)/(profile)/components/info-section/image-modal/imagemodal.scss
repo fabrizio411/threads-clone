@@ -1,0 +1,48 @@
+@import '/sass/var';
+
+.image-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(15px);
+    }
+
+    .content {
+        height: 300px;
+        width: 300px;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 100%;
+        overflow: hidden;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 35px;
+        left: 35px;
+        border-radius: 100%;
+        display: grid;
+        place-items: center;
+        scale: 1.5;
+        background-color: $bg-2;
+        padding: 5px;
+        cursor: pointer;
+
+        svg {
+            fill: $text-3
+        }
+    }
+}
