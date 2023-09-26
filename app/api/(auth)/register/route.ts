@@ -1,3 +1,4 @@
+import { getUser } from '@/libs/actions/user.actions'
 import User from '@/libs/models/user.model'
 import { connectDB } from '@/libs/mongoose'
 import bcrypt from 'bcrypt'
@@ -31,6 +32,39 @@ export async function POST(request: Request) {
         return NextResponse.json(createdUser)
     } catch (error: any) {
         console.log('REGISTRATION_ERROR', error)
+        return new NextResponse('Internal Error', { status: 500 })
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const body = await request.json()
+        console.log(body)
+        const { name, username, bio, image, isPrivate } = body
+
+        connectDB()
+
+        const user = await getUser()
+
+        console.log(body)
+
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            {
+                name,
+                username,
+                bio,
+                image,
+                isPrivate
+            },
+            { new: true }
+        )
+
+        console.log(updatedUser)
+
+        return new NextResponse('ok', { status: 200 })
+    } catch (error) {
+        console.log('UPDATE_ERROR', error)
         return new NextResponse('Internal Error', { status: 500 })
     }
 }

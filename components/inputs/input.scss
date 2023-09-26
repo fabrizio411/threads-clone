@@ -10,6 +10,13 @@
         top: 50%;
         transform: translateY(-50%);
     }
+
+    .input-component {
+        .label .error-msg {
+            font-size: .8rem;
+            color: $error-red;
+        }
+    }
 }
 
 .input-component.placeholder {

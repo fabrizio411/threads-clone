@@ -32,9 +32,6 @@ const StageOneForm: React.FC<StageOneProps> = ({ register, errors, isLoading, wa
     else setIsUsernameValid(false)
   }, [nameValue, usernameValue])
 
-
-
-
   const handleImage = (e: ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
     e.preventDefault()
 

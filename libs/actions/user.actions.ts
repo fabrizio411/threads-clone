@@ -5,6 +5,7 @@ import { connectDB } from "../mongoose"
 
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/(auth)/auth/[...nextauth]/route';
+import { revalidatePath } from "next/cache";
 
 export async function getSession() {
     return await getServerSession(authOptions)
@@ -29,5 +30,38 @@ export async function getUser() {
         return user
     } catch (error) {
         return null
+    }
+}
+
+interface updateUserProps {
+    name: string,
+    username: string,
+    bio: string,
+    image: string,
+    isPrivate: boolean
+}
+
+export async function updateUser({ name, username, bio, image, isPrivate }: updateUserProps) {
+    connectDB()
+
+    try {
+        const user = await getUser()
+
+        await User.findByIdAndUpdate(
+            user._id,
+            {
+                name,
+                username,
+                bio,
+                image,
+                isPrivate
+            },
+            { upsert: true  }
+        )
+
+        revalidatePath('/profile')
+
+    } catch (error: any) {
+        throw new Error(`UPDATE_USER_ERROR: ${error.message}`)
     }
 }

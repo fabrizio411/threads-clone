@@ -4,6 +4,7 @@ import Image from 'next/image'
 import './profileinfo.scss'
 import { useState } from 'react'
 import ImageModal from './image-modal/ImageModal'
+import Link from 'next/link'
 
 interface ProfileInfoProps {
   user: {
@@ -43,7 +44,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
         0 followers
       </div>
       <div className='action-btn-box'>
-        <button className='btn'>Edit Profile</button>
+        <Link href='/profile/edit' className='btn'>Edit Profile</Link>
         <button className='btn'>Share Profile</button>
       </div>
 

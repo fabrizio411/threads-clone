@@ -1,6 +1,7 @@
 @import '/sass/var';
 
 .menu-modal {
+    z-index: 1000;
     width: 0px;
     border: none;
     position: absolute;
@@ -14,7 +15,7 @@
     ul {
         list-style: none;
 
-        li:first-child {
+        .border {
             border-bottom: 1px solid $bg-border;
         }
 

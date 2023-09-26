@@ -66,6 +66,9 @@
             font-weight: 500;
             padding: 6px;
             cursor: pointer;
+            display: grid;
+            place-items: center;
+            text-decoration: none;
 
             &:active {
                 background-color: $bg-2;

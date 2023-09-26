@@ -59,7 +59,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
       name: '',
       username: '',
       bio: '',
-      image: ''
+      image: '',
     }
   })
 
@@ -121,9 +121,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     setIsLoading(true)
 
     if (variant === 'REGISTER') {
-
-
-
       axios.post('/api/register', data)
       .then(async () => signIn('credentials', data))
       .catch((err: any) => console.log('Register Error', err))
