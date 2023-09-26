@@ -22,7 +22,7 @@ const Nav = () => {
 
   return (
     <header className='nav-component'>
-      <Link href='/home' className='desktop logo'>
+      <Link href='/' className='desktop logo'>
         <ThreadsIcon height='30px' width='30px'/>
       </Link>
 

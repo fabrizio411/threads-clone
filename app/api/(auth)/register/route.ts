@@ -35,36 +35,3 @@ export async function POST(request: Request) {
         return new NextResponse('Internal Error', { status: 500 })
     }
 }
-
-export async function PUT(request: Request) {
-    try {
-        const body = await request.json()
-        console.log(body)
-        const { name, username, bio, image, isPrivate } = body
-
-        connectDB()
-
-        const user = await getUser()
-
-        console.log(body)
-
-        const updatedUser = await User.findByIdAndUpdate(
-            user._id,
-            {
-                name,
-                username,
-                bio,
-                image,
-                isPrivate
-            },
-            { new: true }
-        )
-
-        console.log(updatedUser)
-
-        return new NextResponse('ok', { status: 200 })
-    } catch (error) {
-        console.log('UPDATE_ERROR', error)
-        return new NextResponse('Internal Error', { status: 500 })
-    }
-}

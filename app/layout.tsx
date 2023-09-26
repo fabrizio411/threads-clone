@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google'
 import '@/sass/reset.scss'
 import '@/sass/global.scss'
 import AuthContext from '@/context/AuthContext'
+import { Suspense } from 'react'
+import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 const inter = Inter({ subsets: ['latin'] })
 
