@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import StageOneForm from './stage-forms/StageOneForm'
 import StageTwoFrom from './stage-forms/StageTwoFrom'
 import Arrow from '@/components/icons/Arrow'
-import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
+
 import './registerextra.scss'
 
 type Stage = 1 | 2
@@ -91,7 +91,7 @@ const RegisterExtra: React.FC<RegisterExtraProps> = ({ className, setIsOpen, reg
           </div>
         ) : (
           <div className='stage-box'>
-          <StageTwoFrom register={register} isLoading={isLoading} setValue={setValue} watch={watch}/>
+          <StageTwoFrom register={register} isLoading={isLoading} setValue={setValue}/>
         </div>
         )}
 

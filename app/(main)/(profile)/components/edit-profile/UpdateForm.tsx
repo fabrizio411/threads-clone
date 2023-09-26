@@ -11,6 +11,7 @@ import StageOneForm from '@/app/(auth)/components/stage-forms/StageOneForm'
 
 import './updateform.scss'
 import { updateUser } from '@/libs/actions/user.actions'
+import CloseIcon from '@/components/icons/CloseIcon'
 
 interface UpdateFormProps {
   name: string,
@@ -62,6 +63,12 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
   }
 
   const usernameValue = watch('username')
+  const nameValue = watch('name')
+
+  useEffect(() => {
+    if (!nameValue || !usernameValue) setSubmitDisabled(true)
+    else setSubmitDisabled(false)
+  }, [nameValue, usernameValue])
 
   useEffect(() => {
     if (usernameValue.length > 2 && usernameValue !== username) {
@@ -97,6 +104,16 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
 
   return (
       <form className='update-form-component' onSubmit={handleSubmit(onSubmit)}>
+        <div className='mobile-buttons'>
+          <div className='title-box'>
+            <div>
+              <CloseIcon />
+            </div>
+            <h2 className='title'>Edit Profile</h2>
+          </div>
+          <button className='btn' type='submit' disabled={isLoading || submitDisabled || !usernameAviable}>Done</button>
+        </div>
+
         <div className='form'>
           <StageOneForm register={register} errors={errors} isLoading={isLoading} watch={watch} validationError={!usernameAviable} inputLoading={isInputLoading} control={control} />
           <div className='private-option-box' onClick={handleSwipe}>

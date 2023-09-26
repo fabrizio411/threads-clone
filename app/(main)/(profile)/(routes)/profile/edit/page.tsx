@@ -3,7 +3,7 @@ import UpdateForm from '../../../components/edit-profile/UpdateForm'
 
 import './style.scss'
 
-const page = async () => {
+const EditPage = async () => {
   const user = await getUser()
 
   return (
@@ -13,4 +13,4 @@ const page = async () => {
   )
 }
 
-export default page
+export default EditPage

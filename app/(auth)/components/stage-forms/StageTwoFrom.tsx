@@ -1,20 +1,20 @@
 'use client'
 
-import { FieldValues, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import { FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { useState } from 'react'
 
-import './stageform.scss'
-import { useEffect, useState } from 'react'
 import LockIcon from '@/components/icons/LockIcon'
 import GlobeIcon from '@/components/icons/GlobeIcon'
+
+import './stageform.scss'
 
 interface StageOneProps {
   register: UseFormRegister<FieldValues>,
   isLoading: boolean,
   setValue: UseFormSetValue<FieldValues>,
-  watch: UseFormWatch<FieldValues>
 }
 
-const StageTwoFrom: React.FC<FieldValues> = ({ register, isLoading, setValue, watch }) => {
+const StageTwoFrom: React.FC<FieldValues> = ({ register, isLoading, setValue }) => {
   const [isPrivateValue, setIsPrivateValue] = useState<boolean>(false)
 
   return (
