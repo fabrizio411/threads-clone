@@ -12,7 +12,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isPrivate }) => {
   return (
     <section className='profile-header-component'>
       <Link href='/settings'>
-        {isPrivate ? (
+        {!isPrivate ? (
           <GlobeIcon/>
         ) : (
           <LockIcon/>

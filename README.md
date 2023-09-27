@@ -1,5 +1,21 @@
 # TODO
-- cambair la forma de ingresar la bio en auth a un textarea
+/ validar que la carga de un archivo sea una simagen base64 en auth
+  const imageValue = watch('image')
+
+  useEffect(() => {
+    const isBase64 = isBase64Image(imageValue)
+    if (!isBase64) {
+      setValue('image', '')
+      setImageError('File must be an image')
+      const timeout = setTimeout(() => {
+        setImageError('')
+      }, 3000);
+      clearTimeout(timeout)
+    }
+  }, [imageValue])
+
+
+/ Hacer que al update profile pasale el user id en vez de usar la funcion getuser
 
 
 # DOCUMENTACION

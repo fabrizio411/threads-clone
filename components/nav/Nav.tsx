@@ -10,9 +10,11 @@ import Link from 'next/link'
 
 import './nav.scss'
 import MenuModal from './menu-modal/MenuModal'
+import { usePathname } from 'next/navigation'
 
 const Nav = () => {
   const routes = useNavRoutes()
+  const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleMenuClick = () => {
@@ -20,8 +22,11 @@ const Nav = () => {
     else setIsMenuOpen(true)
   }
 
+  let isEmpty = false
+  if (pathname === '/create' || pathname === '/profile/edit') isEmpty = true
+
   return (
-    <header className='nav-component'>
+    <header className={`nav-component ${isEmpty && 'is-empty'}`}>
       <Link href='/' className='desktop logo'>
         <ThreadsIcon height='30px' width='30px'/>
       </Link>

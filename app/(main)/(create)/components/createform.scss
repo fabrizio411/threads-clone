@@ -1,0 +1,221 @@
+@import '/sass/var';
+
+.create-form-component {
+    .title-box {
+        height: 60px;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        border-bottom: 1px solid $bg-border-2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        div {
+            display: flex;
+            align-items: center;
+        }
+
+        svg {
+            fill: $text-1;
+            transform: scale(1.2);
+        }
+
+        .title {
+            color: $text-1;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+    }
+        
+    @media (min-width: 600px) {
+        .title-box {
+            display: none;
+        }
+    }
+
+    .form-display {
+        padding: 15px;
+        display: flex;
+        gap: 15px;
+        padding-bottom: 50px;
+        position: relative;
+
+        .image-box {
+            position: relative;
+            height: 50px;
+            width: 50px;
+            border-radius: 100%;
+            overflow: hidden;
+        }
+
+        .input-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+            .username {
+                color: $text-1;
+                font-size: .95rem;
+            }
+
+            .textarea {
+                resize: none;
+                overflow-y: hidden;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                color: $text-1;
+
+                &::-webkit-scrollbar {
+                    width: 0;
+                }
+                
+                &::placeholder {
+                    color: $text-3;
+                }
+            }
+
+            .extra-box {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                position: relative;
+
+                svg {
+                    color: $text-3;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: $text-2
+                    }
+                }
+
+                .char-control {
+                    color: $text-3;
+                    font-size: .8rem;
+                    position: absolute;
+                    bottom: 7px;
+                    left: 30px;
+                }
+            }
+
+            .file-input-box {
+                .file-box {
+                    position: relative;
+                    margin: 20px 0;
+
+                    .error-msg {
+                        color: $error-red;
+                        font-size: .9rem;
+                    }
+
+                    .close-btn {
+                        position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        box-sizing: content-box;
+                        padding: 4px;
+                        background-color: $bg-border-2;
+                        border-radius: 100%;
+                        display: grid;
+                        place-items: center;
+                        cursor: pointer;
+                        opacity: .75;
+
+                        &:hover {
+                            background-color: $bg-border;
+                        }
+
+                        svg {
+                            transform: scale(1.1);
+                            fill: $text-1;
+                        }
+                    }
+                }
+
+                @media (min-width: 600px) {
+                    .file-box {
+                        margin-left: 15px;
+                    }
+                }
+            }
+        }
+
+        .desktop-buttons {
+            display: none;
+        }
+
+        @media (min-width: 600px) {
+            .desktop-buttons {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+
+                .text {
+                    color: $text-3
+                }
+
+                .btn {
+                    padding: 6px 18px;
+                    border: 1px solid $bg-border;
+                    background-color: transparent;
+                    border-radius: 8px;
+                    color: $text-1;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+
+                    &:disabled {
+                        color: $text-3;
+                        cursor: not-allowed;
+                    }
+
+                    &:not(:disabled):hover {
+                        background-color: $bg-hover;
+                    }
+                }
+            }
+        }
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        justify-self: flex-end;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+
+        .text {
+            color: $text-3;
+            font-size: .9rem;
+        }
+
+        .btn {
+            border: none;
+            background-color: transparent;
+            color: $color-1;
+            font-weight: 700;
+            font-size: 1.1rem;
+
+            &:disabled {
+                color: $color-2;
+            }
+        }
+    }
+
+    @media (min-width: 600px) {
+        .buttons {
+            display: none;
+        }
+    }
+}

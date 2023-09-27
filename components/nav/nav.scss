@@ -101,3 +101,9 @@
         }
     }
 }
+
+@media (max-width: 600px) {
+    .nav-component.is-empty {
+        display: none;
+    }
+}

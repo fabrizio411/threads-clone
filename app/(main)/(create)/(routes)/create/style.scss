@@ -1,0 +1,60 @@
+@import '/sass/var';
+
+.create-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .private-msg {
+        margin-top: 60px;
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        gap: 20px;
+        border-bottom: 1px solid $bg-border-2;
+
+        svg {
+            fill: $text-1;
+            transform: scale(1.7);
+        }
+
+        .msg {
+            color: $text-1;
+            font-weight: 300;
+            padding-right: 30px;
+            font-size: .9rem;
+        }
+    }
+    
+    @media (min-width: 600px) {
+        .private-msg {
+            margin: 0;
+        }
+    }
+}
+
+@media (min-width: 600px) {
+    .create-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .container {
+            padding: 40px;
+            background-color: $bg-2;
+            border: 1px solid $bg-border;
+            border-radius: 16px;
+
+            .private-msg {
+                border: none;
+                
+                svg {
+                    transform: scale(1);
+                }
+            }
+        }
+
+
+    }
+}

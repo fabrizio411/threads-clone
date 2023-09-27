@@ -12,6 +12,7 @@ import StageOneForm from '@/app/(auth)/components/stage-forms/StageOneForm'
 import './updateform.scss'
 import { updateUser } from '@/libs/actions/user.actions'
 import CloseIcon from '@/components/icons/CloseIcon'
+import ConfirmationModal from '@/components/modals/confirmation/ConfirmationModal'
 
 interface UpdateFormProps {
   name: string,
@@ -29,8 +30,9 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
   const [usernameAviable, setUsernameAviable] = useState<boolean>(true)
   const [isSwiped, setIsSwiped] = useState<boolean>(isPrivate)
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(false)
+  const [isCancelModal, setIsCancelModal] = useState<boolean>(false)
 
-  const { watch, control, register, handleSubmit, formState: {errors, touchedFields}, setValue } = useForm<FieldValues>({
+  const { watch, control, register, handleSubmit, formState: {errors, touchedFields}, setValue,  } = useForm<FieldValues>({
     resolver: zodResolver(UserUpdateValidation),
     defaultValues: {
       name,
@@ -59,6 +61,15 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
         setIsSwiped(true)
         setValue('isPrivate', true)
       }
+    }
+  }
+
+  const handleCancel = () => {
+    if (touchedFields.name || touchedFields.username || touchedFields.image || touchedFields.bio || touchedFields.isPrivate) {
+      if (isCancelModal) setIsCancelModal(false)
+      else setIsCancelModal(true)
+    } else {
+      router.push('/profile')
     }
   }
 
@@ -106,7 +117,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
       <form className='update-form-component' onSubmit={handleSubmit(onSubmit)}>
         <div className='mobile-buttons'>
           <div className='title-box'>
-            <div>
+            <div onClick={handleCancel}>
               <CloseIcon />
             </div>
             <h2 className='title'>Edit Profile</h2>
@@ -126,9 +137,19 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
         </div>
 
         <div className='buttons'>
-          <button className='btn cancel'>Cancel</button>
+          <div className='btn cancel' onClick={handleCancel}>Cancel</div>
           <button className='btn submit' type='submit' disabled={isLoading || submitDisabled || !usernameAviable}>Done</button>
         </div>
+
+        <ConfirmationModal 
+          isActive={isCancelModal}
+          title='Unsaved Changes'
+          body='You have unsaved changes. Are you shure you want yo discard changes?'
+          backText='Continue Editing'
+          confirmText='Discard Changes'
+          confirmPath='/profile'
+          closeModal={handleCancel}
+        />
       </form>
   )
 }

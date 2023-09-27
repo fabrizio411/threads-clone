@@ -5,7 +5,6 @@ import Link from 'next/link'
 import './menumodal.scss'
 import { signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
-import path from 'path'
 
 interface MenuModalProps {
   isOpen: boolean
@@ -21,7 +20,9 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen }) => {
         {pathname === '/profile' && (
           <li className='border'><Link href='/profile/edit' className='item'>Edit Profile</Link></li>
         )}
-        <li><p onClick={() => signOut()} className='item'>Log Out</p></li>
+        <li><p onClick={() => {
+          signOut()
+        }} className='item'>Log Out</p></li>
       </ul>
     </div>
   )
