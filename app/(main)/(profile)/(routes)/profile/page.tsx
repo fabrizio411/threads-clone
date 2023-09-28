@@ -10,7 +10,13 @@ const ProfilePage = async () => {
   return (
     <div className='page profile-page'>
       <ProfileHeader isPrivate={user.isPrivate}/>
-      <ProfileInfo user={user}/>
+      <ProfileInfo 
+        name={user.name}
+        username={user.username}
+        bio={user.bio}
+        image={user.image}
+        isPrivate={user.isPrivate}
+      />
       <ProfileDisplay />
     </div>
   )
