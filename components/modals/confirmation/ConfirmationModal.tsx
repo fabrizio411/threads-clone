@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import './confirmationmodal.scss'
-import React, { SetStateAction } from 'react'
 
 interface ConfirmationModalProps {
   isActive: boolean,
@@ -8,11 +7,12 @@ interface ConfirmationModalProps {
   body?: string,
   backText?: string,
   confirmText?: string,
-  confirmPath: string,
-  closeModal: () => void
+  confirmPath?: string,
+  closeModal: () => void,
+  confirmFunction?: () => void
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, body, backText, confirmPath, confirmText, closeModal, isActive }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, body, backText, confirmPath, confirmText, closeModal, isActive, confirmFunction }) => {
   return (
     <div className={`confirmation-modal ${isActive && 'active'}`}>
       <div className='overlay' onClick={closeModal}></div>
@@ -26,7 +26,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, body, back
         </div>
 
         <div className='modal-buttons'>
-          <Link className='confirm btn' href={confirmPath}>{confirmText || 'Confirm'}</Link>
+          {confirmPath && (
+            <Link className='confirm btn' href={confirmPath}>{confirmText || 'Confirm'}</Link>
+          )}
+          {confirmFunction && (
+            <div className='confirm btn' onClick={confirmFunction}>{confirmText || 'Confirm'}</div>
+          )}
           <div className='cancel btn' onClick={closeModal}>{backText || 'Cancel'}</div>
         </div>
 

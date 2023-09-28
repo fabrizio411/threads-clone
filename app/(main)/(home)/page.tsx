@@ -1,10 +1,29 @@
-'use client'
+import { getThreads } from '@/libs/actions/threads.actions'
+import { getUser } from '@/libs/actions/user.actions'
 
-import { signOut } from "next-auth/react"
+import './style.scss'
+import ThreadCard from '@/components/cards/thread/ThreadCard'
 
-const HomePage = () => {
+const HomePage = async () => {
+  const result = await getThreads(1, 30)
+  const user = await getUser()
+
   return (
-    <button onClick={() => signOut()}>HomePage</button>
+    <section className='page home-page'>
+      {result.threads.map(thread => (
+        <ThreadCard 
+          key={thread._id}
+          id={thread._id}
+          currentUserId={user._id}
+          parentId={thread.parentId}
+          content={thread.body}
+          image={thread.image}
+          author={thread.userId}
+          createdAt={thread.createdAt}
+          comments={thread.children}
+        />
+      ))}
+    </section>
   )
 }
 

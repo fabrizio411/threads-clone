@@ -1,0 +1,57 @@
+@import '/sass/var';
+
+.options-menu-component {
+    position: relative;
+
+    .svg-button {
+        fill: $text-1;
+        height: 24px;
+        width: 24px;
+        box-sizing: content-box;
+        padding: 4px;
+        border-radius: 100%;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $bg-hover;
+        }
+    }
+
+    .options-menu {
+        display: none;
+        border: 1px solid $bg-border-2;
+        border-radius: 15px;
+        overflow: hidden;
+        position: absolute;
+        top: 35px;
+        right: 0;
+
+        .option {
+            padding: 15px;
+            width: 150px;
+            border-bottom: 1px solid $bg-border;
+            background-color: $bg-2;
+            color: $text-1;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+
+            &:last-child {
+                border-bottom: none;
+                font-weight: 700;
+            }
+
+            &:hover {
+                background-color: $bg-hover;
+            }
+        }
+
+        .option.delete {
+            color: $error-red;
+        }
+    }
+
+    .options-menu.active {
+        display: block;
+    }
+}

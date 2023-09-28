@@ -1,0 +1,15 @@
+.like-icon {
+    fill: transparent;
+}
+
+@keyframes likeAnimation {
+    0% {transform: scale(1);}
+    60% {transform: scale(1.2);}
+    100% {transform: scale(1);}
+}
+
+.like-icon.liked {
+    fill: rgb(255, 48, 64);
+    color: rgb(255, 48, 64);
+    animation: likeAnimation .2s ease;
+}
