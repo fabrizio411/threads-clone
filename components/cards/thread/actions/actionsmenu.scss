@@ -1,5 +1,21 @@
+@import '/sass/var';
+
 .action-menu-component {
     display: flex;
     gap: 12px;
-    margin-top: 15px;
+    margin-top: 10px;
+
+    .action-btn {
+        cursor: pointer;
+        background-color: transparent;
+        border-radius: 100%;
+        box-sizing: content-box;
+        display: grid;
+        place-items: center;
+        padding: 6px;
+
+        &:hover {
+            background-color: $bg-hover;
+        }
+    }
 }

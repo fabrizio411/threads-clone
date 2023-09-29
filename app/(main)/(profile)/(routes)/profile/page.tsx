@@ -9,8 +9,9 @@ const ProfilePage = async () => {
 
   return (
     <div className='page profile-page'>
-      <ProfileHeader isPrivate={user.isPrivate}/>
+      <ProfileHeader isPrivate={user.isPrivate} variant='SELF'/>
       <ProfileInfo 
+        id={user._id.toString()}
         name={user.name}
         username={user.username}
         bio={user.bio}

@@ -7,6 +7,7 @@ import ImageModal from './image-modal/ImageModal'
 import Link from 'next/link'
 
 interface ProfileInfoProps {
+  id: string,
   name: string,
   username: string,
   bio: string,
@@ -14,7 +15,7 @@ interface ProfileInfoProps {
   isPrivate: boolean,
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id }) => {
 
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false)
 

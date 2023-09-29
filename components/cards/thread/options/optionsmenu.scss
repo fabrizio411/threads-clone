@@ -11,6 +11,9 @@
         padding: 4px;
         border-radius: 100%;
         cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
 
         &:hover {
             background-color: $bg-hover;

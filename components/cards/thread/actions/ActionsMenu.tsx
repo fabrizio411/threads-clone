@@ -1,12 +1,19 @@
 'use client'
 
-import LikeIcon from '@/components/icons/thread-icons/LikeIcon'
-import './actionsmenu.scss'
-import CommentIcon from '@/components/icons/thread-icons/CommentIcon'
-import RepostIcon from '@/components/icons/thread-icons/RepostIcon'
 import { useState } from 'react'
 
-const ActionsMenu = () => {
+import LikeIcon from '@/components/icons/thread-icons/LikeIcon'
+import CommentIcon from '@/components/icons/thread-icons/CommentIcon'
+import RepostIcon from '@/components/icons/thread-icons/RepostIcon'
+import './actionsmenu.scss'
+import Link from 'next/link'
+
+interface ActionsMenuProps {
+  authorUsername: string,
+  threadId: string
+}
+
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, threadId }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false)
 
   const handleLike = () => {
@@ -19,9 +26,9 @@ const ActionsMenu = () => {
       <div className='action-btn' onClick={handleLike}>
         <LikeIcon isLiked={isLiked} />
       </div>
-      <div className='action-btn'>
+      <Link href={`/@${authorUsername}/${threadId}`} className='action-btn'>
         <CommentIcon />
-      </div>
+      </Link>
       <div className='action-btn'>
         <RepostIcon />
       </div>

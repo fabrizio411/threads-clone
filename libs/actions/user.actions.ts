@@ -11,23 +11,40 @@ export async function getSession() {
     return await getServerSession(authOptions)
 }
 
-export async function getUser() {
+export async function getUser(username?: string) {
     connectDB()
 
     try {
-        const session = await getSession()
-
-        if (!session?.user?.email) {
-            return null
+        if (!username) {
+            const session = await getSession()
+        
+            if (!session?.user?.email) {
+                return null
+            }
+            
+            const user = await User.findOne({ email: session.user.email })
+            
+            if (!user) {
+                return null
+            }
+            
+            return user
         }
 
-        const user = await User.findOne({ email: session.user.email })
+        const user = await User.findOne({ username })
+        const currentUser: any = await getUser()
 
-        if (!user) {
-            return null
+        if (!user) return null
+
+        return {
+            _id: user._id.toString(),
+            name: user.name,
+            username: user.username,
+            bio: user.bio,
+            image: user.image,
+            isPrivate: user.isPrivate,
+            isCurrentUser: user._id.toString() === currentUser._id.toString()
         }
-
-        return user
     } catch (error) {
         return null
     }

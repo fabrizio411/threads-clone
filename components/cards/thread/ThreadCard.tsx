@@ -35,8 +35,8 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
     <article className='thread-card-component'>
 
       <div className='left-section'>
-        <Link href={`/profile/${author.id}`} className='image-box'>
-          <Image alt='profile photo' src={author.image} fill />
+        <Link href={`/@${author.username}`} className='image-box'>
+          <Image alt='profile photo' src={author.image || '/images/placeholder.jpg'} fill />
         </Link>
         {hasComments && (
           <div className='thread-bar'></div>
@@ -59,7 +59,7 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
 
       <div className='main-section'>
         <div className='thread-info'>
-          <Link href={author.id} className='username'>@{author.username}</Link>
+          <Link href={`/@${author.username}`} className='username'>@{author.username}</Link>
           <div className='options-box'>
             <p className='time-display'>{formatedTime}</p>
             {author.id === currentUserId.toString() && (
@@ -74,7 +74,7 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
           )}
         </div>
 
-        <ActionsMenu />
+        <ActionsMenu authorUsername={author.username} threadId={id.toString()} />
 
         <div className='interactions-info'>
           {hasComments && (

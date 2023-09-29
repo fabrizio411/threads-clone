@@ -3,24 +3,41 @@ import MenuIcon from '@/components/icons/nav-icons/MenuIcon'
 import './profileheader.scss'
 import Link from 'next/link'
 import LockIcon from '@/components/icons/LockIcon'
+import Arrow from '@/components/icons/Arrow'
 
 interface ProfileHeaderProps {
-  isPrivate: boolean
+  isPrivate: boolean,
+  variant: string
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isPrivate }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isPrivate, variant }) => {
   return (
     <section className='profile-header-component'>
-      <Link href='/settings'>
-        {!isPrivate ? (
-          <GlobeIcon/>
-        ) : (
-          <LockIcon/>
-        )}
-      </Link>
-      <Link href='/settings'>
-        <MenuIcon/>
-      </Link>
+      {variant === 'SELF' && (
+        <>
+          <Link href='/settings'>
+            {!isPrivate ? (
+              <GlobeIcon/>
+            ) : (
+              <LockIcon/>
+            )}
+          </Link>
+          <Link href='/settings'>
+            <MenuIcon/>
+          </Link>
+        </>
+      )}
+
+      {variant === 'OTHER' && (
+        <>
+          <Link href='/'>
+            <Arrow />
+          </Link>
+          <div>
+            <MenuIcon />
+          </div>
+        </>
+      )}
     </section>
   )
 }
