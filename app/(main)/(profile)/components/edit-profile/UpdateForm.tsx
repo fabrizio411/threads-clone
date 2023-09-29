@@ -19,10 +19,11 @@ interface UpdateFormProps {
   username: string,
   bio: string,
   image: string,
-  isPrivate: boolean
+  isPrivate: boolean,
+  id: string
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isPrivate }) => {
+const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isPrivate, id }) => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -102,6 +103,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
 
   const onSubmit: SubmitHandler<FieldValues> = async(data) => {
     await updateUser({
+      userId: id,
       name: data.name,
       username: data.username,
       bio: data.bio,

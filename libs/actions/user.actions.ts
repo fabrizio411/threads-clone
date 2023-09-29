@@ -38,17 +38,17 @@ interface updateUserProps {
     username: string,
     bio: string,
     image: string,
-    isPrivate: boolean
+    isPrivate: boolean,
+    userId: string
 }
 
-export async function updateUser({ name, username, bio, image, isPrivate }: updateUserProps) {
+export async function updateUser({ name, username, bio, image, isPrivate, userId }: updateUserProps) {
     connectDB()
 
     try {
-        const user = await getUser()
 
         await User.findByIdAndUpdate(
-            user._id,
+            userId,
             {
                 name,
                 username,

@@ -101,7 +101,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     }
 
     if (usernameValue.length === 0) setUsernameAviable(true)
-
   }, [usernameValue])
 
   useEffect(() => {

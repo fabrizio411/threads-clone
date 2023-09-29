@@ -8,7 +8,7 @@ const EditPage = async () => {
 
   return (
     <div className='page edit-profile-page'>
-      <UpdateForm name={user.name} username={user.username} bio={user.bio} image={user.image} isPrivate={user.isPrivate} />
+      <UpdateForm id={user._id.toString()} name={user.name} username={user.username} bio={user.bio} image={user.image} isPrivate={user.isPrivate} />
     </div>
   )
 }
