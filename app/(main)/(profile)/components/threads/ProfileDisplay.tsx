@@ -6,7 +6,7 @@ import RepliesDisplay from './sections/RepliesDisplay'
 import RepostsDisplay from './sections/RepostsDisplay'
 import ThreadsDisplay from './sections/ThreadsDisplay'
 
-const ProfileDisplay = () => {
+const ProfileDisplay = ({ children }: { children: React.ReactNode }) => {
   const [current, setCurrent] = useState<string>('THREADS')
 
   let borderPosition
@@ -37,9 +37,7 @@ const ProfileDisplay = () => {
       </div>
       <div className='content-display-box'>
         <div className='content' style={contentStyles}>
-          <ThreadsDisplay/>
-          <RepliesDisplay/>
-          <RepostsDisplay/>
+          {children}
         </div>
       </div>
     </section>

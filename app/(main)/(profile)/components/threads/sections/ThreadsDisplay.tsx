@@ -1,8 +1,8 @@
 import './display.scss'
 
-const ThreadsDisplay = () => {
+const ThreadsDisplay = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='display-section'>ThreadsDisplay</div>
+    <div className='display-section'>{children}</div>
   )
 }
 
