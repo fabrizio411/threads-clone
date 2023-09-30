@@ -8,6 +8,12 @@ import ProfileInfo from '../../components/info-section/ProfileInfo'
 import ProfileDisplay from '../../components/threads/ProfileDisplay'
 
 import '../profile/style.scss'
+import ThreadsDisplay from '../../components/threads/sections/ThreadsDisplay'
+import ThreadCard from '@/components/cards/thread/ThreadCard'
+import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
+import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
+import { getProfileThreads } from '@/libs/actions/threads.actions'
+import axios from 'axios'
 
 interface UserProps {
   _id: string,
@@ -40,14 +46,15 @@ const ProfileExtaPage = () => {
     isPrivate: true,
     isCurrentUser: false
   })
+  const [threads, setThreads] = useState<any>()
 
   useEffect(() => {
-    const getParamsUser = async () => {
-      const paramsUser = await getUser(getParamsUsername())
-      setUser(paramsUser)
-    }
-    
-    getParamsUser()
+    axios.post('/api/threads', { username: getParamsUsername()})
+    .then((res) => {
+      setThreads(res.data.threads)
+      setUser(res.data.user)
+    })
+    .catch((err) => console.log(err))
   }, [])
 
   if (user && user.isCurrentUser) router.push('/profile')
@@ -63,7 +70,25 @@ const ProfileExtaPage = () => {
         image={user.image}
         isPrivate={user.isPrivate}
       />
-      <ProfileDisplay />
+      <ProfileDisplay>
+        <ThreadsDisplay>
+          {threads && threads.threads.map((item: any) => (
+            <ThreadCard 
+              id={item._id.toString()} 
+              currentUserId={user._id.toString()}
+              parentId={item.parentId}
+              content={item.body}
+              image={item.image}
+              author={item.userId}
+              createdAt={item.createdAt}
+              comments={item.children}
+              isComment={item.children.length > 0}
+            />
+          ))}
+        </ThreadsDisplay>
+        <RepliesDisplay />
+        <RepostsDisplay />
+      </ProfileDisplay>
     </div>
   )
 }

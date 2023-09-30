@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import './profiledisplay.scss'
-import RepliesDisplay from './sections/RepliesDisplay'
-import RepostsDisplay from './sections/RepostsDisplay'
-import ThreadsDisplay from './sections/ThreadsDisplay'
 
 const ProfileDisplay = ({ children }: { children: React.ReactNode }) => {
   const [current, setCurrent] = useState<string>('THREADS')
