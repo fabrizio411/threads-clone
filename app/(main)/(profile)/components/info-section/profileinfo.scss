@@ -75,6 +75,49 @@
             }
         }
     }
+
+    .follow-btn-box {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        
+        @keyframes followAnimation {
+            0% {transform: scale(1);}
+            50% {transform: scale(0.95);}
+            100% {transform: scale(1);}
+        }
+
+        @keyframes unfollowAnimation {
+            0% {transform: scale(1);}
+            50% {transform: scale(0.95);}
+            100% {transform: scale(1);}
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid $bg-border;
+            border-radius: 10px;
+            background-color: $bg-1;
+            font-weight: 600;
+            font-size: .9rem;
+            color: $text-1;
+            cursor: pointer;
+            animation: unfollowAnimation .2s ease;
+        }
+
+        .btn.follow {
+            background-color: $bg-white;
+            color: $bg-1;
+            border-color: $bg-white;
+            animation: followAnimation .2s ease;
+
+             &:hover {
+                background-color: $bg-white-hover;
+                border-color: $bg-white-hover;
+             }
+        }
+    }
 }
 
 @media (min-width: 600px) {

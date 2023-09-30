@@ -9,6 +9,7 @@ import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
 import { getProfileThreads } from '@/libs/actions/threads.actions'
 import ThreadCard from '@/components/cards/thread/ThreadCard'
 import { Children } from 'react'
+import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 const ProfilePage = async () => {
   const user = await getUser()
@@ -16,30 +17,46 @@ const ProfilePage = async () => {
 
   return (
     <div className='page profile-page'>
-      <ProfileHeader isPrivate={user.isPrivate} variant='SELF'/>
-      <ProfileInfo 
-        id={user._id.toString()}
-        name={user.name}
-        username={user.username}
-        bio={user.bio}
-        image={user.image}
-        isPrivate={user.isPrivate}
-      />
+{!user ? (
+        <div className='profile-loading'>
+          <LoadingSpinner height='30px' width='30px' />
+        </div>
+      ) : (
+        <>
+          <ProfileHeader isPrivate={user.isPrivate} variant='OTHER'/>
+          <ProfileInfo 
+            id={user._id.toString()}
+            name={user.name}
+            username={user.username}
+            bio={user.bio}
+            image={user.image}
+            isPrivate={user.isPrivate}
+          />
+        </>
+      )}
       <ProfileDisplay>
         <ThreadsDisplay>
-          {threads.threads.map(item => (
-            <ThreadCard 
-              id={item._id.toString()} 
-              currentUserId={user._id.toString()}
-              parentId={item.parentId}
-              content={item.body}
-              image={item.image}
-              author={item.userId}
-              createdAt={item.createdAt}
-              comments={item.children}
-              isComment={item.children.length > 0}
-            />
-          ))}
+          {!threads ? (
+            <div className='no-items-msg'>
+              <LoadingSpinner height='30px' width='30px' />
+            </div>
+          ) : (
+            threads.threads.length && user ? threads.threads.map((item: any) => (
+              <ThreadCard 
+                id={item._id.toString()} 
+                currentUserId={user._id.toString()}
+                parentId={item.parentId}
+                content={item.body}
+                image={item.image}
+                author={item.author}
+                createdAt={item.createdAt}
+                comments={item.children}
+                isComment={item.children.length > 0}
+              />
+            )) : (
+              <p className='no-items-msg'>No threads yet</p>
+            )
+          )}
         </ThreadsDisplay>
         <RepliesDisplay />
         <RepostsDisplay />

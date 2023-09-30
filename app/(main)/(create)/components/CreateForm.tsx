@@ -56,18 +56,6 @@ const CreateForm: React.FC<CreateFormProps> = ({ username, image, isPrivate, use
   const imageValue = watch('image')
   const bodyValue = watch('body')
 
-  useEffect(() => {
-    const isBase64 = isBase64Image(imageValue)
-    if (!isBase64) {
-      setValue('image', '')
-      setImageError('File must be an image')
-      const timeout = setTimeout(() => {
-        setImageError('')
-      }, 3000);
-      clearTimeout(timeout)
-    }
-  }, [imageValue])
-
   const handleImage = (e: ChangeEvent<HTMLInputElement>, fieldChange: (value: string) => void) => {
     e.preventDefault()
 

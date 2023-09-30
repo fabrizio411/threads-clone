@@ -18,7 +18,7 @@ export async function createThread({ userId, body, image, path }: createThreadPr
         connectDB()
 
         const createdThread = await Thread.create({
-            userId,
+            author: userId,
             body,
             image
         })
@@ -48,11 +48,15 @@ export async function getThreads(pageNumber = 1, pageSize = 20) {
             .sort({ createdAt: 'desc' })
             .skip(skipAmount)
             .limit(pageSize)
-            .populate({ path: 'userId', model: User})
+            .populate({ 
+                path: 'author', 
+                model: User,
+                select: '_id username image'
+            })
             .populate({ 
                 path: 'children',
                 populate: {
-                    path: 'userId',
+                    path: 'author',
                     model: User,
                     select: '_id username parentId image'
                 }
@@ -92,18 +96,18 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
 
         const skipAmount = (pageNumber - 1) * pageSize
 
-        const threadsQuery = Thread.find({ parentId: {$in: [null, undefined] }, userId })
+        const threadsQuery = Thread.find({ parentId: {$in: [null, undefined] }, author: userId })
             .sort({ createdAt: 'desc' })
             .skip(skipAmount)
             .limit(pageSize)
             .populate({ 
-                path: 'userId', 
+                path: 'author', 
                 model: User,
-                select: '_id username name image' })
+                select: '_id username image' })
             .populate({ 
                 path: 'children',
                 populate: {
-                    path: 'userId',
+                    path: 'author',
                     model: User,
                     select: '_id username parentId image'
                 }

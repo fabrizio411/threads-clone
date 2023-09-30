@@ -70,7 +70,7 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
         <div className='content'>
           <p className='body'>{content}</p>
           {image && (
-            <Image alt='attached image' style={{borderRadius: '10px', width: '250px', height: 'auto'}} src={image} width={300} height={200} />
+            <Image alt='attached image' style={{borderRadius: '10px', width: '250px', height: 'auto', marginTop: '10px'}} src={image} width={300} height={200} />
           )}
         </div>
 

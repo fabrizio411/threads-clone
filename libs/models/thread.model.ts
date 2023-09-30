@@ -1,28 +1,14 @@
 import mongoose from 'mongoose'
 
 const threadSchema = new mongoose.Schema({
-    body: {
-        type: String,
-        required: true
-    },
-    image: {
-        type: String
-    },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    parentId: {
-        type: String
-    },
-    children: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Thread'
-        }
-    ]
-
+    body: { type: String, required: true },
+    image: { type: String },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }, 
+    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }],
+    quote: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' },
+    repost: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }
 }, {
     timestamps: true
 })

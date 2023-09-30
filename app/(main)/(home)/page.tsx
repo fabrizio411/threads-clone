@@ -18,7 +18,7 @@ const HomePage = async () => {
           parentId={thread.parentId}
           content={thread.body}
           image={thread.image}
-          author={thread.userId}
+          author={thread.author}
           createdAt={thread.createdAt}
           comments={thread.children}
         />

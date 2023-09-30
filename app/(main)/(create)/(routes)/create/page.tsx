@@ -18,7 +18,7 @@ const CreatePage = async () => {
           </div>
         )}
 
-        <CreateForm userId={user._id} username={user.username} image={user.image} isPrivate={user.isPrivate}/>
+        <CreateForm userId={user._id.toString()} username={user.username} image={user.image} isPrivate={user.isPrivate}/>
       </div>
     </section>
   )
