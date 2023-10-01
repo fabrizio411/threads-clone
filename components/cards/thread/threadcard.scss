@@ -81,13 +81,27 @@
             justify-content: space-between;
             align-items: center;
 
-            .username {
-                text-decoration: none;
-                color: $text-1;
-                font-weight: 600;
+            .user-box {
+                display: flex;
+                gap: 10px;
+                align-items: center;
 
-                &:hover, &:active {
-                    text-decoration: underline;
+                .image-box {
+                    position: relative;
+                    height: 60px;
+                    width: 60px;
+                    border-radius: 100%;
+                    overflow: hidden;
+                }
+    
+                .username {
+                    text-decoration: none;
+                    color: $text-1;
+                    font-weight: 600;
+    
+                    &:hover, &:active {
+                        text-decoration: underline;
+                    }
                 }
             }
 
@@ -102,6 +116,10 @@
                     padding-bottom: 5px;
                 }
             }
+        }
+
+        .thread-info.page-class {
+            margin-bottom: 15px;
         }
 
         .content {

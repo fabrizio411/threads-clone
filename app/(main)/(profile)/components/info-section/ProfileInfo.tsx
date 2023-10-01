@@ -1,11 +1,12 @@
 'use client'
 
-import Image from 'next/image'
-import './profileinfo.scss'
 import { useState } from 'react'
-import ImageModal from './image-modal/ImageModal'
-import Link from 'next/link'
 import { followUser } from '@/libs/actions/user.actions'
+import Image from 'next/image'
+import Link from 'next/link'
+
+import './profileinfo.scss'
+import ImageModal from './image-modal/ImageModal'
 import { usePathname } from 'next/navigation'
 
 interface ProfileInfoProps {

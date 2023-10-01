@@ -88,6 +88,34 @@ export async function deleteThread(threadId: string, path: string) {
     }
 }
 
+export async function getOneThread(threadId: string) {
+    try {
+        connectDB()
+
+        const threadQuery = Thread.findById(threadId)
+            .populate({ 
+                path: 'author', 
+                model: User,
+                select: '_id username image isPrivate'
+            })
+            .populate({ 
+                path: 'children',
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: '_id username parentId image'
+                }
+            })
+        
+        const thread = await threadQuery.exec()
+
+        return thread
+
+    } catch (error: any) {
+        throw new Error(`GETONETHREAD_ERROR ${error.message}`)
+    }
+}
+
 export async function getProfileThreads(userId: string, pageNumber = 1, pageSize = 20) {
     try {
         connectDB()
@@ -120,7 +148,7 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
         return { threads, isNext }
         
     } catch (error: any) {
-        throw new Error(`GETTHREADS_ERROR ${error.message}`)
+        throw new Error(`GETPROFILETHREADS_ERROR ${error.message}`)
     }
 }
 

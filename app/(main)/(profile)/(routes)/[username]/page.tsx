@@ -1,16 +1,17 @@
 import { getUser } from '@/libs/actions/user.actions'
-import { useRouter } from 'next/router'
+import { getProfileThreads } from '@/libs/actions/threads.actions'
+
 import ProfileHeader from '../../components/header/ProfileHeader'
 import ProfileInfo from '../../components/info-section/ProfileInfo'
 import ProfileDisplay from '../../components/threads/ProfileDisplay'
-
-import '../profile/style.scss'
 import ThreadsDisplay from '../../components/threads/sections/ThreadsDisplay'
-import ThreadCard from '@/components/cards/thread/ThreadCard'
 import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
 import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
-import { getProfileThreads } from '@/libs/actions/threads.actions'
+import ThreadCard from '@/components/cards/thread/ThreadCard'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
+
+import '../profile/style.scss'
+import { redirect } from 'next/navigation'
 
 const ProfileExtaPage = async ({ params }: { params: { username: string } }) => {
   const { username } = params
@@ -26,6 +27,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
   const user = await getUser(getParamsUsername())
   const currentUser = await getUser()
   const threads = await getProfileThreads(user._id)
+
+  if (user._id === currentUser._id.toString()) redirect('/profile')
 
   return (
     <div className='page profile-page'>
@@ -67,7 +70,6 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                 author={item.author}
                 createdAt={item.createdAt}
                 comments={item.children}
-                isComment={item.children.length > 0}
                 likes={item.likes.map((item: any) => item.toString())}
               />
             )) : (

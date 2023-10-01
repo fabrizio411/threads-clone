@@ -8,7 +8,6 @@ const threadSchema = new mongoose.Schema({
     parentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }, 
     children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }],
     quote: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' },
-    repost: { type: mongoose.Schema.Types.ObjectId, ref: 'Thread' }
 }, {
     timestamps: true
 })

@@ -54,7 +54,6 @@ const ProfilePage = async () => {
                 author={item.author}
                 createdAt={item.createdAt}
                 comments={item.children}
-                isComment={item.children.length > 0}
                 likes={item.likes.map((item: any) => item.toString())}
               />
             )) : (

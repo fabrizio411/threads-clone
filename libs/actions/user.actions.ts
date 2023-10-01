@@ -1,12 +1,12 @@
 'use server'
 
 import User from "../models/user.model"
+import Notification from '../models/notification.model';
 import { connectDB } from "../mongoose"
-
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/(auth)/auth/[...nextauth]/route';
 import { revalidatePath } from "next/cache";
-import Notification from "../models/notification.model";
+
 
 export async function getSession() {
     return await getServerSession(authOptions)
