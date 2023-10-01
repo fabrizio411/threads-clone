@@ -21,6 +21,7 @@ const HomePage = async () => {
           author={thread.author}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likes={thread.likes.map((item: any) => item.toString())}
         />
       ))}
     </section>

@@ -90,6 +90,7 @@ const ProfileExtaPage = () => {
                 createdAt={item.createdAt}
                 comments={item.children}
                 isComment={item.children.length > 0}
+                likes={item.likes.map((item: any) => item.toString())}
               />
             )) : (
               <p className='no-items-msg'>No threads yet</p>

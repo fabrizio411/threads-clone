@@ -14,7 +14,7 @@ interface ThreadCardPops {
     author: {
       username: string,
       image: string,
-      id: string
+      _id: string
     },
     createdAt: string,
     comments: {
@@ -22,10 +22,11 @@ interface ThreadCardPops {
         image: string
       }
     }[],
-    isComment?: boolean
+    isComment?: boolean,
+    likes: string[]
 }
 
-const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, content, image, author, createdAt, comments, isComment }) => {
+const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, content, image, author, createdAt, comments, isComment, likes }) => {
 
   const formatedTime = formatDateString(createdAt)
 
@@ -62,7 +63,7 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
           <Link href={`/@${author.username}`} className='username'>@{author.username}</Link>
           <div className='options-box'>
             <p className='time-display'>{formatedTime}</p>
-            {author.id === currentUserId.toString() && (
+            {author._id === currentUserId.toString() && (
               <OptionsMenu threadsId={id.toString()} />
             )}
           </div>
@@ -74,7 +75,13 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
           )}
         </div>
 
-        <ActionsMenu authorUsername={author.username} threadId={id.toString()} />
+        <ActionsMenu 
+          authorUsername={author.username} 
+          threadId={id.toString()}
+          authorId={author._id.toString()}
+          currentUserId={currentUserId.toString()}
+          likes={likes}
+        />
 
         <div className='interactions-info'>
           {hasComments && (
@@ -83,7 +90,7 @@ const ThreadCard: React.FC<ThreadCardPops> = ({ id, currentUserId, parentId, con
               <span>-</span>
             </>
           )}
-          <p className='likes interaction'>0 likes</p>
+          <p className='likes interaction'>{likes.length} likes</p>
         </div>
 
       </div>

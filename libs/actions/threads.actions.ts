@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectDB } from '../mongoose'
-import { Chilanka } from 'next/font/google'
+import Notification from '../models/notification.model'
 
 interface createThreadProps {
     userId: string,
@@ -25,9 +25,7 @@ export async function createThread({ userId, body, image, path }: createThreadPr
 
         await User.findByIdAndUpdate(
             userId,
-            {
-                $push: { threads: createdThread._id }
-            }
+            { $push: { threads: createdThread._id } }
         )
 
         revalidatePath(path)
@@ -120,6 +118,43 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
         const isNext = totalThreadsCount > skipAmount + threads.length
 
         return { threads, isNext }
+        
+    } catch (error: any) {
+        throw new Error(`GETTHREADS_ERROR ${error.message}`)
+    }
+}
+
+interface likeThreadProps {
+    isLike: boolean,
+    threadId: string,
+    authorId: string,
+    from: string,
+    path: string
+}
+
+export async function likeThread({ isLike, threadId, authorId, from, path }: likeThreadProps) {
+    try {
+        connectDB()
+
+        if (isLike) {
+            // await Notification.create({
+            //     user: authorId,
+            //     from: from,
+            //     type: 'like'
+            // })
+
+            await Thread.findByIdAndUpdate(
+                threadId,
+                { $push: { likes: from } }
+            )
+        } else {
+            await Thread.findByIdAndUpdate(
+                threadId,
+                { $pull: { likes: from } }
+            )
+        }
+
+        revalidatePath(path)
         
     } catch (error: any) {
         throw new Error(`GETTHREADS_ERROR ${error.message}`)

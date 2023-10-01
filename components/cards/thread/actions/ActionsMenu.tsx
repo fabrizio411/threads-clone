@@ -7,18 +7,43 @@ import CommentIcon from '@/components/icons/thread-icons/CommentIcon'
 import RepostIcon from '@/components/icons/thread-icons/RepostIcon'
 import './actionsmenu.scss'
 import Link from 'next/link'
+import { likeThread } from '@/libs/actions/threads.actions'
+import { usePathname } from 'next/navigation'
+import path from 'path'
 
 interface ActionsMenuProps {
   authorUsername: string,
-  threadId: string
+  threadId: string,
+  authorId: string,
+  currentUserId: string,
+  likes: string[]
 }
 
-const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, threadId }) => {
-  const [isLiked, setIsLiked] = useState<boolean>(false)
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes }) => {
+  const pathname = usePathname()
+  const [isLiked, setIsLiked] = useState<boolean>(likes.includes(currentUserId) || false)
 
-  const handleLike = () => {
-    if (isLiked) setIsLiked(false)
-    else setIsLiked(true)
+  const handleLike = async () => {
+    if (isLiked) {
+      setIsLiked(false)
+      await likeThread({
+        isLike: false,
+        threadId: threadId,
+        authorId: authorId,
+        from: currentUserId,
+        path: pathname
+      })
+    }
+    else {
+      setIsLiked(true)
+      await likeThread({
+        isLike: true,
+        threadId: threadId,
+        authorId: authorId,
+        from: currentUserId,
+        path: pathname
+      })
+    }
   }
 
   return (
