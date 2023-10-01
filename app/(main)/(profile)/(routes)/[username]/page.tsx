@@ -25,6 +25,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
   }
 
   const user = await getUser(getParamsUsername())
+  if (!user) return null
+  
   const currentUser = await getUser()
   const threads = await getProfileThreads(user._id)
 

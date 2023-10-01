@@ -37,7 +37,7 @@ const ProfilePage = async () => {
           />
         </>
       )}
-      <ProfileDisplay>
+      <ProfileDisplay isPrivate={false}>
         <ThreadsDisplay>
           {!threads ? (
             <div className='no-items-msg'>

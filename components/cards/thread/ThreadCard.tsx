@@ -51,7 +51,7 @@ const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content
           </div>
           <div className='options-box'>
             <p className='time-display'>{formatedTime}</p>
-            {author._id === currentUserId.toString() && (
+            {author._id.toString() === currentUserId.toString() && (
               <OptionsMenu threadsId={id.toString()} />
             )}
           </div>
