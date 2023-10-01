@@ -55,6 +55,16 @@
             position: relative;
             transition: left .4s ease;
         }
+
+        .content.private {
+            width: 100%;
+
+            .private-msg {
+                width: 100%;
+                text-align: center;
+                margin-top: 50px;
+            }
+        }
     }
 }
 

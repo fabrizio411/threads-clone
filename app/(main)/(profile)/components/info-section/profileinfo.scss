@@ -117,6 +117,17 @@
                 border-color: $bg-white-hover;
              }
         }
+
+        .btn.pending {
+            background-color: $bg-2;
+            border-color: $bg-2;
+            color: $text-2;
+
+            &:hover {
+                background-color: $bg-2;
+                border-color: $bg-2;
+            }
+        }
     }
 }
 
