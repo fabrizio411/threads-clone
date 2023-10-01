@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { followUser } from '@/libs/actions/user.actions'
+import { followPrivateUser, followUser } from '@/libs/actions/user.actions'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -17,14 +17,16 @@ interface ProfileInfoProps {
   bio: string,
   image: string,
   isPrivate: boolean,
-  followers: string[]
+  followers: string[],
+  followRequests: string[]
   variant?: string
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, isPrivate, variant, followers, currentUserId }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, isPrivate, variant, followers, followRequests, currentUserId }) => {
   const pathname = usePathname()
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false)
-  const [isFollowing, setIsFollowing] = useState<boolean>(followers.includes(id))
+  const [isFollowing, setIsFollowing] = useState<boolean>(followers.includes(currentUserId))
+  const [isPending, setIsPending] = useState<boolean>(followRequests.includes(currentUserId))
   const [followersCount, setFollowersCount] = useState<number>(followers.length)
 
   const handleImageOpen = () => {
@@ -33,27 +35,48 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, i
   }
 
   const handleFollow = async () => {
-    if (isFollowing) {
-      setIsFollowing(false)
-      setFollowersCount(followers.length - 1)
-      await followUser({
-        isFollow: false,
-        currentUserId: currentUserId,
-        userToFollowId: id,
-        privateAccount: isPrivate,
-        path: pathname
-      })
-    }
-    else {
-      setIsFollowing(true)
-      setFollowersCount(followers.length + 1)
-      await followUser({
-        isFollow: true,
-        currentUserId: currentUserId,
-        userToFollowId: id,
-        privateAccount: isPrivate,
-        path: pathname
-      })
+    if (isPrivate) {
+      if (isPending) {
+        setIsPending(false)
+        await followPrivateUser({
+          isFollow: false,
+          currentUserId: currentUserId,
+          userToFollowId: id,
+          path: pathname
+        })
+      } else {
+        setIsPending(true)
+        await followPrivateUser({
+          isFollow: true,
+          currentUserId: currentUserId,
+          userToFollowId: id,
+          path: pathname
+        })
+      }
+    } else {
+      if (isFollowing) {
+        setIsFollowing(false)
+        setFollowersCount(followers.length - 1)
+        await followUser({
+          isFollow: false,
+          currentUserId: currentUserId,
+          userToFollowId: id,
+          path: pathname
+        })
+      }
+      else {
+        if (isPrivate) setIsPending(true) 
+        else {
+          setIsFollowing(true)
+          setFollowersCount(followers.length + 1)
+        }
+        await followUser({
+          isFollow: true,
+          currentUserId: currentUserId,
+          userToFollowId: id,
+          path: pathname
+        })
+      }
     }
   }
 
@@ -84,8 +107,8 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, i
 
       {variant === 'OTHER' && (
         <div className='follow-btn-box'>
-          <button className={`btn ${!isFollowing && 'follow'}`} onClick={handleFollow}>
-            {isFollowing ? 'Following' : 'Follow'}
+          <button className={`btn ${!isFollowing && 'follow'} ${isPending && 'pending'}`} onClick={handleFollow}>
+            {isPending ? 'Pending' : isFollowing ? 'Following' : 'Follow'}
           </button>
           <button className='btn mention'>Mention</button>
         </div>

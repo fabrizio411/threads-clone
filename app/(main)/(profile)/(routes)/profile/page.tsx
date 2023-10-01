@@ -33,6 +33,7 @@ const ProfilePage = async () => {
             image={user.image}
             isPrivate={user.isPrivate}
             followers={user.followers.map((item: any) => item.toString())}
+            followRequests={user.followRequests.map((item: any) => item.toString())}
           />
         </>
       )}

@@ -46,6 +46,7 @@ export async function getUser(username?: string) {
             isPrivate: user.isPrivate,
             isCurrentUser: user._id.toString() === currentUser._id.toString(),
             followers: user.followers,
+            followRequests: user.followRequests,
         }
     } catch (error) {
         return null
@@ -89,44 +90,30 @@ interface followUserProps {
     isFollow: boolean
     currentUserId: string,
     userToFollowId: string,
-    privateAccount: boolean,
     path: string
 }
 
-export async function followUser({ isFollow, currentUserId, userToFollowId, privateAccount, path }: followUserProps) {
+export async function followUser({ isFollow, currentUserId, userToFollowId, path }: followUserProps) {
     try {
         connectDB()
 
         if (isFollow) {
-            if (privateAccount) {
-                await User.findByIdAndUpdate(
-                    userToFollowId,
-                    { $push: { followRequests: userToFollowId } }
-                )
+            await User.findByIdAndUpdate(
+                currentUserId,
+                { $push: { following: userToFollowId } }
+            )
 
-                // await Notification.create({
-                //     user: userToFollowId,
-                //     from: currentUserId,
-                //     type: 'follow request'
-                // })
+            await User.findByIdAndUpdate(
+                userToFollowId,
+                { $push: { followers: currentUserId } }
+            )
 
-            } else {
-                await User.findByIdAndUpdate(
-                    currentUserId,
-                    { $push: { following: userToFollowId } }
-                )
+            // await Notification.create({
+            //     user: userToFollowId,
+            //     from: currentUserId,
+            //     type: 'follow'
+            // })
 
-                await User.findByIdAndUpdate(
-                    userToFollowId,
-                    { $push: { followers: userToFollowId } }
-                )
-
-                // await Notification.create({
-                //     user: userToFollowId,
-                //     from: currentUserId,
-                //     type: 'follow'
-                // })
-            }
         } else {
             await User.findByIdAndUpdate(
                 currentUserId,
@@ -135,13 +122,47 @@ export async function followUser({ isFollow, currentUserId, userToFollowId, priv
 
             await User.findByIdAndUpdate(
                 userToFollowId,
-                { $pull: { followers: userToFollowId } }
+                { $pull: { followers: currentUserId } }
             )
         }
 
         revalidatePath(path)
         
     } catch (error: any) {
-        throw new Error(`UPDATE_USER_ERROR: ${error.message}`)
+        throw new Error(`FOLLOW_USER_ERROR: ${error.message}`)
+    }
+}
+
+export async function followPrivateUser({ isFollow, currentUserId, userToFollowId, path }: followUserProps) {
+    try {
+        connectDB()
+
+        if (isFollow) {
+            await User.findByIdAndUpdate(
+                userToFollowId,
+                { $push: { followRequests: currentUserId } }
+            )
+    
+            // await Notification.create({
+            //     user: userToFollowId,
+            //     from: currentUserId,
+            //     type: 'follow request'
+            // })
+            
+        } else {
+            await User.findByIdAndUpdate(
+                userToFollowId,
+                { $pull: { followRequests: currentUserId }}
+            )
+
+            // await Notification.findOneAndDelete({ 
+            //     from: currentUserId, 
+            //     user: userToFollowId, 
+            //     type: 'follow request' 
+            // })
+        }
+
+    } catch (error: any) {
+        throw new Error(`FOLLOW_USER_ERROR: ${error.message}`)
     }
 }

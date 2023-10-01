@@ -48,37 +48,44 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
             image={user.image}
             isPrivate={user.isPrivate}
             followers={user.followers.map((item: any) => item.toString())}
+            followRequests={user.followRequests.map((item: any) => item.toString())}
             variant='OTHER'
           />
         </>
       )}
-      <ProfileDisplay>
-        <ThreadsDisplay>
-          {!threads ? (
-            <div className='no-items-msg'>
-              <LoadingSpinner height='30px' width='30px' />
-            </div>
-          ) : (
-            threads.threads.length && user ? threads.threads.map((item: any) => (
-              <ThreadCard 
-                key={item._id.toString()}
-                id={item._id.toString()} 
-                currentUserId={user._id.toString()}
-                parentId={item.parentId}
-                content={item.body}
-                image={item.image}
-                author={item.author}
-                createdAt={item.createdAt}
-                comments={item.children}
-                likes={item.likes.map((item: any) => item.toString())}
-              />
-            )) : (
-              <p className='no-items-msg'>No threads yet</p>
-            )
-          )}
-        </ThreadsDisplay>
-        <RepliesDisplay />
-        <RepostsDisplay />
+      <ProfileDisplay isPrivate={user.isPrivate}>
+        {user.isPrivate ? (
+          <p className='private-msg'>This profile is private.</p>
+        ) : (
+          <>
+            <ThreadsDisplay>
+              {!threads ? (
+                <div className='no-items-msg'>
+                  <LoadingSpinner height='30px' width='30px' />
+                </div>
+              ) : (
+                threads.threads.length && user ? threads.threads.map((item: any) => (
+                  <ThreadCard 
+                    key={item._id.toString()}
+                    id={item._id.toString()} 
+                    currentUserId={user._id.toString()}
+                    parentId={item.parentId}
+                    content={item.body}
+                    image={item.image}
+                    author={item.author}
+                    createdAt={item.createdAt}
+                    comments={item.children}
+                    likes={item.likes.map((item: any) => item.toString())}
+                  />
+                )) : (
+                  <p className='no-items-msg'>No threads yet</p>
+                )
+              )}
+            </ThreadsDisplay>
+            <RepliesDisplay />
+            <RepostsDisplay />
+          </>
+        )}
       </ProfileDisplay>
     </div>
   )
