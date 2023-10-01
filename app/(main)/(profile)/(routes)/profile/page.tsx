@@ -25,12 +25,14 @@ const ProfilePage = async () => {
         <>
           <ProfileHeader isPrivate={user.isPrivate} variant='OTHER'/>
           <ProfileInfo 
+            currentUserId={user._id.toString()}
             id={user._id.toString()}
             name={user.name}
             username={user.username}
             bio={user.bio}
             image={user.image}
             isPrivate={user.isPrivate}
+            followers={user.followers.map((item: any) => item.toString())}
           />
         </>
       )}
@@ -43,6 +45,7 @@ const ProfilePage = async () => {
           ) : (
             threads.threads.length && user ? threads.threads.map((item: any) => (
               <ThreadCard 
+                key={item._id.toString()}
                 id={item._id.toString()} 
                 currentUserId={user._id.toString()}
                 parentId={item.parentId}

@@ -5,30 +5,55 @@ import './profileinfo.scss'
 import { useState } from 'react'
 import ImageModal from './image-modal/ImageModal'
 import Link from 'next/link'
+import { followUser } from '@/libs/actions/user.actions'
+import { usePathname } from 'next/navigation'
 
 interface ProfileInfoProps {
+  currentUserId: string
   id: string,
   name: string,
   username: string,
   bio: string,
   image: string,
   isPrivate: boolean,
+  followers: string[]
   variant?: string
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, variant }) => {
-
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, isPrivate, variant, followers, currentUserId }) => {
+  const pathname = usePathname()
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false)
-  const [isFollowing, setIsFollowing] = useState<boolean>(false)
+  const [isFollowing, setIsFollowing] = useState<boolean>(followers.includes(id))
+  const [followersCount, setFollowersCount] = useState<number>(followers.length)
 
   const handleImageOpen = () => {
     if (isImageOpen) setIsImageOpen(false)
     else setIsImageOpen(true)
   }
 
-  const handleFollow = () => {
-    if (isFollowing) setIsFollowing(false)
-    else setIsFollowing(true)
+  const handleFollow = async () => {
+    if (isFollowing) {
+      setIsFollowing(false)
+      setFollowersCount(followers.length - 1)
+      await followUser({
+        isFollow: false,
+        currentUserId: currentUserId,
+        userToFollowId: id,
+        privateAccount: isPrivate,
+        path: pathname
+      })
+    }
+    else {
+      setIsFollowing(true)
+      setFollowersCount(followers.length + 1)
+      await followUser({
+        isFollow: true,
+        currentUserId: currentUserId,
+        userToFollowId: id,
+        privateAccount: isPrivate,
+        path: pathname
+      })
+    }
   }
 
   const imageURL = image || '/images/placeholder.jpg'
@@ -46,7 +71,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, i
       </div>
       <p className='bio'>{bio}</p>
       <div className='followers'>
-        0 followers
+        {followersCount} followers
       </div>
 
       {!variant || variant !== 'OTHER' && (

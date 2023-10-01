@@ -1,8 +1,5 @@
-'use client'
-
 import { getUser } from '@/libs/actions/user.actions'
-import { useParams, useRouter } from 'next/navigation'
-import { Suspense, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import ProfileHeader from '../../components/header/ProfileHeader'
 import ProfileInfo from '../../components/info-section/ProfileInfo'
 import ProfileDisplay from '../../components/threads/ProfileDisplay'
@@ -13,44 +10,22 @@ import ThreadCard from '@/components/cards/thread/ThreadCard'
 import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
 import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
 import { getProfileThreads } from '@/libs/actions/threads.actions'
-import axios from 'axios'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
-interface UserProps {
-  _id: string,
-  name: string,
-  username: string,
-  bio: string,
-  image: string,
-  isPrivate: boolean,
-  isCurrentUser: boolean
-}
-
-const ProfileExtaPage = () => {
-  const router = useRouter()
-  const params = useParams()
+const ProfileExtaPage = async ({ params }: { params: { username: string } }) => {
+  const { username } = params
 
   const getParamsUsername = () => {
-    if (Array.isArray(params.username)) {
-      return params.username[0].slice(3)
+    if (Array.isArray(username)) {
+      return username[0].slice(3)
     }
-
-    return params.username.slice(3)
+    
+    return username.slice(3)
   }
 
-  const [user, setUser] = useState<UserProps>()
-  const [threads, setThreads] = useState<any>()
-
-  useEffect(() => {
-    axios.post('/api/threads', { username: getParamsUsername()})
-    .then((res) => {
-      setThreads(res.data.threads)
-      setUser(res.data.user)
-    })
-    .catch((err) => console.log(err))
-  }, [])
-
-  if (user && user.isCurrentUser) router.push('/profile')
+  const user = await getUser(getParamsUsername())
+  const currentUser = await getUser()
+  const threads = await getProfileThreads(user._id)
 
   return (
     <div className='page profile-page'>
@@ -62,12 +37,14 @@ const ProfileExtaPage = () => {
         <>
           <ProfileHeader isPrivate={user.isPrivate} variant='OTHER'/>
           <ProfileInfo 
+            currentUserId={currentUser._id.toString()}
             id={user._id.toString()}
             name={user.name}
             username={user.username}
             bio={user.bio}
             image={user.image}
             isPrivate={user.isPrivate}
+            followers={user.followers.map((item: any) => item.toString())}
             variant='OTHER'
           />
         </>
@@ -81,6 +58,7 @@ const ProfileExtaPage = () => {
           ) : (
             threads.threads.length && user ? threads.threads.map((item: any) => (
               <ThreadCard 
+                key={item._id.toString()}
                 id={item._id.toString()} 
                 currentUserId={user._id.toString()}
                 parentId={item.parentId}
