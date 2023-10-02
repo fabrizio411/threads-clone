@@ -100,11 +100,22 @@ export async function getOneThread(threadId: string) {
             })
             .populate({ 
                 path: 'children',
-                populate: {
-                    path: 'author',
-                    model: User,
-                    select: '_id username parentId image'
-                }
+                populate: [
+                    {
+                        path: 'author',
+                        model: User,
+                        select: '_id username parentId image'
+                    },
+                    {
+                        path: 'children',
+                        model: Thread,
+                        populate: {
+                            path: 'author',
+                            model: User,
+                            select: '_id username parentId image'
+                        }
+                    }
+                ]
             })
         
         const thread = await threadQuery.exec()
