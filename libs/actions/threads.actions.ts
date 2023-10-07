@@ -199,3 +199,36 @@ export async function likeThread({ isLike, threadId, authorId, from, path }: lik
         throw new Error(`GETTHREADS_ERROR ${error.message}`)
     }
 }
+
+interface createCommentProps {
+    parentId: string,
+    author: string,
+    body: string,
+    image: string,
+}
+
+export async function createComment({ parentId, author, body, image }: createCommentProps) {
+    try {
+        connectDB()
+
+        const createdThread = await Thread.create({
+            body,
+            image,
+            author,
+            parentId
+        })
+
+        await Thread.findByIdAndUpdate(
+            parentId,
+            { $push: { children: createdThread._id } }
+        )
+
+        await User.findByIdAndUpdate(
+            author,
+            { $push: { threads: createdThread._id } }
+        )
+
+    } catch (error: any) {
+        throw new Error(`CREATECOMMENT_ERROR ${error.message}`)
+    }
+}
