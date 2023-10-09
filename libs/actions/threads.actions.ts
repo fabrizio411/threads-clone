@@ -205,9 +205,10 @@ interface createCommentProps {
     author: string,
     body: string,
     image: string,
+    path: string
 }
 
-export async function createComment({ parentId, author, body, image }: createCommentProps) {
+export async function createComment({ parentId, author, body, image, path }: createCommentProps) {
     try {
         connectDB()
 
@@ -227,6 +228,8 @@ export async function createComment({ parentId, author, body, image }: createCom
             author,
             { $push: { threads: createdThread._id } }
         )
+
+        revalidatePath(path)
 
     } catch (error: any) {
         throw new Error(`CREATECOMMENT_ERROR ${error.message}`)

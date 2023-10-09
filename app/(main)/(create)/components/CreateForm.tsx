@@ -10,16 +10,18 @@ import { ThreadsValidation } from '@/libs/validations/threads'
 import { isBase64Image } from '@/libs/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import ConfirmationModal from '@/components/modals/confirmation/ConfirmationModal'
-import { createThread } from '@/libs/actions/threads.actions'
+import { createComment, createThread } from '@/libs/actions/threads.actions'
 
 interface CreateFormProps {
   username: string,
   image: string,
   isPrivate: boolean,
-  userId: string
+  userId: string,
+  isComment?: boolean,
+  parentId?: string 
 }
 
-const CreateForm: React.FC<CreateFormProps> = ({ username, image, isPrivate, userId }) => {
+const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, image, isPrivate, userId }) => {
   const pathname = usePathname()
   const router = useRouter()
   const textareaRef: any = useRef(null)
@@ -86,14 +88,25 @@ const CreateForm: React.FC<CreateFormProps> = ({ username, image, isPrivate, use
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    await createThread({
-      userId: userId,
-      body: data.body,
-      image: data.image,
-      path: pathname
-    })
+    if (isComment && parentId) {
+      await createComment({
+        parentId,
+        image: data.image,
+        author: userId,
+        body: data.body,
+        path: pathname
+      })
 
-    router.push('/')
+    } else {
+      await createThread({
+        userId: userId,
+        body: data.body,
+        image: data.image,
+        path: pathname
+      })
+
+      router.push('/')
+    }
   }
 
   return (
@@ -145,17 +158,23 @@ const CreateForm: React.FC<CreateFormProps> = ({ username, image, isPrivate, use
             <p className='char-control'>{textareaVal.length}/{maxCharacters} characters</p>
           </div>
         </div>
+        {!isComment ? (
+          <div className='desktop-buttons'>
+            <p className='text'>{isPrivate ? 'Only your followers can reply' : 'Everyone can reply'}</p>
+            <button className='btn' disabled={isLoading || !textareaVal}>Post</button>
+          </div>
+        ) : (
+          <button className='comment-submit-btn' disabled={isLoading || !textareaVal}>Reply</button>
+        )}
+      </div>
 
-        <div className='desktop-buttons'>
+      {!isComment && (
+        <div className='buttons'>
           <p className='text'>{isPrivate ? 'Only your followers can reply' : 'Everyone can reply'}</p>
           <button className='btn' disabled={isLoading || !textareaVal}>Post</button>
         </div>
-      </div>
+      )}
 
-      <div className='buttons'>
-        <p className='text'>{isPrivate ? 'Only your followers can reply' : 'Everyone can reply'}</p>
-        <button className='btn' disabled={isLoading || !textareaVal}>Post</button>
-      </div>
       
       <ConfirmationModal 
         isActive={isCancelModal}

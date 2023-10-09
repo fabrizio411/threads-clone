@@ -145,6 +145,30 @@
             }
         }
 
+        .comment-submit-btn {
+            background-color: transparent;
+            border: 1px solid $bg-border;
+            border-radius: 10px;
+            color: $text-1;
+            font-weight: 600;
+            height: 40px;
+            padding: 0 20px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $bg-hover;
+            }
+
+            &:disabled {
+                color: $text-3;
+                cursor: not-allowed;
+            }
+
+            &:disabled:hover {
+                background-color: transparent;
+            }
+        }
+
         .desktop-buttons {
             display: none;
         }
