@@ -7,25 +7,8 @@ export const formatDateString = (dateString: string) => {
     const oneWeekTime = oneDayTime * 7;
     const oneYearTime = 365 * 24 * 60 * 60 * 1000;
 
-    const options: Intl.DateTimeFormatOptions = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    }
-
     const date = new Date(dateString)
-    // const formattedDate = date.toLocaleDateString(undefined, options)
-    // const time = date.toLocaleTimeString([], {
-    //     hour: 'numeric',
-    //     minute: '2-digit'
-    // })
-
     const actualDate = new Date()
-    // const actualTime = actualDate.toLocaleTimeString([], {
-    //     hour: 'numeric',
-    //     minute: '2-digit'
-    // })
-
     const dateDiff = actualDate.getTime() - date.getTime()
 
     if (dateDiff < oneMinuteTime) {
@@ -40,11 +23,12 @@ export const formatDateString = (dateString: string) => {
     } else if (dateDiff < oneWeekTime) {
         result = Math.round((dateDiff) / (1000 * 60 * 60 * 24))
         unit = 'd'
-    } else if (dateDiff < oneWeekTime) {
+    } else if (dateDiff < oneYearTime) {
         result = Math.round((dateDiff) / (1000 * 60 * 60 * 24 * 7))
         unit = 'w'
-    } else if (dateDiff < oneYearTime) {
+    } else {
         result = actualDate.getFullYear()
+        unit = ''
     } 
 
     return `${result || ''}${unit}`

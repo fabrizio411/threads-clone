@@ -11,6 +11,9 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
   const formatedTime = formatDateString(createdAt)
   const hasComments = children.length > 0
 
+  let isComment = false
+  if (parentId) isComment = true
+
   return (
     <article className='thread-card-component'>
 
@@ -52,7 +55,7 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
           <div className='options-box'>
             <p className='time-display'>{formatedTime}</p>
             {author._id.toString() === currentUserId.toString() && (
-              <OptionsMenu threadsId={_id.toString()} />
+              <OptionsMenu threadsId={_id.toString()} isComment={isComment}/>
             )}
           </div>
         </div>

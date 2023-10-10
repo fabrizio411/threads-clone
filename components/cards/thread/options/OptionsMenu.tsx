@@ -3,14 +3,15 @@
 import { useState } from 'react'
 import './optionsmenu.scss'
 import ConfirmationModal from '@/components/modals/confirmation/ConfirmationModal'
-import { deleteThread } from '@/libs/actions/threads.actions'
+import { deleteComment, deleteThread } from '@/libs/actions/threads.actions'
 import { usePathname } from 'next/navigation'
 
 interface OptionsMenuProps {
-  threadsId: string
+  threadsId: string,
+  isComment?: boolean
 }
 
-const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId }) => {
+const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId, isComment }) => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false)
@@ -27,7 +28,12 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId }) => {
   }
 
   const handleConfirm = async () => {
-    await deleteThread(threadsId, pathname)
+    if (isComment) {
+      await deleteComment(threadsId, pathname)
+    } else {
+      await deleteThread(threadsId, pathname)
+    }
+    
     setIsDeleteModal(false)
     setIsOpen(false)
     document.body.classList.remove('block-scroll')

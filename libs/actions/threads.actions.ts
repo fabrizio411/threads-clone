@@ -5,6 +5,7 @@ import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectDB } from '../mongoose'
 import Notification from '../models/notification.model'
+import { string } from 'zod'
 
 interface createThreadProps {
     userId: string,
@@ -86,6 +87,24 @@ export async function deleteThread(threadId: string, path: string) {
     } catch (error: any) {
         throw new Error(`DELETETHREAD_ERROR ${error.message}`)
     }
+}
+
+export async function deleteComment(commentId: string, path: string){
+    try {
+        connectDB()
+
+        const deletedThread = await Thread.findByIdAndDelete(commentId)
+
+        await Thread.findByIdAndUpdate(
+            deletedThread.parentId,
+            { $pull: { children: commentId }}
+        )
+
+        revalidatePath(path)
+        
+    } catch (error: any) {
+        throw new Error(`DELETECOMMENT_ERROR ${error.message}`)
+    } 
 }
 
 export async function getOneThread(threadId: string) {
