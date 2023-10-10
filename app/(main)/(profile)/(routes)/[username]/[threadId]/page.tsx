@@ -5,7 +5,6 @@ import { getUser } from '@/libs/actions/user.actions'
 import './style.scss'
 import CreateForm from '@/app/(main)/(create)/components/CreateForm'
 import { ThreadType } from '@/libs/types'
-import { formatDateString } from '@/libs/utils'
 
 const ThreadPage = async ({ params }: { params: { username: string, threadId: string } }) => {
   const { threadId } = params
@@ -46,6 +45,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
               isPrivate={user.isPrivate} 
               isComment 
               parentId={threadIdFormated}
+              parentAuthor={thread.author._id.toString()}
             />
           </div>
 

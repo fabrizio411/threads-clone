@@ -5,7 +5,6 @@ import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectDB } from '../mongoose'
 import Notification from '../models/notification.model'
-import { string } from 'zod'
 
 interface createThreadProps {
     userId: string,
@@ -195,11 +194,11 @@ export async function likeThread({ isLike, threadId, authorId, from, path }: lik
         connectDB()
 
         if (isLike) {
-            // await Notification.create({
-            //     user: authorId,
-            //     from: from,
-            //     type: 'like'
-            // })
+            await Notification.create({
+                user: authorId,
+                from: from,
+                variant: 'like'
+            })
 
             await Thread.findByIdAndUpdate(
                 threadId,
@@ -221,13 +220,14 @@ export async function likeThread({ isLike, threadId, authorId, from, path }: lik
 
 interface createCommentProps {
     parentId: string,
+    parentAuthor: string,
     author: string,
     body: string,
     image: string,
     path: string
 }
 
-export async function createComment({ parentId, author, body, image, path }: createCommentProps) {
+export async function createComment({ parentId, parentAuthor, author, body, image, path }: createCommentProps) {
     try {
         connectDB()
 
@@ -247,6 +247,12 @@ export async function createComment({ parentId, author, body, image, path }: cre
             author,
             { $push: { threads: createdThread._id } }
         )
+
+        await Notification.create({
+            user: parentAuthor,
+            from: author,
+            variant: 'comment'
+        })
 
         revalidatePath(path)
 

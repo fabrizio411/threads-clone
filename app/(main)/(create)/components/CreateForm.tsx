@@ -17,10 +17,11 @@ interface CreateFormProps {
   isPrivate: boolean,
   userId: string,
   isComment?: boolean,
-  parentId?: string 
+  parentId?: string,
+  parentAuthor?: string
 }
 
-const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, image, isPrivate, userId }) => {
+const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComment, username, image, isPrivate, userId }) => {
   const pathname = usePathname()
   const router = useRouter()
   const textareaRef: any = useRef(null)
@@ -86,10 +87,11 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if (isComment && parentId) {
+    if (isComment && parentId && parentAuthor) {
       setIsLoading(true)
       await createComment({
         parentId,
+        parentAuthor: parentAuthor,
         image: data.image,
         author: userId,
         body: data.body,

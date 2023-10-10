@@ -40,3 +40,17 @@ export type ThreadType = {
     currentUserId: boolean,
     vairant?: string
 }
+
+export type NotificationType = {
+    _id: string,
+    user: string,
+    from: {
+        _id: string,
+        username: string,
+        image: string,
+    },
+    variant: string,
+    createdAt: string
+}
+
+export type NotificationVariant = 'follow' | 'follow request' | 'follow accepted' | 'like' | 'comment' | 'repost' | 'quote'

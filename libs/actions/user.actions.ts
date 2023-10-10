@@ -108,11 +108,11 @@ export async function followUser({ isFollow, currentUserId, userToFollowId, path
                 { $push: { followers: currentUserId } }
             )
 
-            // await Notification.create({
-            //     user: userToFollowId,
-            //     from: currentUserId,
-            //     type: 'follow'
-            // })
+            await Notification.create({
+                user: userToFollowId,
+                from: currentUserId,
+                variant: 'follow'
+            })
 
         } else {
             await User.findByIdAndUpdate(
@@ -143,11 +143,11 @@ export async function followPrivateUser({ isFollow, currentUserId, userToFollowI
                 { $push: { followRequests: currentUserId } }
             )
     
-            // await Notification.create({
-            //     user: userToFollowId,
-            //     from: currentUserId,
-            //     type: 'follow request'
-            // })
+            await Notification.create({
+                user: userToFollowId,
+                from: currentUserId,
+                variant: 'follow request'
+            })
             
         } else {
             await User.findByIdAndUpdate(
@@ -155,11 +155,11 @@ export async function followPrivateUser({ isFollow, currentUserId, userToFollowI
                 { $pull: { followRequests: currentUserId }}
             )
 
-            // await Notification.findOneAndDelete({ 
-            //     from: currentUserId, 
-            //     user: userToFollowId, 
-            //     type: 'follow request' 
-            // })
+            await Notification.findOneAndDelete({ 
+                from: currentUserId, 
+                user: userToFollowId, 
+                variant: 'follow request' 
+            })
         }
 
     } catch (error: any) {
