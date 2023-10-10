@@ -13,10 +13,15 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, body, backText, confirmPath, confirmText, closeModal, isActive, confirmFunction }) => {
-  const positionY = window.scrollY
+  let positionY = 0
+  if (isActive) positionY = window.scrollY
 
   const thisStyles = {
     top: `${positionY}px`
+  }
+
+  if (isActive) {
+    document.body.classList.add('block-scroll')
   }
 
   return (

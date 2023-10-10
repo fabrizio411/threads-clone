@@ -1,5 +1,26 @@
 @import '/sass/var';
 
 .thread-page {
-    width: $content-width;
+    margin-top: 50px;
+    width: 95%;
+
+    .form-container {
+        border: 1px solid $bg-border;
+        border-radius: 15px;
+    }
+
+    .comments-section {
+        padding-bottom: 50px;
+    }
+}
+
+@media (min-width: 600px) {
+    .thread-page {
+        margin-top: 0;
+        width: $content-width;
+
+        .comments-section {
+            padding-bottom: 0;
+        }
+    }
 }

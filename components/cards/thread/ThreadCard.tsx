@@ -74,7 +74,7 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
         <div className='interactions-info'>
           {hasComments && (
             <>
-              <p className='replies interaction'>{children.length} replies</p>
+              <Link href={`/@${author.username}/${_id}`} className='replies interaction'>{children.length} replies</Link>
               <span>-</span>
             </>
           )}

@@ -63,6 +63,7 @@
             }
 
             .textarea {
+                width: 100%;
                 resize: none;
                 overflow-y: hidden;
                 background-color: transparent;
@@ -154,6 +155,7 @@
             height: 40px;
             padding: 0 20px;
             cursor: pointer;
+            align-self: flex-end;
 
             &:hover {
                 background-color: $bg-hover;
@@ -207,6 +209,10 @@
                 }
             }
         }
+    }
+
+    .form-display.comment {
+        padding-bottom: 15px;
     }
 
     .buttons {

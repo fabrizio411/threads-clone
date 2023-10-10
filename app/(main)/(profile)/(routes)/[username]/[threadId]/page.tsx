@@ -1,11 +1,11 @@
-import ThreadCard from "@/components/cards/thread/ThreadCard"
-import { getOneThread } from "@/libs/actions/threads.actions"
-import { getUser } from "@/libs/actions/user.actions"
+import ThreadCard from '@/components/cards/thread/ThreadCard'
+import { getOneThread } from '@/libs/actions/threads.actions'
+import { getUser } from '@/libs/actions/user.actions'
 
 import './style.scss'
-import CreateForm from "@/app/(main)/(create)/components/CreateForm"
-import { ThreadType } from "@/libs/types"
-import { formatDateString } from "@/libs/utils"
+import CreateForm from '@/app/(main)/(create)/components/CreateForm'
+import { ThreadType } from '@/libs/types'
+import { formatDateString } from '@/libs/utils'
 
 const ThreadPage = async ({ params }: { params: { username: string, threadId: string } }) => {
   const { threadId } = params
@@ -23,8 +23,6 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
   const thread = await getOneThread(threadIdFormated)
   const user = await getUser()
 
-  console.log(thread.children)
-
   return (
     <section className='page thread-page'>
       {!thread.author.isPrivate ? (
@@ -40,15 +38,16 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
             currentUserId={user._id.toString()}
             vairant='PAGE'
           />
-
-          <CreateForm 
-            userId={user._id.toString()} 
-            image={user.image} 
-            username={user.username} 
-            isPrivate={user.isPrivate} 
-            isComment 
-            parentId={threadIdFormated}
-          />
+          <div className='form-container'>
+            <CreateForm 
+              userId={user._id.toString()} 
+              image={user.image} 
+              username={user.username} 
+              isPrivate={user.isPrivate} 
+              isComment 
+              parentId={threadIdFormated}
+            />
+          </div>
 
           <div className='comments-section'>
             {thread.children.map((item: ThreadType) => (

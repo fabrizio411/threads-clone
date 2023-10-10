@@ -23,12 +23,14 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId }) => {
   const handleDeleteModal = () => {
     if (isDeleteModal) setIsDeleteModal(false)
     else setIsDeleteModal(true)
+    document.body.classList.remove('block-scroll')
   }
 
   const handleConfirm = async () => {
     await deleteThread(threadsId, pathname)
     setIsDeleteModal(false)
     setIsOpen(false)
+    document.body.classList.remove('block-scroll')
   }
 
   return (

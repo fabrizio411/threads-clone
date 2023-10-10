@@ -7,7 +7,6 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useForm, Controller, SubmitHandler, FieldValues } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ThreadsValidation } from '@/libs/validations/threads'
-import { isBase64Image } from '@/libs/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import ConfirmationModal from '@/components/modals/confirmation/ConfirmationModal'
 import { createComment, createThread } from '@/libs/actions/threads.actions'
@@ -29,7 +28,6 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
   const [textareaVal, setTextareaVal] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isCancelModal, setIsCancelModal] = useState<boolean>(false)
-  const [imageError, setImageError] = useState<string>('')
 
   const { register, control, watch, reset, formState: {errors}, setValue, handleSubmit } = useForm<FieldValues>({
     resolver: zodResolver(ThreadsValidation),
@@ -89,6 +87,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (isComment && parentId) {
+      setIsLoading(true)
       await createComment({
         parentId,
         image: data.image,
@@ -96,6 +95,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
         body: data.body,
         path: pathname
       })
+      .finally(() => setIsLoading(false))
 
       reset()
 
@@ -123,13 +123,13 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
         </div>
       </div>
 
-      <div className='form-display'>
+      <div className={`form-display ${isComment && 'comment'}`}>
         <div className='image-box'>
           <Image alt='profile photo' src={image || '/images/placeholder.jpg'} fill/>
         </div>
         <div className='input-box'>
           <p className='username'>@{username}</p>
-          <textarea autoFocus className='textarea' disabled={isLoading} rows={1} placeholder={`Start a ${isComment ? 'comment' : 'thread'}...`} onChange={(e) => handleChange(e)} ref={textareaRef}/>
+          <textarea autoFocus={pathname === '/create'} className='textarea' disabled={isLoading} rows={1} placeholder={`Start a ${isComment ? 'comment' : 'thread'}...`} onChange={(e) => handleChange(e)} ref={textareaRef}/>
           <input hidden {...register('body')}/>
           <div className='extra-box'>
 
@@ -140,9 +140,6 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
                 <div className='file-input-box'>
                   {field.value && (
                     <div className='file-box'>
-                      {imageError && (
-                        <p className='error-msg'>{imageError}</p>
-                      )}
                       <Image alt='uploaded file' style={{borderRadius: '15px', width: '250px', height: 'auto'}} src={field.value} width={300} height={200} />
                       <div className='close-btn' onClick={() => {setValue('image', '')}}>
                         <CloseIcon />

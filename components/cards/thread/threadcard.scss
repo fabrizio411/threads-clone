@@ -140,7 +140,12 @@
             color: $text-3;
             margin-top: 5px;
 
+
             .interaction {
+                text-decoration: none;
+                color: $text-3;
+                cursor: pointer;
+
                 &:hover {
                     text-decoration: underline;
                 }
