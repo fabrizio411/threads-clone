@@ -7,9 +7,9 @@ import OptionsMenu from './options/OptionsMenu'
 import ActionsMenu from './actions/ActionsMenu'
 import './threadcard.scss'
 
-const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content, image, author, createdAt, comments, likes, vairant }) => {
+const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, image, author, createdAt, children, likes, vairant }) => {
   const formatedTime = formatDateString(createdAt)
-  const hasComments = comments.length > 0
+  const hasComments = children.length > 0
 
   return (
     <article className='thread-card-component'>
@@ -24,14 +24,14 @@ const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content
           )}
           {hasComments && (
             <div className='comments-imgs'>
-              {comments.length > 1 ? (
+              {children.length > 1 ? (
                 <div className='multiple-comments-box'>
-                  <Image className='img bottom' alt='profile photo' src={comments[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
-                  <Image className='img top' alt='profile photo' src={comments[1].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img bottom' alt='profile photo' src={children[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img top' alt='profile photo' src={children[1].author.image || '/images/placeholder.jpg'} height={20} width={20} />
                 </div>
               ) : (
                 <div className='single-comment-box'>
-                  <Image className='img' alt='profile photo' src={comments[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img' alt='profile photo' src={children[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
                 </div>
               )}
             </div>
@@ -52,12 +52,12 @@ const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content
           <div className='options-box'>
             <p className='time-display'>{formatedTime}</p>
             {author._id.toString() === currentUserId.toString() && (
-              <OptionsMenu threadsId={id.toString()} />
+              <OptionsMenu threadsId={_id.toString()} />
             )}
           </div>
         </div>
         <div className='content'>
-          <p className='body'>{content}</p>
+          <p className='body'>{body}</p>
           {image && (
             <Image alt='attached image' style={{borderRadius: '10px', width: '250px', height: 'auto', marginTop: '10px'}} src={image} width={300} height={200} />
           )}
@@ -65,7 +65,7 @@ const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content
 
         <ActionsMenu 
           authorUsername={author.username} 
-          threadId={id.toString()}
+          threadId={_id.toString()}
           authorId={author._id.toString()}
           currentUserId={currentUserId.toString()}
           likes={likes}
@@ -74,7 +74,7 @@ const ThreadCard: React.FC<ThreadType> = ({ id, currentUserId, parentId, content
         <div className='interactions-info'>
           {hasComments && (
             <>
-              <p className='replies interaction'>{comments.length} replies</p>
+              <p className='replies interaction'>{children.length} replies</p>
               <span>-</span>
             </>
           )}

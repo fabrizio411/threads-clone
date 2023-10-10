@@ -31,7 +31,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
   const [isCancelModal, setIsCancelModal] = useState<boolean>(false)
   const [imageError, setImageError] = useState<string>('')
 
-  const { register, control, watch, formState: {errors}, setValue, handleSubmit } = useForm<FieldValues>({
+  const { register, control, watch, reset, formState: {errors}, setValue, handleSubmit } = useForm<FieldValues>({
     resolver: zodResolver(ThreadsValidation),
     defaultValues: {
       body: '',
@@ -97,6 +97,8 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
         path: pathname
       })
 
+      reset()
+
     } else {
       await createThread({
         userId: userId,
@@ -127,7 +129,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, isComment, username, 
         </div>
         <div className='input-box'>
           <p className='username'>@{username}</p>
-          <textarea autoFocus className='textarea' disabled={isLoading} rows={1} placeholder='Start a thread...' onChange={(e) => handleChange(e)} ref={textareaRef}/>
+          <textarea autoFocus className='textarea' disabled={isLoading} rows={1} placeholder={`Start a ${isComment ? 'comment' : 'thread'}...`} onChange={(e) => handleChange(e)} ref={textareaRef}/>
           <input hidden {...register('body')}/>
           <div className='extra-box'>
 

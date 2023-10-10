@@ -13,14 +13,14 @@ const HomePage = async () => {
       {result.threads.map(thread => (
         <ThreadCard 
           key={thread._id}
-          id={thread._id}
+          _id={thread._id}
           currentUserId={user._id}
           parentId={thread.parentId}
-          content={thread.body}
+          body={thread.body}
           image={thread.image}
           author={thread.author}
           createdAt={thread.createdAt}
-          comments={thread.children}
+          children={thread.children}
           likes={thread.likes.map((item: any) => item.toString())}
         />
       ))}

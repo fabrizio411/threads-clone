@@ -18,8 +18,8 @@ export type UserType = {
 }
 
 export type ThreadType = {
-    id: string,
-    content: string,
+    _id: string,
+    body: string,
     image: string,
     author: {
         _id: string,
@@ -28,7 +28,7 @@ export type ThreadType = {
     },
     likes: string[],
     parentId?: string,
-    comments: {
+    children: {
         author: {
             id: string
             username: string

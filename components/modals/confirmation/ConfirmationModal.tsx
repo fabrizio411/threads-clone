@@ -13,8 +13,14 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ title, body, backText, confirmPath, confirmText, closeModal, isActive, confirmFunction }) => {
+  const positionY = window.scrollY
+
+  const thisStyles = {
+    top: `${positionY}px`
+  }
+
   return (
-    <div className={`confirmation-modal ${isActive && 'active'}`}>
+    <div className={`confirmation-modal ${isActive && 'active'}`} style={thisStyles}>
       <div className='overlay' onClick={closeModal}></div>
       <div className='content'>
 

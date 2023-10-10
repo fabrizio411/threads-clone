@@ -3,7 +3,9 @@ import { getOneThread } from "@/libs/actions/threads.actions"
 import { getUser } from "@/libs/actions/user.actions"
 
 import './style.scss'
-import Comments from "./components/Comments"
+import CreateForm from "@/app/(main)/(create)/components/CreateForm"
+import { ThreadType } from "@/libs/types"
+import { formatDateString } from "@/libs/utils"
 
 const ThreadPage = async ({ params }: { params: { username: string, threadId: string } }) => {
   const { threadId } = params
@@ -21,29 +23,49 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
   const thread = await getOneThread(threadIdFormated)
   const user = await getUser()
 
+  console.log(thread.children)
+
   return (
     <section className='page thread-page'>
       {!thread.author.isPrivate ? (
         <>
           <ThreadCard 
-            id={thread._id.toString()}
-            content={thread.body}
+            _id={thread._id.toString()}
+            body={thread.body}
             image={thread.image}
             author={thread.author}
             likes={thread.likes.map((item: any) => item.toString())}
-            comments={thread.children}
+            children={thread.children}
             createdAt={thread.createdAt}
             currentUserId={user._id.toString()}
             vairant='PAGE'
           />
 
-          <Comments 
-            id={user._id.toString()} 
+          <CreateForm 
+            userId={user._id.toString()} 
+            image={user.image} 
             username={user.username} 
-            image={user.image}
-            isPrivate={user.isPrivate}
+            isPrivate={user.isPrivate} 
+            isComment 
             parentId={threadIdFormated}
           />
+
+          <div className='comments-section'>
+            {thread.children.map((item: ThreadType) => (
+              <ThreadCard 
+                key={item._id.toString()}
+                _id={item._id.toString()}
+                body={item.body}
+                image={item.image}
+                author={item.author}
+                parentId={item.parentId}
+                createdAt={formatDateString(item.createdAt)}
+                currentUserId={user._id}
+                likes={item.likes}
+                children={item.children}
+              />
+            ))}
+          </div>
         </>
       ) : (
         <div>Not allowed</div>

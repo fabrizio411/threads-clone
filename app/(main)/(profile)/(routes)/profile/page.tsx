@@ -47,14 +47,14 @@ const ProfilePage = async () => {
             threads.threads.length && user ? threads.threads.map((item: any) => (
               <ThreadCard 
                 key={item._id.toString()}
-                id={item._id.toString()} 
+                _id={item._id.toString()} 
                 currentUserId={user._id.toString()}
                 parentId={item.parentId}
-                content={item.body}
+                body={item.body}
                 image={item.image}
                 author={item.author}
                 createdAt={item.createdAt}
-                comments={item.children}
+                children={item.children}
                 likes={item.likes.map((item: any) => item.toString())}
               />
             )) : (
