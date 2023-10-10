@@ -67,7 +67,10 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
           </div>
         </>
       ) : (
-        <div>Not allowed</div>
+        <>
+          <h1 className='not-allowed-msg'>This profile is private.</h1>
+          <p className='not-allowed-msg subtitle'>You are not allowed to see this thread.</p>
+        </>
       )}
     </section>
   )

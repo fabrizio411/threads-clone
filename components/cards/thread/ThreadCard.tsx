@@ -71,19 +71,11 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
           threadId={_id.toString()}
           authorId={author._id.toString()}
           currentUserId={currentUserId.toString()}
-          likes={likes}
+          likes={likes.map((item: any) => item.toString())}
+          replies={children.length}
+          hasComments={hasComments}
         />
-
-        <div className='interactions-info'>
-          {hasComments && (
-            <>
-              <Link href={`/@${author.username}/${_id}`} className='replies interaction'>{children.length} replies</Link>
-              <span>-</span>
-            </>
-          )}
-          <p className='likes interaction'>{likes.length} likes</p>
-        </div>
-
+        
       </div>
 
     </article>

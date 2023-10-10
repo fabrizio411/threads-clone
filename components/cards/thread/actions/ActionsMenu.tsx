@@ -16,16 +16,20 @@ interface ActionsMenuProps {
   threadId: string,
   authorId: string,
   currentUserId: string,
-  likes: string[]
+  likes: string[],
+  replies: number,
+  hasComments: boolean
 }
 
-const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes }) => {
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes, replies, hasComments }) => {
   const pathname = usePathname()
+  const [likesNum, setLikesNum] = useState<number>(likes.length)
   const [isLiked, setIsLiked] = useState<boolean>(likes.includes(currentUserId) || false)
 
   const handleLike = async () => {
     if (isLiked) {
       setIsLiked(false)
+      setLikesNum(likesNum - 1)
       await likeThread({
         isLike: false,
         threadId: threadId,
@@ -36,6 +40,7 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId
     }
     else {
       setIsLiked(true)
+      setLikesNum(likesNum + 1)
       await likeThread({
         isLike: true,
         threadId: threadId,
@@ -47,17 +52,29 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId
   }
 
   return (
-    <div className='action-menu-component'>
-      <div className='action-btn' onClick={handleLike}>
-        <LikeIcon isLiked={isLiked} />
+    <>
+      <div className='action-menu-component'>
+        <div className='action-btn' onClick={handleLike}>
+          <LikeIcon isLiked={isLiked} />
+        </div>
+        <Link href={`/@${authorUsername}/${threadId}`} className='action-btn'>
+          <CommentIcon />
+        </Link>
+        <div className='action-btn'>
+          <RepostIcon />
+        </div>
       </div>
-      <Link href={`/@${authorUsername}/${threadId}`} className='action-btn'>
-        <CommentIcon />
-      </Link>
-      <div className='action-btn'>
-        <RepostIcon />
-      </div>
-    </div>
+
+      <div className='interactions-info'>
+          {hasComments && (
+            <>
+              <Link href={`/@${authorUsername}/${threadId}`} className='replies interaction'>{replies} replies</Link>
+              <span>-</span>
+            </>
+          )}
+          <p className='likes interaction'>{likesNum} likes</p>
+        </div>
+    </>
   )
 }
 

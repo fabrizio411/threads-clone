@@ -12,6 +12,19 @@
     .comments-section {
         padding-bottom: 50px;
     }
+
+    .not-allowed-msg {
+        text-align: center;
+        font-size: 1.2rem;
+        color: $text-2;
+        margin-top: 70px;
+    }
+
+    .not-allowed-msg.subtitle {
+        margin-top: 8px;
+        font-size: 1rem;
+        color: $text-3;
+    }
 }
 
 @media (min-width: 600px) {
