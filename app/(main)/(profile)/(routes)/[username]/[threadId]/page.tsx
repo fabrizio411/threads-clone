@@ -24,9 +24,11 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
 
   const parentThread = await getOneThread(thread.parentId)
 
+  const isFollowing = user.following.includes(thread.author._id)
+
   return (
     <section className='page thread-page'>
-      {!thread.author.isPrivate ? (
+      {!thread.author.isPrivate || isFollowing ? (
         <>
           {parentThread && (
             <ThreadCard 

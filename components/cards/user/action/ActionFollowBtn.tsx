@@ -20,7 +20,15 @@ const ActionFollowBtn: React.FC<ActionFollowBtnProps> = ({ currentUserId, id, is
 
   const handleFollow = async () => {
     if (isPrivate) {
-      if (isPendingState) {
+      if (isFollowingState) {
+        setIsFollowing(false)
+        await followUser({
+          isFollow: false,
+          currentUserId: currentUserId,
+          userToFollowId: id,
+          path: pathname
+        })
+      } else if (isPendingState) {
         setIsPending(false)
         await followPrivateUser({
           isFollow: false,

@@ -18,7 +18,7 @@ const ProfilePage = async () => {
 
   return (
     <div className='page profile-page'>
-{!user ? (
+      {!user ? (
         <div className='profile-loading'>
           <LoadingSpinner height='30px' width='30px' />
         </div>
@@ -72,7 +72,8 @@ const ProfilePage = async () => {
           ) : (
             replies.replies.length && user ? replies.replies.map((item: any) => (
               <>
-                <ThreadCard 
+                <ThreadCard
+                  key={item.parentId._id.toString()} 
                   _id={item.parentId._id.toString()}
                   body={item.parentId.body}
                   image={item.parentId.image}
@@ -84,6 +85,7 @@ const ProfilePage = async () => {
                   vairant='PARENT'
                 />
                 <ThreadCard 
+                  key={item._id.toString()}
                   _id={item._id.toString()}
                   body={item.body}
                   image={item.image}
