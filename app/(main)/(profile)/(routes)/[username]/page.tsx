@@ -12,6 +12,7 @@ import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 import '../profile/style.scss'
 import { redirect } from 'next/navigation'
+import NotFound from '@/components/notfound/NotFound'
 
 const ProfileExtaPage = async ({ params }: { params: { username: string } }) => {
   const { username } = params
@@ -25,7 +26,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
   }
 
   const user = await getUser(getParamsUsername())
-  if (!user) return null
+  if (!user) return <NotFound />
   
   const currentUser = await getUser()
   const threads = await getProfileThreads(user._id)
