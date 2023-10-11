@@ -22,10 +22,25 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
   const thread = await getOneThread(threadIdFormated)
   const user = await getUser()
 
+  const parentThread = await getOneThread(thread.parentId)
+
   return (
     <section className='page thread-page'>
       {!thread.author.isPrivate ? (
         <>
+          {parentThread && (
+            <ThreadCard 
+              _id={parentThread._id.toString()}
+              body={parentThread.body}
+              image={parentThread.image}
+              author={parentThread.author}
+              likes={parentThread.likes.map((item: any) => item.toString())}
+              children={parentThread.children}
+              createdAt={parentThread.createdAt}
+              currentUserId={user._id.toString()}
+              vairant='PARENT'
+            />
+          )}
           <ThreadCard 
             _id={thread._id.toString()}
             body={thread.body}

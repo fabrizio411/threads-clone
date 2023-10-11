@@ -15,17 +15,17 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
   if (parentId) isComment = true
 
   return (
-    <article className='thread-card-component'>
+    <article className={`thread-card-component ${vairant === 'PARENT' && 'parent'}`}>
 
       {vairant !== 'PAGE' && (
         <div className='left-section'>
-          <Link href={`/@${author.username}`} className='image-box'>
+          <Link href={`/@${author.username}`} className={`image-box ${vairant === 'PARENT' && 'parent'}`}>
             <Image alt='profile photo' src={author.image || '/images/placeholder.jpg'} fill />
           </Link>
           {hasComments && (
-            <div className='thread-bar'></div>
+            <div className={`thread-bar ${vairant === 'PARENT' && 'full-bar'}`}></div>
           )}
-          {hasComments && (
+          {hasComments && vairant !== 'PARENT' && (
             <div className='comments-imgs'>
               {children.length > 1 ? (
                 <div className='multiple-comments-box'>

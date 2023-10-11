@@ -9,7 +9,6 @@ import './actionsmenu.scss'
 import Link from 'next/link'
 import { likeThread } from '@/libs/actions/threads.actions'
 import { usePathname } from 'next/navigation'
-import path from 'path'
 
 interface ActionsMenuProps {
   authorUsername: string,

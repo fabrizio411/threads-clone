@@ -18,6 +18,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+        position: relative;
 
         .image-box {
             position: relative;
@@ -27,11 +28,25 @@
             overflow: hidden;
         }
 
+        .image-box.parent {
+            height: 60px;
+            width: 60px;
+        }
+
         .thread-bar {
             background-color: $bg-border;
             width: 2px;
             flex: 1;
             margin: 5px 0;
+        }
+
+        .thread-bar.full-bar {
+            flex: none;
+            height: 90%;
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .comments-imgs {
@@ -152,4 +167,13 @@
             }
         }
     }
+}
+
+.thread-card-component.parent {
+    border-bottom: none;
+    margin-bottom: 20px;
+}
+
+.thread-card-component.parent + .thread-card-component {
+    border-top: none;
 }

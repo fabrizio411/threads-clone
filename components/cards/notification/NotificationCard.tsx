@@ -22,14 +22,6 @@ interface NotificationCardProps {
 const NotificationCard: React.FC<NotificationCardProps> = ({ _id, variant, from, createdAt }) => {
   const time = formatDateString(createdAt)
 
-  const handleDeleteRequest = async () => {
-    await deleteFollowRequest(_id)
-  }
-
-  const handleConfirmRequest = async () => {
-    await acceptFollowRequest(_id)
-  }
-
   return (
     <article className='notification-card-component'>
       <div className='notification-container'>
