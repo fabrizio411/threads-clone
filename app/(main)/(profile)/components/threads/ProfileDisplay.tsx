@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import './profiledisplay.scss'
 
-const ProfileDisplay = ({ children, isPrivate }: { children: React.ReactNode, isPrivate: boolean }) => {
+const ProfileDisplay = ({ children, isPrivate, isFollowing }: { children: React.ReactNode, isPrivate: boolean, isFollowing: boolean }) => {
   const [current, setCurrent] = useState<string>('THREADS')
 
   let borderPosition
@@ -27,23 +27,23 @@ const ProfileDisplay = ({ children, isPrivate }: { children: React.ReactNode, is
   return (
     <section className='profile-display-component'>
       <div className='section-nav'>
-        {!isPrivate ? (
+        {isPrivate && !isFollowing ? (
+          <>
+            <p className='section-title'>Threads</p>
+            <p className='section-title'>Replies</p>        
+            <p className='section-title'>Reposts</p>          
+          </>
+        ) : (
           <>
             <p className={`section-title ${current === 'THREADS' && 'active'}`} onClick={() => setCurrent('THREADS')}>Threads</p>
             <p className={`section-title ${current === 'REPLIES' && 'active'}`} onClick={() => setCurrent('REPLIES')}>Replies</p>
             <p className={`section-title ${current === 'REPOSTS' && 'active'}`} onClick={() => setCurrent('REPOSTS')}>Reposts</p>
             <div className='border' style={borderStyles}></div>
           </>
-        ) : (
-          <>
-            <p className='section-title'>Threads</p>
-            <p className='section-title'>Replies</p>        
-            <p className='section-title'>Reposts</p>          
-          </>
         )}
       </div>
       <div className='content-display-box'>
-        <div className={`content ${isPrivate && 'private'}`} style={contentStyles}>
+        <div className={`content ${isPrivate && !isFollowing && 'private'}`} style={contentStyles}>
           {children}
         </div>
       </div>

@@ -11,10 +11,12 @@ const ActivityPage = async () => {
     <section className='page activity-page'>
       {notifications.map((item: any) => (
         <NotificationCard 
+          key={item._id.toString()}
           variant={item.variant}
           from={item.from}
           createdAt={item.createdAt}
           currentUserId={item.user.toString()}
+          _id={item._id.toString()}
         />
       ))}
     </section>

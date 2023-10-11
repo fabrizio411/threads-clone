@@ -1,0 +1,68 @@
+@import '/sass/var';
+
+.notification-card-component {
+    width: 100%;
+    padding: 15px;
+    border-bottom: 1px solid $bg-border;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .notification-container {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .image {
+            border-radius: 100%;
+        }
+
+        .info-box {
+            .user-info {
+                display: flex;
+                gap: 10px;
+                align-items: baseline;
+
+                .username {
+                    font-weight: 600;
+                    color: $text-1;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                .time {
+                    font-size: .9rem;
+                    color: $text-3;
+                }
+            }
+
+            .notification-info {
+                font-size: .9rem;
+                color: $text-2;
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .actions-btns {
+        display: flex;
+        gap: 5px;
+
+        .btn {
+            border: 1px solid $bg-border;
+            border-radius: 10px;
+            background-color: transparent;
+            cursor: pointer;
+            color: $text-2;
+            font-size: .9rem;
+            padding: 8px 20px;
+
+            &:hover {
+                background-color: $bg-hover;
+            }
+        }
+    }
+}

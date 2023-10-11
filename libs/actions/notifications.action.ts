@@ -1,9 +1,9 @@
 'use server'
 
-import Notification from "../models/notification.model"
-import User from "../models/user.model"
-import { connectDB } from "../mongoose"
-import { NotificationType } from "../types"
+import { revalidatePath } from 'next/cache'
+import Notification from '../models/notification.model'
+import User from '../models/user.model'
+import { connectDB } from '../mongoose'
 
 export async function getNotifications(userId: string) {
     try {
@@ -37,5 +37,23 @@ export async function getNotificationNumber(userId: string) {
     } catch (error: any) {
         throw new Error(`GETNOTIFICATONNUMBER_ERROR: ${error.message}`)
         
+    }
+}
+
+export async function deleteFollowRequest(notificationId: string) {
+    try {
+        connectDB()
+
+        const deletedNotification = await Notification.findByIdAndDelete(notificationId)
+
+        await User.findByIdAndUpdate(
+            deletedNotification.user,
+            { $pull: { followRequests: deletedNotification.from }}
+        )
+
+        revalidatePath('/activity')
+        
+    } catch (error: any) {
+        throw new Error(`DELETENOTIFICATION_ERROR: ${error.message}`)
     }
 }

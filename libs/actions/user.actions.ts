@@ -37,17 +37,8 @@ export async function getUser(username?: string) {
 
         if (!user) return null
 
-        return {
-            _id: user._id.toString(),
-            name: user.name,
-            username: user.username,
-            bio: user.bio,
-            image: user.image,
-            isPrivate: user.isPrivate,
-            isCurrentUser: user._id.toString() === currentUser._id.toString(),
-            followers: user.followers,
-            followRequests: user.followRequests,
-        }
+        return user
+        
     } catch (error) {
         return null
     }
@@ -164,5 +155,41 @@ export async function followPrivateUser({ isFollow, currentUserId, userToFollowI
 
     } catch (error: any) {
         throw new Error(`FOLLOW_USER_ERROR: ${error.message}`)
+    }
+}
+
+export async function acceptFollowRequest(notificationId: string) {
+    try {
+        connectDB()
+
+        const notification = await Notification.findByIdAndUpdate(
+            notificationId,
+            { variant: 'follow' },
+        )
+        
+        await User.findByIdAndUpdate(
+            notification.user,
+            {
+                $pull: { followRequests: notification.from },
+                $push: { followers: notification.from }
+            }
+        )
+
+        await User.findByIdAndUpdate(
+            notification.from,
+            { $push: { following: notification.user }}
+        )
+
+
+        await Notification.create({
+            user: notification.from,
+            from: notification.user,
+            variant: 'follow accepted'
+        })
+
+        revalidatePath('/activity')
+
+    } catch (error: any) {
+        throw new Error(`ACCEPTFOLLOWER_ERROR: ${error.message}`)
     }
 }

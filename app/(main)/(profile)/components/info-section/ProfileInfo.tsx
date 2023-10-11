@@ -18,11 +18,12 @@ interface ProfileInfoProps {
   image: string,
   isPrivate: boolean,
   followers: string[],
-  followRequests: string[]
+  followRequests: string[],
+  followCurrentUser?: string
   variant?: string
 }
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, isPrivate, variant, followers, followRequests, currentUserId }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, id, isPrivate, variant, followers, followRequests, followCurrentUser, currentUserId }) => {
   const pathname = usePathname()
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false)
   const [isFollowing, setIsFollowing] = useState<boolean>(followers.includes(currentUserId))
@@ -108,7 +109,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, i
       {variant === 'OTHER' && (
         <div className='follow-btn-box'>
           <button className={`btn ${!isFollowing && 'follow'} ${isPending && 'pending'}`} onClick={handleFollow}>
-            {isPending ? 'Pending' : isFollowing ? 'Following' : 'Follow'}
+            {isPending ? 'Pending' : isFollowing ? 'Following' : followCurrentUser ? 'Follow Back' : 'Follow'}
           </button>
           <button className='btn mention'>Mention</button>
         </div>

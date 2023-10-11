@@ -32,6 +32,9 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
 
   if (user._id === currentUser._id.toString()) redirect('/profile')
 
+  const isFollowing = user.followers.includes(currentUser._id)
+  const followCurrentUser = user.following.includes(currentUser._id)
+
   return (
     <div className='page profile-page'>
       {!user ? (
@@ -51,12 +54,13 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
             isPrivate={user.isPrivate}
             followers={user.followers.map((item: any) => item.toString())}
             followRequests={user.followRequests.map((item: any) => item.toString())}
+            followCurrentUser={followCurrentUser}
             variant='OTHER'
           />
         </>
       )}
-      <ProfileDisplay isPrivate={user.isPrivate}>
-        {user.isPrivate ? (
+      <ProfileDisplay isPrivate={user.isPrivate} isFollowing={isFollowing}>
+        {user.isPrivate && !isFollowing ? (
           <p className='private-msg'>This profile is private.</p>
         ) : (
           <>
