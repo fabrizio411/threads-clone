@@ -6,6 +6,7 @@ import { connectDB } from "../mongoose"
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/(auth)/auth/[...nextauth]/route';
 import { revalidatePath } from "next/cache";
+import { FilterQuery, SortOrder } from "mongoose";
 
 
 export async function getSession() {
@@ -191,5 +192,52 @@ export async function acceptFollowRequest(notificationId: string) {
 
     } catch (error: any) {
         throw new Error(`ACCEPTFOLLOWER_ERROR: ${error.message}`)
+    }
+}
+
+interface searchUsersProps {
+    userId: string,
+    searchString?: string,
+    pageNumber?: number,
+    pageSize?: number,
+    sortBy?: SortOrder
+}
+
+export async function searchUsers({ userId, searchString = '', pageNumber = 1, pageSize = 20, sortBy = 'desc' }: searchUsersProps) {
+    try {
+        connectDB()
+
+        const skipAmmount = (pageNumber - 1) * pageSize
+
+        const regex = new RegExp(searchString, 'i')
+
+        const query: FilterQuery<typeof User> = {
+            _id: { $ne: userId },
+        }    
+
+        if (searchString.trim() !== '') {
+            query.$or = [
+                { username: { $regex: regex } },
+                { name: { $regex: regex } }
+            ]
+        }
+
+        const sortOptions = { createdAt: sortBy }
+
+        const userQuery = User.find(query)
+            .sort(sortOptions)
+            .skip(skipAmmount)
+            .limit(pageSize)
+
+        const totalUserCount = await User.countDocuments(query)
+
+        const users = await userQuery.exec()
+
+        const isNext = totalUserCount > skipAmmount + users.length
+
+        return { users, isNext }
+
+    } catch (error: any) {
+        throw new Error(`SEARCH_ERROR: ${error.message}`)
     }
 }

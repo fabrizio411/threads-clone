@@ -1,0 +1,90 @@
+@import '/sass/var';
+
+.user-card-component {
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid $bg-border-2;
+    padding: 15px;
+
+    .info-box {
+        display: flex;
+        gap: 12px;
+
+        .image {
+            border-radius: 100%;
+        }
+
+        .user-info {
+            .username {
+                font-weight: 600;
+                color: $text-1;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .name {
+                color: $text-3;
+                margin-top: 3px;
+            }
+
+            .followers {
+                color: $text-2;
+                font-size: .9rem;
+                margin-top: 6px;
+            }
+        }
+    }
+
+    @keyframes followAnimation {
+        0% {transform: scale(1);}
+        50% {transform: scale(0.95);}
+        100% {transform: scale(1);}
+    }
+
+    @keyframes unfollowAnimation {
+        0% {transform: scale(1);}
+        50% {transform: scale(0.95);}
+        100% {transform: scale(1);}
+    }
+
+    .btn {
+        width: 120px;
+        height: 35px;
+        border: 1px solid $bg-border;
+        border-radius: 10px;
+        background-color: $bg-1;
+        font-weight: 600;
+        font-size: .9rem;
+        color: $text-1;
+        cursor: pointer;
+        animation: unfollowAnimation .2s ease;
+    }
+
+    .btn.follow {
+        background-color: $bg-white;
+        color: $bg-1;
+        border-color: $bg-white;
+        animation: followAnimation .2s ease;
+
+         &:hover {
+            background-color: $bg-white-hover;
+            border-color: $bg-white-hover;
+         }
+    }
+
+    .btn.pending {
+        background-color: $bg-2;
+        border-color: $bg-2;
+        color: $text-2;
+
+        &:hover {
+            background-color: $bg-2;
+            border-color: $bg-2;
+        }
+    }
+}

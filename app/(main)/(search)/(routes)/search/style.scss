@@ -1,0 +1,10 @@
+@import '/sass/var';
+
+.search-page {
+    width: $content-width;
+
+    .no-result {
+        color: $text-2;
+        margin-top: 50px;
+    }
+}

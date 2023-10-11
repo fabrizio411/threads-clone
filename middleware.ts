@@ -11,6 +11,7 @@ export const config = {
         '/:path',
         '/profile/:path',
         '/profile/edit/:path',
-        '/create/:path'
+        '/create/:path',
+        '/search/:path'
     ]
 }

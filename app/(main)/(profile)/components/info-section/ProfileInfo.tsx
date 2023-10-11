@@ -66,11 +66,8 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ name, username, bio, image, i
         })
       }
       else {
-        if (isPrivate) setIsPending(true) 
-        else {
-          setIsFollowing(true)
-          setFollowersCount(followers.length + 1)
-        }
+        setIsFollowing(true)
+        setFollowersCount(followers.length + 1)
         await followUser({
           isFollow: true,
           currentUserId: currentUserId,
