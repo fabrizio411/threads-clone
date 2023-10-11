@@ -5,6 +5,7 @@ import Thread from '../models/thread.model'
 import User from '../models/user.model'
 import { connectDB } from '../mongoose'
 import Notification from '../models/notification.model'
+import { getUser } from './user.actions'
 
 interface createThreadProps {
     userId: string,
@@ -40,9 +41,11 @@ export async function getThreads(pageNumber = 1, pageSize = 20) {
     try {
         connectDB()
 
+        const user = await getUser()
+
         const skipAmount = (pageNumber - 1) * pageSize
 
-        const threadsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
+        const threadsQuery = Thread.find({ parentId: { $in: [null, undefined] }, author: { $in: user.following } })
             .sort({ createdAt: 'desc' })
             .skip(skipAmount)
             .limit(pageSize)
@@ -59,9 +62,9 @@ export async function getThreads(pageNumber = 1, pageSize = 20) {
                     select: '_id username parentId image'
                 }
             })
-
-        const totalThreadsCount = await Thread.countDocuments({ parentId: { $in: [null, undefined] } })
-
+            
+        const totalThreadsCount = await Thread.countDocuments({ parentId: { $in: [null, undefined] }, author: { $in: user.following } })
+        
         const threads = await threadsQuery.exec()
 
         const isNext = totalThreadsCount > skipAmount + threads.length
