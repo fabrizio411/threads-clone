@@ -6,7 +6,7 @@ import ProfileDisplay from '../../components/threads/ProfileDisplay'
 import ThreadsDisplay from '../../components/threads/sections/ThreadsDisplay'
 import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
 import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
-import { getProfileThreads } from '@/libs/actions/threads.actions'
+import { getProfileReplies, getProfileThreads } from '@/libs/actions/threads.actions'
 import ThreadCard from '@/components/cards/thread/ThreadCard'
 import { Children } from 'react'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
@@ -14,6 +14,7 @@ import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 const ProfilePage = async () => {
   const user = await getUser()
   const threads = await getProfileThreads(user._id)
+  const replies = await getProfileReplies(user._id)
 
   return (
     <div className='page profile-page'>
@@ -62,7 +63,44 @@ const ProfilePage = async () => {
             )
           )}
         </ThreadsDisplay>
-        <RepliesDisplay />
+
+        <RepliesDisplay>
+          {!replies ? (
+            <div className='no-items-msg'>
+              <LoadingSpinner height='30px' width='30px' />
+            </div>
+          ) : (
+            replies.replies.length && user ? replies.replies.map((item: any) => (
+              <>
+                <ThreadCard 
+                  _id={item.parentId._id.toString()}
+                  body={item.parentId.body}
+                  image={item.parentId.image}
+                  author={item.parentId.author}
+                  likes={item.parentId.likes.map((i: any) => i.toString())}
+                  children={item.parentId.children}
+                  createdAt={item.parentId.createdAt}
+                  currentUserId={user._id.toString()}
+                  vairant='PARENT'
+                />
+                <ThreadCard 
+                  _id={item._id.toString()}
+                  body={item.body}
+                  image={item.image}
+                  author={item.author}
+                  likes={item.likes.map((item: any) => item.toString())}
+                  children={item.children}
+                  createdAt={item.createdAt}
+                  currentUserId={user._id.toString()}
+                  vairant='CHILD'
+                />
+              </>
+            )) : (
+              <p className='no-items-msg'>No replies yet</p>
+            )
+          )}
+        </RepliesDisplay>
+
         <RepostsDisplay />
       </ProfileDisplay>
     </div>

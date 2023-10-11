@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import './profiledisplay.scss'
 
-const ProfileDisplay = ({ children, isPrivate, isFollowing }: { children: React.ReactNode, isPrivate: boolean, isFollowing: boolean }) => {
+const ProfileDisplay = ({ children, isPrivate, isFollowing }: { children: React.ReactNode, isPrivate?: boolean, isFollowing?: boolean }) => {
   const [current, setCurrent] = useState<string>('THREADS')
 
   let borderPosition

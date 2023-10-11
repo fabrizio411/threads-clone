@@ -38,7 +38,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
               children={parentThread.children}
               createdAt={parentThread.createdAt}
               currentUserId={user._id.toString()}
-              vairant='PARENT'
+              vairant='PARENT PAGE'
             />
           )}
           <ThreadCard 

@@ -181,6 +181,42 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
     }
 }
 
+export async function getProfileReplies(userId: string, pageNumber = 1, pageSize = 20) {
+    try {
+        connectDB()
+
+        const skipAmount = (pageNumber - 1) * pageSize
+
+        const repliesQuery = Thread.find({ parentId: { $exists: true }, author: userId })
+            .sort({ createdAt: 'desc' })
+            .skip(skipAmount)
+            .limit(pageSize)
+            .populate({ 
+                path: 'author', 
+                model: User,
+                select: '_id username image' })
+            .populate({ 
+                path: 'parentId',
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: '_id username image'
+                }
+            })
+
+        const totalRepliesCount = await Thread.countDocuments({ parentId: { $exists: true }, author: userId })
+
+        const replies = await repliesQuery.exec()
+
+        const isNext = totalRepliesCount > skipAmount + replies.length
+
+        return { replies, isNext }
+        
+    } catch (error: any) {
+        throw new Error(`GETPROFILETHREADS_ERROR ${error.message}`)
+    }
+}
+
 interface likeThreadProps {
     isLike: boolean,
     threadId: string,
