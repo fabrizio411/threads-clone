@@ -1,8 +1,8 @@
 import { getUser, searchUsers } from '@/libs/actions/user.actions'
 import './style.scss'
-import User from '@/libs/models/user.model'
 import UserCard from '@/components/cards/user/UserCard'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
+import SearchForm from '../../components/SearchForm'
 
 const SearchPage = async () => {
   const user = await getUser()
@@ -17,6 +17,8 @@ const SearchPage = async () => {
 
   return (
     <section className='page search-page'>
+
+      <SearchForm />
 
       <div>
         {result ? (
