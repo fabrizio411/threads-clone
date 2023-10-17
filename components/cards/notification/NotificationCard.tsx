@@ -15,11 +15,15 @@ interface NotificationCardProps {
     username: string,
     image: string
   }
+  reference?: {
+    thread: string,
+    author: string
+  },
   createdAt: string,
   _id: string
 }
 
-const NotificationCard: React.FC<NotificationCardProps> = ({ _id, variant, from, createdAt }) => {
+const NotificationCard: React.FC<NotificationCardProps> = ({ _id, variant, from, createdAt, reference }) => {
   const time = formatDateString(createdAt)
 
   return (
@@ -36,10 +40,10 @@ const NotificationCard: React.FC<NotificationCardProps> = ({ _id, variant, from,
               {variant === 'follow request' && 'requestes to follow you.'}
               {variant === 'follow' && 'started following you.'}
               {variant === 'follow accepted' && 'accepted your follow request.'}
-              {variant === 'like' && 'liked your post'}
-              {variant === 'comment' && 'commented your post'}
-              {variant === 'repost' && 'reposted your post'}
-              {variant === 'quote' && 'quoted your post'}
+              {variant === 'like' && (<Link className='link' href={`/@${reference?.author}/${reference?.thread}`}>liked your post</Link>)}
+              {variant === 'comment' && (<Link className='link' href={`/@${reference?.author}/${reference?.thread}`}>commented your post</Link>)}
+              {variant === 'repost' && (<Link className='link' href={`/@${reference?.author}/${reference?.thread}`}>reposted your post</Link>)}
+              {variant === 'quote' && (<Link className='link' href={`/@${reference?.author}/${reference?.thread}`}>quoted your post</Link>)}
             </p>
           </div>
         </div>

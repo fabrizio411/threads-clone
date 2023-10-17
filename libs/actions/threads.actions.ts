@@ -232,11 +232,14 @@ export async function likeThread({ isLike, threadId, authorId, from, path }: lik
     try {
         connectDB()
 
+        const authorUsername = await User.findById(authorId).select('username')
+
         if (isLike) {
             await Notification.create({
                 user: authorId,
                 from: from,
-                variant: 'like'
+                variant: 'like',
+                reference: { thread: threadId , author: authorUsername }
             })
 
             await Thread.findByIdAndUpdate(
@@ -282,15 +285,17 @@ export async function createComment({ parentId, parentAuthor, author, body, imag
             { $push: { children: createdThread._id } }
         )
 
-        await User.findByIdAndUpdate(
+        const authorUser = await User.findByIdAndUpdate(
             author,
-            { $push: { threads: createdThread._id } }
+            { $push: { threads: createdThread._id } },
+            { new: true }
         )
 
         await Notification.create({
             user: parentAuthor,
             from: author,
-            variant: 'comment'
+            variant: 'comment',
+            reference: { thread: createdThread._id, author: authorUser.username }
         })
 
         revalidatePath(path)

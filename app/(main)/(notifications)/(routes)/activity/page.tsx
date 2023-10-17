@@ -17,6 +17,7 @@ const ActivityPage = async () => {
           createdAt={item.createdAt}
           currentUserId={item.user.toString()}
           _id={item._id.toString()}
+          reference={item.reference}
         />
       ))}
     </section>

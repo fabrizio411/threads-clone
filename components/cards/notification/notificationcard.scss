@@ -41,8 +41,16 @@
 
             .notification-info {
                 font-size: .9rem;
-                color: $text-2;
+                color: $text-3;
                 margin-top: 3px;
+
+                .link {
+                    color: $text-3;
+
+                    &:hover {
+                        color: $text-2;
+                    }
+                }
             }
         }
     }
