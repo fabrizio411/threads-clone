@@ -1,5 +1,5 @@
 import { getUser } from '@/libs/actions/user.actions'
-import { getProfileReplies, getProfileThreads } from '@/libs/actions/threads.actions'
+import { getProfileReplies, getProfileReposts, getProfileThreads } from '@/libs/actions/threads.actions'
 
 import ProfileHeader from '../../components/header/ProfileHeader'
 import ProfileInfo from '../../components/info-section/ProfileInfo'
@@ -29,10 +29,12 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
   if (!user) return <NotFound />
   
   const currentUser = await getUser()
-  const threads = await getProfileThreads(user._id)
-  const replies = await getProfileReplies(user._id)
 
   if (user._id === currentUser._id.toString()) redirect('/profile')
+
+  const threads = await getProfileThreads(user._id)
+  const replies = await getProfileReplies(user._id)
+  const reposts = await getProfileReposts(user._id)
 
   const isFollowing = user.followers.includes(currentUser._id)
   const followCurrentUser = user.following.includes(currentUser._id)
@@ -130,7 +132,32 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
               )}
             </RepliesDisplay>
 
-            <RepostsDisplay />
+            <RepostsDisplay>
+              {!reposts ? (
+                <div className='no-items-msg'>
+                  <LoadingSpinner height='30px' width='30px' />
+                </div>
+              ) : (
+                reposts.reposts.reposts.length > 0 ? (
+                  reposts.reposts.reposts.map((item: any) => (
+                    <ThreadCard 
+                      key={item._id.toString()}
+                      _id={item._id.toString()}
+                      body={item.body}
+                      image={item.image}
+                      author={item.author}
+                      likes={item.likes.map((item: any) => item.toString())}
+                      children={item.children}
+                      createdAt={item.createdAt}
+                      currentUserId={currentUser._id.toString()}
+                      isReposted={currentUser.reposts.includes(item._id)}
+                    />
+                  ))
+                ) : (
+                  <p className='no-items-msg'>No reposts yet</p>
+                )
+              )}
+            </RepostsDisplay>
           </>
         )}
       </ProfileDisplay>

@@ -304,3 +304,102 @@ export async function createComment({ parentId, parentAuthor, author, body, imag
         throw new Error(`CREATECOMMENT_ERROR ${error.message}`)
     }
 }
+
+interface repostThreadProps {
+    currentUserId: string,
+    threadId: string,
+    authorId: string,
+    authorUsername?: string,
+    path: string
+}
+
+export async function repostThread({ currentUserId, threadId, authorId, authorUsername, path }: repostThreadProps) {
+    try {
+        connectDB()
+
+        await User.findByIdAndUpdate(
+            currentUserId,
+            { $push: { reposts: threadId } }
+        )
+
+        await Notification.create({
+            user: authorId,
+            from: currentUserId,
+            variant: 'repost',
+            reference: {
+                thread: threadId,
+                author: authorUsername
+            }
+        })
+
+        revalidatePath(path)
+
+    } catch (error: any) {
+        throw new Error(`REPOST_ERROR ${error.message}`)
+    }
+}
+
+export async function removeRepost({ currentUserId, threadId, authorId, path }: repostThreadProps) {
+    try {
+        connectDB()
+
+        await User.findByIdAndUpdate(
+            currentUserId,
+            { $pull: { reposts: threadId } }
+        )
+
+        await Notification.findOneAndDelete({ user: authorId, from: currentUserId, variant: 'repost', 'reference.thread': threadId })
+
+        revalidatePath(path)
+        
+    } catch (error: any) {
+        throw new Error(`REPOST_ERROR ${error.message}`)
+    }
+}
+
+export async function getProfileReposts(userId: string, pageNumber = 1, pageSize = 20) {
+    try {
+        connectDB()
+
+        connectDB()
+
+        const skipAmount = (pageNumber - 1) * pageSize
+
+        const repostsQuery = User.findById(userId)
+            .select('reposts')
+            .skip(skipAmount)
+            .limit(pageSize)
+            .populate({
+                path: 'reposts',
+                model: Thread,
+                populate: [
+                    {
+                        path: 'author',
+                        model: User,
+                        select: '_id username image',
+                    },
+                    {
+                        path: 'children',
+                        model: Thread,
+                        select: 'author',
+                        populate: {
+                            path: 'author',
+                            model: User,
+                            select: 'image'
+                        }
+                    }
+                ]
+            })
+
+        const reposts = await repostsQuery.exec()
+
+        const totalRepost = reposts.reposts.length
+
+        const isNext = totalRepost > skipAmount + reposts.reposts.length
+
+        return { reposts, isNext }
+        
+    } catch (error: any) {
+        throw new Error(`GETREPOSTS_ERROR ${error.message}`)
+    }
+}

@@ -6,7 +6,7 @@ import ProfileDisplay from '../../components/threads/ProfileDisplay'
 import ThreadsDisplay from '../../components/threads/sections/ThreadsDisplay'
 import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
 import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
-import { getProfileReplies, getProfileThreads } from '@/libs/actions/threads.actions'
+import { getProfileReplies, getProfileReposts, getProfileThreads } from '@/libs/actions/threads.actions'
 import ThreadCard from '@/components/cards/thread/ThreadCard'
 import { Children } from 'react'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
@@ -15,6 +15,7 @@ const ProfilePage = async () => {
   const user = await getUser()
   const threads = await getProfileThreads(user._id)
   const replies = await getProfileReplies(user._id)
+  const reposts = await getProfileReposts(user._id)
 
   return (
     <div className='page profile-page'>
@@ -103,7 +104,33 @@ const ProfilePage = async () => {
           )}
         </RepliesDisplay>
 
-        <RepostsDisplay />
+        <RepostsDisplay>
+          {!reposts ? (
+            <div className='no-items-msg'>
+              <LoadingSpinner height='30px' width='30px' />
+            </div>
+          ) : (
+            reposts.reposts.reposts.length > 0 ? (
+              reposts.reposts.reposts.map((item: any) => (
+                <ThreadCard 
+                  key={item._id.toString()}
+                  _id={item._id.toString()}
+                  body={item.body}
+                  image={item.image}
+                  author={item.author}
+                  likes={item.likes.map((item: any) => item.toString())}
+                  children={item.children}
+                  createdAt={item.createdAt}
+                  currentUserId={user._id.toString()}
+                  isReposted={user.reposts.includes(item._id)}
+                />
+              ))
+            ) : (
+              <p className='no-items-msg'>No reposts yet</p>
+            )
+          )}
+        </RepostsDisplay>
+
       </ProfileDisplay>
     </div>
   )

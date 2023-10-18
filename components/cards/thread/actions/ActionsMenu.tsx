@@ -7,8 +7,10 @@ import CommentIcon from '@/components/icons/thread-icons/CommentIcon'
 import RepostIcon from '@/components/icons/thread-icons/RepostIcon'
 import './actionsmenu.scss'
 import Link from 'next/link'
-import { likeThread } from '@/libs/actions/threads.actions'
+import { likeThread, removeRepost, repostThread } from '@/libs/actions/threads.actions'
 import { usePathname } from 'next/navigation'
+import RepostActiveIcon from '@/components/icons/thread-icons/RepostActiveIcon'
+import QuoteIcon from '@/components/icons/thread-icons/QuoteIcon'
 
 interface ActionsMenuProps {
   authorUsername: string,
@@ -17,13 +19,16 @@ interface ActionsMenuProps {
   currentUserId: string,
   likes: string[],
   replies: number,
-  hasComments: boolean
+  hasComments: boolean,
+  isReposted?: boolean
 }
 
-const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes, replies, hasComments }) => {
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes, replies, hasComments, isReposted }) => {
   const pathname = usePathname()
   const [likesNum, setLikesNum] = useState<number>(likes.length)
   const [isLiked, setIsLiked] = useState<boolean>(likes.includes(currentUserId) || false)
+  const [isActive, setIsActive] = useState<boolean>(false)
+  const [isRepostedState, setIsReposted] = useState<boolean>(isReposted || false)
 
   const handleLike = async () => {
     if (isLiked) {
@@ -50,6 +55,34 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId
     }
   }
 
+  const handleOpenRepostModal = () => {
+    if (isActive) setIsActive(false)
+    else setIsActive(true)
+  }
+
+  const handleRepost = async () => {
+    if (isRepostedState) {
+      await removeRepost({
+        currentUserId,
+        threadId,
+        authorId,
+        path: pathname
+      })
+      setIsActive(false)
+      setIsReposted(false)
+    } else {
+      await repostThread({
+        currentUserId,
+        threadId,
+        authorId,
+        authorUsername,
+        path: pathname
+      })
+      setIsActive(false)
+      setIsReposted(true)
+    }
+  }
+
   return (
     <>
       <div className='action-menu-component'>
@@ -59,8 +92,27 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId
         <Link href={`/@${authorUsername}/${threadId}`} className='action-btn'>
           <CommentIcon />
         </Link>
-        <div className='action-btn'>
-          <RepostIcon />
+        <div className='action-btn repost' onClick={handleOpenRepostModal}>
+          {isRepostedState ? (<RepostActiveIcon />) : (<RepostIcon />)}
+          <div className={`repost-modal-menu ${isActive && 'active'}`}>
+            <div className='option' onClick={handleRepost}>
+              {isRepostedState ? (
+                <>
+                  <p className='option-text remove'>Remove</p>
+                  <RepostIcon />
+                </>
+              ) : (
+                <>
+                  <p className='option-text'>Repost</p>
+                  <RepostIcon />
+                </>
+              )}
+            </div>
+            <div className='option'>
+              <p className='option-text'>Quote</p>
+              <QuoteIcon />
+            </div>
+          </div>
         </div>
       </div>
 

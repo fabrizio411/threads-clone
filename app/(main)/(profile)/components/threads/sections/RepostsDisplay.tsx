@@ -1,8 +1,8 @@
 import './display.scss'
 
-const RepostsDisplay = () => {
+const RepostsDisplay = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='display-section'>RepostsDisplay</div>
+    <div className='display-section'>{children}</div>
   )
 }
 
