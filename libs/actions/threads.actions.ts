@@ -52,14 +52,14 @@ export async function getThreads(pageNumber = 1, pageSize = 20) {
             .populate({ 
                 path: 'author', 
                 model: User,
-                select: '_id username image'
+                select: '_id username image isPrivate'
             })
             .populate({ 
                 path: 'children',
                 populate: {
                     path: 'author',
                     model: User,
-                    select: '_id username parentId image'
+                    select: '_id username parentId image isPrivate'
                 }
             })
             
@@ -125,7 +125,7 @@ export async function getOneThread(threadId: string) {
                     {
                         path: 'author',
                         model: User,
-                        select: '_id username parentId image'
+                        select: '_id username parentId image isPrivate'
                     },
                     {
                         path: 'children',
@@ -133,7 +133,7 @@ export async function getOneThread(threadId: string) {
                         populate: {
                             path: 'author',
                             model: User,
-                            select: '_id username parentId image'
+                            select: '_id username parentId image isPrivate'
                         }
                     }
                 ]
@@ -161,13 +161,13 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
             .populate({ 
                 path: 'author', 
                 model: User,
-                select: '_id username image' })
+                select: '_id username image isPrivate' })
             .populate({ 
                 path: 'children',
                 populate: {
                     path: 'author',
                     model: User,
-                    select: '_id username parentId image'
+                    select: '_id username parentId image isPrivate'
                 }
             })
 
@@ -197,13 +197,13 @@ export async function getProfileReplies(userId: string, pageNumber = 1, pageSize
             .populate({ 
                 path: 'author', 
                 model: User,
-                select: '_id username image' })
+                select: '_id username image isPrivate' })
             .populate({ 
                 path: 'parentId',
                 populate: {
                     path: 'author',
                     model: User,
-                    select: '_id username image'
+                    select: '_id username image isPrivate'
                 }
             })
 
@@ -376,7 +376,7 @@ export async function getProfileReposts(userId: string, pageNumber = 1, pageSize
                     {
                         path: 'author',
                         model: User,
-                        select: '_id username image',
+                        select: '_id username image isPrivate',
                     },
                     {
                         path: 'children',

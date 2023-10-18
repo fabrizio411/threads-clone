@@ -70,6 +70,7 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
           authorUsername={author.username} 
           threadId={_id.toString()}
           authorId={author._id.toString()}
+          isAuthorPrivate={author.isPrivate}
           currentUserId={currentUserId.toString()}
           likes={likes.map((item: any) => item.toString())}
           replies={children.length}

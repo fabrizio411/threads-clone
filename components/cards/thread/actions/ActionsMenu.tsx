@@ -16,14 +16,15 @@ interface ActionsMenuProps {
   authorUsername: string,
   threadId: string,
   authorId: string,
+  isAuthorPrivate: boolean
   currentUserId: string,
   likes: string[],
   replies: number,
   hasComments: boolean,
-  isReposted?: boolean
+  isReposted?: boolean,
 }
 
-const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, likes, replies, hasComments, isReposted }) => {
+const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId, threadId, authorId, isAuthorPrivate, likes, replies, hasComments, isReposted }) => {
   const pathname = usePathname()
   const [likesNum, setLikesNum] = useState<number>(likes.length)
   const [isLiked, setIsLiked] = useState<boolean>(likes.includes(currentUserId) || false)
@@ -92,28 +93,30 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, currentUserId
         <Link href={`/@${authorUsername}/${threadId}`} className='action-btn'>
           <CommentIcon />
         </Link>
-        <div className='action-btn repost' onClick={handleOpenRepostModal}>
-          {isRepostedState ? (<RepostActiveIcon />) : (<RepostIcon />)}
-          <div className={`repost-modal-menu ${isActive && 'active'}`}>
-            <div className='option' onClick={handleRepost}>
-              {isRepostedState ? (
-                <>
-                  <p className='option-text remove'>Remove</p>
-                  <RepostIcon />
-                </>
-              ) : (
-                <>
-                  <p className='option-text'>Repost</p>
-                  <RepostIcon />
-                </>
-              )}
-            </div>
-            <div className='option'>
-              <p className='option-text'>Quote</p>
-              <QuoteIcon />
+        {!isAuthorPrivate && (
+          <div className='action-btn repost' onClick={handleOpenRepostModal}>
+            {isRepostedState ? (<RepostActiveIcon />) : (<RepostIcon />)}
+            <div className={`repost-modal-menu ${isActive && 'active'}`}>
+              <div className='option' onClick={handleRepost}>
+                {isRepostedState ? (
+                  <>
+                    <p className='option-text remove'>Remove</p>
+                    <RepostIcon />
+                  </>
+                ) : (
+                  <>
+                    <p className='option-text'>Repost</p>
+                    <RepostIcon />
+                  </>
+                )}
+              </div>
+              <div className='option'>
+                <p className='option-text'>Quote</p>
+                <QuoteIcon />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className='interactions-info'>

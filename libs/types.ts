@@ -24,7 +24,8 @@ export type ThreadType = {
     author: {
         _id: string,
         username: string,
-        image: string
+        image: string,
+        isPrivate: boolean
     },
     likes: string[],
     parentId?: string,
@@ -32,7 +33,8 @@ export type ThreadType = {
         author: {
             id: string
             username: string
-            image: string
+            image: string,
+            isPrivate: boolean
         }
     }[],
     quote?: string,
