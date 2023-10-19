@@ -7,7 +7,7 @@ import OptionsMenu from './options/OptionsMenu'
 import ActionsMenu from './actions/ActionsMenu'
 import './threadcard.scss'
 
-const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, image, author, createdAt, children, likes, vairant, isReposted }) => {
+const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsername, currentUserImage, parentId, body, image, author, createdAt, children, likes, vairant, isReposted }) => {
   const formatedTime = formatDateString(createdAt)
   const hasComments = children.length > 0
 
@@ -68,10 +68,15 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, parentId, body, 
 
         <ActionsMenu 
           authorUsername={author.username} 
+          authorImage={author.image}
+          threadBody={body}
+          threadImage={image}
           threadId={_id.toString()}
           authorId={author._id.toString()}
           isAuthorPrivate={author.isPrivate}
           currentUserId={currentUserId.toString()}
+          currentUserUsername={currentUserUsername}
+          currentUserImage={currentUserImage}
           likes={likes.map((item: any) => item.toString())}
           replies={children.length}
           hasComments={hasComments}

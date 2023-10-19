@@ -14,7 +14,7 @@ const CreatePage = async () => {
         {user.isPrivate && (
           <div className='private-msg'>
             <LockIcon />
-            <p className='msg'>Only your followers can see your replies because your profile is private</p>
+            <p className='msg'>Only your followers can see your replies or repost because your profile is private</p>
           </div>
         )}
 

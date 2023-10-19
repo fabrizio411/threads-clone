@@ -1,0 +1,61 @@
+@import '/sass/var.scss';
+
+.quote-modal-component {
+    z-index: 1500;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .content {
+        background-color: $bg-2;
+        width: $content-width;
+        padding: 30px;
+        border-radius: 16px;
+        border: 1px solid $bg-border;
+
+        .quote-thread-display {
+            border: 1px solid $bg-border;
+            border-radius: 10px;
+            padding: 15px;
+
+            .user-info {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                .image {
+                    border-radius: 100%;
+                }
+
+                .username {
+                    color: $text-1;
+                    text-decoration: none;
+                    
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .thread-body {
+                color: $text-1;
+                font-size: .9rem;
+                padding: 10px;
+                margin-top: 10px;
+            }
+        }
+    }
+}

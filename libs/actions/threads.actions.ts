@@ -403,3 +403,44 @@ export async function getProfileReposts(userId: string, pageNumber = 1, pageSize
         throw new Error(`GETREPOSTS_ERROR ${error.message}`)
     }
 }
+
+interface quoteThreadProps {
+    currentUserId: string,
+    quoteThreadId: string,
+    quoteAuthorId: string,
+    quoteAuthorUsername?: string,
+    body: string,
+    image: string,
+    path: string
+}
+
+export async function quoteThread({ currentUserId, quoteThreadId, quoteAuthorId, quoteAuthorUsername, path, body, image }: quoteThreadProps) {
+    try {
+        connectDB()
+
+        const createdThread = await Thread.create({
+            body,
+            image,
+            author: currentUserId,
+            quote: quoteThreadId
+        })
+
+        await Notification.create({
+            user: quoteAuthorId,
+            from: currentUserId,
+            variant: 'quote',
+            reference: {
+                thread: createdThread._id,
+                author: quoteAuthorUsername
+            }
+        })
+
+        await User.findByIdAndUpdate(
+            currentUserId,
+            { $push: { threads: createdThread._id } }
+        )
+        
+    } catch (error: any) {
+        throw new Error(`QUOTE_ERROR ${error.message}`)
+    }
+}

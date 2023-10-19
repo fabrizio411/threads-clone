@@ -40,6 +40,8 @@ export type ThreadType = {
     quote?: string,
     createdAt: string
     currentUserId: boolean,
+    currentUserUsername: string,
+    currentUserImage: string,
     isReposted?: boolean,
     vairant?: string
 }

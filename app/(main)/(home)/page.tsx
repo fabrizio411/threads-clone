@@ -15,6 +15,8 @@ const HomePage = async () => {
           key={thread._id}
           _id={thread._id}
           currentUserId={user._id}
+          currentUserImage={user.image}
+          currentUserUsername={user.username}
           parentId={thread.parentId}
           body={thread.body}
           image={thread.image}

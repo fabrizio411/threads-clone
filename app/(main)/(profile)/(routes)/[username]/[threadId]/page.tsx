@@ -40,6 +40,8 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
               children={parentThread.children}
               createdAt={parentThread.createdAt}
               currentUserId={user._id.toString()}
+              currentUserImage={user.image}
+              currentUserUsername={user.username}
               vairant='PARENT PAGE'
             />
           )}
@@ -52,6 +54,8 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
             children={thread.children}
             createdAt={thread.createdAt}
             currentUserId={user._id.toString()}
+            currentUserImage={user.image}
+            currentUserUsername={user.username}
             vairant='PAGE'
           />
           <div className='form-container'>
@@ -77,6 +81,8 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
                 parentId={item.parentId}
                 createdAt={item.createdAt}
                 currentUserId={user._id}
+                currentUserImage={user.image}
+                currentUserUsername={user.username}
                 likes={item.likes}
                 children={item.children}
               />

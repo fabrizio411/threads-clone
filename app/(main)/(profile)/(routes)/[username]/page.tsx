@@ -79,6 +79,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                     key={item._id.toString()}
                     _id={item._id.toString()} 
                     currentUserId={currentUser._id.toString()}
+                    currentUserImage={currentUser.image}
+                    currentUserUsername={currentUser.username}
                     parentId={item.parentId}
                     body={item.body}
                     image={item.image}
@@ -111,6 +113,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       children={item.parentId.children}
                       createdAt={item.parentId.createdAt}
                       currentUserId={currentUser._id.toString()}
+                      currentUserImage={currentUser.image}
+                      currentUserUsername={currentUser.username}
                       vairant='PARENT'
                     />
                     <ThreadCard 
@@ -123,6 +127,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       children={item.children}
                       createdAt={item.createdAt}
                       currentUserId={currentUser._id.toString()}
+                      currentUserImage={currentUser.image}
+                      currentUserUsername={currentUser.username}
                       vairant='CHILD'
                     />
                   </>
@@ -150,6 +156,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       children={item.children}
                       createdAt={item.createdAt}
                       currentUserId={currentUser._id.toString()}
+                      currentUserImage={currentUser.image}
+                      currentUserUsername={currentUser.username}
                       isReposted={currentUser.reposts.includes(item._id)}
                     />
                   ))

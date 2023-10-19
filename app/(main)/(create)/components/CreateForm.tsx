@@ -10,18 +10,25 @@ import { ThreadsValidation } from '@/libs/validations/threads'
 import { usePathname, useRouter } from 'next/navigation'
 import ConfirmationModal from '@/components/modals/confirmation/ConfirmationModal'
 import { createComment, createThread } from '@/libs/actions/threads.actions'
+import Link from 'next/link'
 
 interface CreateFormProps {
   username: string,
   image: string,
-  isPrivate: boolean,
+  isPrivate?: boolean,
   userId: string,
   isComment?: boolean,
   parentId?: string,
   parentAuthor?: string
+  quoteThread?: {
+    authorImage: string,
+    authorUsername: string,
+    threadBody: string,
+    threadImage?: string
+  }
 }
 
-const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComment, username, image, isPrivate, userId }) => {
+const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComment, username, image, isPrivate, userId, quoteThread }) => {
   const pathname = usePathname()
   const router = useRouter()
   const textareaRef: any = useRef(null)
@@ -125,7 +132,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComme
         </div>
       </div>
 
-      <div className={`form-display ${isComment && 'comment'}`}>
+      <div className={`form-display ${isComment && 'comment'} ${quoteThread && 'quote'}`}>
         <div className='image-box'>
           <Image alt='profile photo' src={image || '/images/placeholder.jpg'} fill/>
         </div>
@@ -159,20 +166,34 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComme
             <p className='char-control'>{textareaVal.length}/{maxCharacters} characters</p>
           </div>
         </div>
+
+        {quoteThread && (
+          <article className='quote-thread-display'>
+            <div className='user-info'>
+              <Image className='image' alt='profile photo' src={quoteThread.authorImage || '/images/placeholder.jpg'} width={40} height={40}/>
+              <Link href={`/@${quoteThread.authorUsername}`} className='username'>@{quoteThread.authorUsername}</Link>
+            </div>
+            <p className='thread-body'>{quoteThread.threadBody}</p>
+            {quoteThread.threadImage && (
+              <Image className='thread-image' style={{borderRadius: '10px', width: '250px', height: 'auto', marginTop: '10px'}} alt='image' src={quoteThread.threadImage} width={300} height={200} />
+            )}
+          </article>
+        )}
+
         {!isComment ? (
           <div className='desktop-buttons'>
             <p className='text'>{isPrivate ? 'Only your followers can reply' : 'Everyone can reply'}</p>
-            <button className='btn' disabled={isLoading || !textareaVal}>Post</button>
+            <button type='submit' className='btn' disabled={isLoading || !textareaVal}>Post</button>
           </div>
         ) : (
-          <button className='comment-submit-btn' disabled={isLoading || !textareaVal}>Reply</button>
+          <button type='submit' className='comment-submit-btn' disabled={isLoading || !textareaVal}>Reply</button>
         )}
       </div>
 
       {!isComment && (
         <div className='buttons'>
           <p className='text'>{isPrivate ? 'Only your followers can reply' : 'Everyone can reply'}</p>
-          <button className='btn' disabled={isLoading || !textareaVal}>Post</button>
+          <button type='submit' className='btn' disabled={isLoading || !textareaVal}>Post</button>
         </div>
       )}
 

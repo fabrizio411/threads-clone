@@ -51,6 +51,8 @@ const ProfilePage = async () => {
                 key={item._id.toString()}
                 _id={item._id.toString()} 
                 currentUserId={user._id.toString()}
+                currentUserImage={user.image}
+                currentUserUsername={user.username}
                 parentId={item.parentId}
                 body={item.body}
                 image={item.image}
@@ -83,6 +85,8 @@ const ProfilePage = async () => {
                   children={item.parentId.children}
                   createdAt={item.parentId.createdAt}
                   currentUserId={user._id.toString()}
+                  currentUserImage={user.image}
+                  currentUserUsername={user.username}
                   vairant='PARENT'
                 />
                 <ThreadCard 
@@ -95,6 +99,8 @@ const ProfilePage = async () => {
                   children={item.children}
                   createdAt={item.createdAt}
                   currentUserId={user._id.toString()}
+                  currentUserImage={user.image}
+                  currentUserUsername={user.username}
                   vairant='CHILD'
                 />
               </>
@@ -122,6 +128,8 @@ const ProfilePage = async () => {
                   children={item.children}
                   createdAt={item.createdAt}
                   currentUserId={user._id.toString()}
+                  currentUserImage={user.image}
+                  currentUserUsername={user.username}
                   isReposted={user.reposts.includes(item._id)}
                 />
               ))

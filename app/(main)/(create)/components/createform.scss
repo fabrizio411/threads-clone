@@ -1,6 +1,8 @@
 @import '/sass/var';
 
 .create-form-component {
+    width: 100%;
+
     .title-box {
         height: 60px;
         padding-left: 10px;
@@ -197,6 +199,7 @@
                     color: $text-1;
                     font-weight: 700;
                     font-size: 1.1rem;
+                    cursor: pointer;
 
                     &:disabled {
                         color: $text-3;
@@ -213,6 +216,10 @@
 
     .form-display.comment {
         padding-bottom: 15px;
+    }
+
+    .form-display.quote {
+        flex-direction: column;
     }
 
     .buttons {
@@ -236,6 +243,7 @@
             color: $color-1;
             font-weight: 700;
             font-size: 1.1rem;
+            cursor: pointer;
 
             &:disabled {
                 color: $color-2;
