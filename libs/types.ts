@@ -37,7 +37,17 @@ export type ThreadType = {
             isPrivate: boolean
         }
     }[],
-    quote?: string,
+    quote?: {
+        _id: string
+        body: string,
+        image: string,
+        author: {
+            _id: string
+            username: string
+            image: string,
+            isPrivate: boolean
+        }
+    },
     createdAt: string
     currentUserId: boolean,
     currentUserUsername: string,

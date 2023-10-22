@@ -45,6 +45,12 @@
         padding-bottom: 50px;
         position: relative;
 
+        .info-box {
+            display: flex;
+            gap: 15px;
+            flex: 1;
+        }
+
         .image-box {
             position: relative;
             height: 50px;

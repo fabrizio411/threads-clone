@@ -137,8 +137,10 @@ const ActionsMenu: React.FC<ActionsMenuProps> = ({ authorUsername, authorImage, 
           username={currentUserUsername} 
           userImage={currentUserImage} 
           handleCloseModal={handleOpenQuoteModal}
+          authorId={authorId.toString()}
           authorImage={authorImage}
           authorUsername={authorUsername}
+          threadId={threadId.toString()}
           threadBody={threadBody}
           threadImage={threadImage}
         />

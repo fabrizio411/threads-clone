@@ -30,6 +30,7 @@ export async function createThread({ userId, body, image, path }: createThreadPr
         )
 
         revalidatePath(path)
+        revalidatePath('/profile')
         
     } catch (error: any) {
         throw new Error(`CREATETHREAD_ERROR ${error.message}`)
@@ -56,6 +57,15 @@ export async function getThreads(pageNumber = 1, pageSize = 20) {
             })
             .populate({ 
                 path: 'children',
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: '_id username parentId image isPrivate'
+                }
+            })
+            .populate({
+                path: 'quote',
+                model: Thread,
                 populate: {
                     path: 'author',
                     model: User,
@@ -138,6 +148,15 @@ export async function getOneThread(threadId: string) {
                     }
                 ]
             })
+            .populate({
+                path: 'quote',
+                model: Thread,
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: '_id username parentId image isPrivate'
+                }
+            })
         
         const thread = await threadQuery.exec()
 
@@ -164,6 +183,15 @@ export async function getProfileThreads(userId: string, pageNumber = 1, pageSize
                 select: '_id username image isPrivate' })
             .populate({ 
                 path: 'children',
+                populate: {
+                    path: 'author',
+                    model: User,
+                    select: '_id username parentId image isPrivate'
+                }
+            })
+            .populate({
+                path: 'quote',
+                model: Thread,
                 populate: {
                     path: 'author',
                     model: User,
@@ -408,7 +436,7 @@ interface quoteThreadProps {
     currentUserId: string,
     quoteThreadId: string,
     quoteAuthorId: string,
-    quoteAuthorUsername?: string,
+    quoteAuthorUsername: string,
     body: string,
     image: string,
     path: string
@@ -439,6 +467,8 @@ export async function quoteThread({ currentUserId, quoteThreadId, quoteAuthorId,
             currentUserId,
             { $push: { threads: createdThread._id } }
         )
+
+        revalidatePath('/profile')
         
     } catch (error: any) {
         throw new Error(`QUOTE_ERROR ${error.message}`)

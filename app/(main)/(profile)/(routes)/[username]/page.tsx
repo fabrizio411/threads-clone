@@ -88,6 +88,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                     createdAt={item.createdAt}
                     children={item.children}
                     likes={item.likes.map((item: any) => item.toString())}
+                    quote={item.quote}
                   />
                 )) : (
                   <p className='no-items-msg'>No threads yet</p>
@@ -116,6 +117,8 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       currentUserImage={currentUser.image}
                       currentUserUsername={currentUser.username}
                       vairant='PARENT'
+                      quote={item.quote}
+
                     />
                     <ThreadCard 
                       key={item._id.toString()}
@@ -130,6 +133,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       currentUserImage={currentUser.image}
                       currentUserUsername={currentUser.username}
                       vairant='CHILD'
+                      quote={item.quote}
                     />
                   </>
                 )) : (
@@ -159,6 +163,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       currentUserImage={currentUser.image}
                       currentUserUsername={currentUser.username}
                       isReposted={currentUser.reposts.includes(item._id)}
+                      quote={item.quote}
                     />
                   ))
                 ) : (

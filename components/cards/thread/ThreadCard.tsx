@@ -6,8 +6,9 @@ import Link from 'next/link'
 import OptionsMenu from './options/OptionsMenu'
 import ActionsMenu from './actions/ActionsMenu'
 import './threadcard.scss'
+import QuoteThreadCard from '../quote/QuoteThreadCard'
 
-const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsername, currentUserImage, parentId, body, image, author, createdAt, children, likes, vairant, isReposted }) => {
+const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsername, currentUserImage, parentId, body, image, author, createdAt, children, likes, vairant, isReposted, quote }) => {
   const formatedTime = formatDateString(createdAt)
   const hasComments = children.length > 0
 
@@ -63,6 +64,16 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsern
           <p className='body'>{body}</p>
           {image && (
             <Image alt='attached image' style={{borderRadius: '10px', width: '250px', height: 'auto', marginTop: '10px'}} src={image} width={300} height={200} />
+          )}
+
+          {quote && (
+            <QuoteThreadCard 
+              authorImage={quote.author.image}
+              authorUsername={quote.author.username}
+              threadBody={quote.body}
+              threadImage={quote.image}
+              threadId={quote._id.toString()}
+            />
           )}
         </div>
 

@@ -43,6 +43,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
               currentUserImage={user.image}
               currentUserUsername={user.username}
               vairant='PARENT PAGE'
+              quote={parentThread.quote}
             />
           )}
           <ThreadCard 
@@ -57,6 +58,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
             currentUserImage={user.image}
             currentUserUsername={user.username}
             vairant='PAGE'
+            quote={thread.quote}
           />
           <div className='form-container'>
             <CreateForm 
@@ -85,6 +87,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
                 currentUserUsername={user.username}
                 likes={item.likes}
                 children={item.children}
+                quote={item.quote}
               />
             ))}
           </div>

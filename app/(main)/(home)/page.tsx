@@ -25,6 +25,7 @@ const HomePage = async () => {
           children={thread.children}
           likes={thread.likes.map((item: any) => item.toString())}
           isReposted={user.reposts.includes(thread._id)}
+          quote={thread.quote}
         />
       ))}
     </section>

@@ -8,11 +8,13 @@ interface QuoteModalProps {
   handleCloseModal: () => void,
   authorUsername: string,
   authorImage: string,
+  authorId: string,
   threadBody: string,
-  threadImage?: string
+  threadImage?: string,
+  threadId: string
 }
 
-const QuoteModal: React.FC<QuoteModalProps> = ({ userId, username, userImage, handleCloseModal, authorImage, authorUsername, threadBody, threadImage }) => {
+const QuoteModal: React.FC<QuoteModalProps> = ({ userId, username, userImage, handleCloseModal, authorImage, authorUsername, threadBody, threadImage, authorId, threadId }) => {
   return (
     <div className='quote-modal-component'>
       <div className='overlay' onClick={handleCloseModal}></div>
@@ -21,12 +23,15 @@ const QuoteModal: React.FC<QuoteModalProps> = ({ userId, username, userImage, ha
           userId={userId} 
           username={username} 
           image={userImage} 
-          quoteThread={{
+          quoteThreadInfo={{
             authorImage,
             authorUsername,
             threadBody,
             threadImage,
+            authorId,
+            threadId
           }}
+          handleCloseModal={handleCloseModal}
         />
       </div>
     </div>

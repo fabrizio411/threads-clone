@@ -8,7 +8,6 @@ import RepostsDisplay from '../../components/threads/sections/RepostsDisplay'
 import RepliesDisplay from '../../components/threads/sections/RepliesDisplay'
 import { getProfileReplies, getProfileReposts, getProfileThreads } from '@/libs/actions/threads.actions'
 import ThreadCard from '@/components/cards/thread/ThreadCard'
-import { Children } from 'react'
 import LoadingSpinner from '@/components/icons/spinner/LoadingSpinner'
 
 const ProfilePage = async () => {
@@ -60,6 +59,7 @@ const ProfilePage = async () => {
                 createdAt={item.createdAt}
                 children={item.children}
                 likes={item.likes.map((item: any) => item.toString())}
+                quote={item.quote}
               />
             )) : (
               <p className='no-items-msg'>No threads yet</p>
@@ -88,6 +88,7 @@ const ProfilePage = async () => {
                   currentUserImage={user.image}
                   currentUserUsername={user.username}
                   vairant='PARENT'
+                  quote={item.quote}
                 />
                 <ThreadCard 
                   key={item._id.toString()}
@@ -102,6 +103,7 @@ const ProfilePage = async () => {
                   currentUserImage={user.image}
                   currentUserUsername={user.username}
                   vairant='CHILD'
+                  quote={item.quote}
                 />
               </>
             )) : (
@@ -131,6 +133,7 @@ const ProfilePage = async () => {
                   currentUserImage={user.image}
                   currentUserUsername={user.username}
                   isReposted={user.reposts.includes(item._id)}
+                  quote={item.quote}
                 />
               ))
             ) : (
