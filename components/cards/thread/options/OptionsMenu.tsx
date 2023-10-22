@@ -21,12 +21,6 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId, isComment }) => {
     else setIsOpen(true)
   }
 
-  const handleDeleteModal = () => {
-    if (isDeleteModal) setIsDeleteModal(false)
-    else setIsDeleteModal(true)
-    document.body.classList.remove('block-scroll')
-  }
-
   const handleConfirm = async () => {
     if (isComment) {
       await deleteComment(threadsId, pathname)
@@ -38,6 +32,17 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId, isComment }) => {
     setIsOpen(false)
     document.body.classList.remove('block-scroll')
   }
+
+  const handleDeleteModal = () => {
+    if (pathname === '/profile') {
+      handleConfirm()
+    } else {
+      if (isDeleteModal) setIsDeleteModal(false)
+      else setIsDeleteModal(true)
+      document.body.classList.remove('block-scroll')
+    }
+  }
+
 
   return (
     <>
@@ -51,13 +56,16 @@ const OptionsMenu: React.FC<OptionsMenuProps> = ({ threadsId, isComment }) => {
 
       </div>
 
-      <ConfirmationModal 
-        isActive={isDeleteModal}
-        title='Delete this post?'
-        confirmText='Delete'
-        closeModal={handleDeleteModal}
-        confirmFunction={handleConfirm}
-      />
+
+      {pathname !== '/profile' && (
+        <ConfirmationModal 
+          isActive={isDeleteModal}
+          title='Delete this post?'
+          confirmText='Delete'
+          closeModal={handleDeleteModal}
+          confirmFunction={handleConfirm}
+        />
+      )}
     </>
   )
 }

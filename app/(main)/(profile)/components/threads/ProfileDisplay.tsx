@@ -43,7 +43,7 @@ const ProfileDisplay = ({ children, isPrivate, isFollowing }: { children: React.
         )}
       </div>
       <div className='content-display-box'>
-        <div className={`content ${isPrivate && !isFollowing && 'private'}`} style={contentStyles}>
+        <div className={`display-content ${isPrivate && !isFollowing && 'private'}`} style={contentStyles}>
           {children}
         </div>
       </div>

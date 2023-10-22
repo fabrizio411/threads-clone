@@ -47,16 +47,15 @@
     .content-display-box {
         width: 100%;
         overflow: hidden;
-        position: relative;
 
-        .content {
+        .display-content {
             width: fit-content;
             display: flex;
             position: relative;
             transition: left .4s ease;
         }
 
-        .content.private {
+        .display-content.private {
             width: 100%;
 
             .private-msg {

@@ -21,6 +21,7 @@
     }
 
     .options-menu {
+        z-index: 1100;
         display: none;
         border: 1px solid $bg-border-2;
         border-radius: 15px;
