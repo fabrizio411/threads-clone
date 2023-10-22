@@ -3,9 +3,9 @@
 
 / Hacer que al update profile pasale el user id en vez de usar la funcion getuser
 
-/hide likes count option
+/hide likes count option thi
 
-
+s
 # DOCUMENTACION
 Aplicación clon de Threads.
 Se intenta asemejar lo más posible a la aplicación real. Copiando los diseños y la mayoria de funcionalidades de la misma.
