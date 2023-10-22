@@ -99,7 +99,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ name, username, bio, image, isP
       setSubmitDisabled(true)
     } else setSubmitDisabled(false)
 
-  }, [usernameValue])
+  }, [usernameValue, username])
 
   const onSubmit: SubmitHandler<FieldValues> = async(data) => {
     await updateUser({

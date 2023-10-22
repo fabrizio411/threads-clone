@@ -62,7 +62,7 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComme
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px'
     } else textareaRef.current.style.overflowY = 'scroll'
     setValue('body', textareaVal)
-  }, [textareaVal])
+  }, [textareaVal, setValue])
 
   const imageValue = watch('image')
   const bodyValue = watch('body')

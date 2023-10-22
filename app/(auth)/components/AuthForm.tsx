@@ -86,7 +86,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     }
     
     if (emailValue.length === 0) setEmailAviable(true)
-  }, [emailValue])
+  }, [emailValue, variant])
 
   useEffect(() => {
     if (usernameValue.length > 2 && variant === 'REGISTER') {
@@ -101,7 +101,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     }
 
     if (usernameValue.length === 0) setUsernameAviable(true)
-  }, [usernameValue])
+  }, [usernameValue, variant])
 
   useEffect(() => {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
@@ -113,7 +113,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
     if (isValidEmail && emailValue && passwordValue && emailAviable && !isInputLoading) {
       setIsValidData(true)
     } else setIsValidData(false)
-  }, [emailValue, passwordValue, emailAviable, isInputLoading])
+  }, [emailValue, passwordValue, emailAviable, isInputLoading, isValidEmail, isValidEmail])
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsOpen(false)

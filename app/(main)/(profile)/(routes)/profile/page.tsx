@@ -57,7 +57,7 @@ const ProfilePage = async () => {
                 image={item.image}
                 author={item.author}
                 createdAt={item.createdAt}
-                children={item.children}
+                childrenComments={item.children}
                 likes={item.likes.map((item: any) => item.toString())}
                 quote={item.quote}
               />
@@ -82,7 +82,7 @@ const ProfilePage = async () => {
                   image={item.parentId.image}
                   author={item.parentId.author}
                   likes={item.parentId.likes.map((i: any) => i.toString())}
-                  children={item.parentId.children}
+                  childrenComments={item.parentId.children}
                   createdAt={item.parentId.createdAt}
                   currentUserId={user._id.toString()}
                   currentUserImage={user.image}
@@ -97,7 +97,7 @@ const ProfilePage = async () => {
                   image={item.image}
                   author={item.author}
                   likes={item.likes.map((item: any) => item.toString())}
-                  children={item.children}
+                  childrenComments={item.children}
                   createdAt={item.createdAt}
                   currentUserId={user._id.toString()}
                   currentUserImage={user.image}
@@ -127,7 +127,7 @@ const ProfilePage = async () => {
                   image={item.image}
                   author={item.author}
                   likes={item.likes.map((item: any) => item.toString())}
-                  children={item.children}
+                  childrenComments={item.children}
                   createdAt={item.createdAt}
                   currentUserId={user._id.toString()}
                   currentUserImage={user.image}

@@ -86,7 +86,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                     image={item.image}
                     author={item.author}
                     createdAt={item.createdAt}
-                    children={item.children}
+                    childrenComments={item.children}
                     likes={item.likes.map((item: any) => item.toString())}
                     quote={item.quote}
                   />
@@ -111,7 +111,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       image={item.parentId.image}
                       author={item.parentId.author}
                       likes={item.parentId.likes.map((i: any) => i.toString())}
-                      children={item.parentId.children}
+                      childrenComments={item.parentId.children}
                       createdAt={item.parentId.createdAt}
                       currentUserId={currentUser._id.toString()}
                       currentUserImage={currentUser.image}
@@ -127,7 +127,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       image={item.image}
                       author={item.author}
                       likes={item.likes.map((item: any) => item.toString())}
-                      children={item.children}
+                      childrenComments={item.children}
                       createdAt={item.createdAt}
                       currentUserId={currentUser._id.toString()}
                       currentUserImage={currentUser.image}
@@ -157,7 +157,7 @@ const ProfileExtaPage = async ({ params }: { params: { username: string } }) => 
                       image={item.image}
                       author={item.author}
                       likes={item.likes.map((item: any) => item.toString())}
-                      children={item.children}
+                      childrenComments={item.children}
                       createdAt={item.createdAt}
                       currentUserId={currentUser._id.toString()}
                       currentUserImage={currentUser.image}

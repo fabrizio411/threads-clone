@@ -37,7 +37,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
               image={parentThread.image}
               author={parentThread.author}
               likes={parentThread.likes.map((item: any) => item.toString())}
-              children={parentThread.children}
+              childrenComments={parentThread.children}
               createdAt={parentThread.createdAt}
               currentUserId={user._id.toString()}
               currentUserImage={user.image}
@@ -52,7 +52,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
             image={thread.image}
             author={thread.author}
             likes={thread.likes.map((item: any) => item.toString())}
-            children={thread.children}
+            childrenComments={thread.children}
             createdAt={thread.createdAt}
             currentUserId={user._id.toString()}
             currentUserImage={user.image}
@@ -73,7 +73,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
           </div>
 
           <div className='comments-section'>
-            {thread.children.map((item: ThreadType) => (
+            {thread.children.map((item: any) => (
               <ThreadCard 
                 key={item._id.toString()}
                 _id={item._id.toString()}
@@ -86,7 +86,7 @@ const ThreadPage = async ({ params }: { params: { username: string, threadId: st
                 currentUserImage={user.image}
                 currentUserUsername={user.username}
                 likes={item.likes}
-                children={item.children}
+                childrenComments={item.children}
                 quote={item.quote}
               />
             ))}

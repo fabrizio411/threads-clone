@@ -27,6 +27,7 @@ const SearchPage = async () => {
           ) : (
             result.users.map((item: any) => (
               <UserCard 
+                key={user._id.toString()}
                 currentUserId={user._id.toString()}
                 userId={item._id.toString()}
                 isPrivate={item.isPrivate}

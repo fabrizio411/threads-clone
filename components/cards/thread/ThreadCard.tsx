@@ -8,9 +8,9 @@ import ActionsMenu from './actions/ActionsMenu'
 import './threadcard.scss'
 import QuoteThreadCard from '../quote/QuoteThreadCard'
 
-const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsername, currentUserImage, parentId, body, image, author, createdAt, children, likes, vairant, isReposted, quote }) => {
+const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsername, currentUserImage, parentId, body, image, author, createdAt, childrenComments, likes, vairant, isReposted, quote }) => {
   const formatedTime = formatDateString(createdAt)
-  const hasComments = children.length > 0
+  const hasComments = childrenComments.length > 0
 
   let isComment = false
   if (parentId) isComment = true
@@ -28,14 +28,14 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsern
           )}
           {hasComments && vairant !== 'PARENT' && vairant !== 'PARENT PAGE' && (
             <div className='comments-imgs'>
-              {children.length > 1 ? (
+              {childrenComments.length > 1 ? (
                 <div className='multiple-comments-box'>
-                  <Image className='img bottom' alt='profile photo' src={children[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
-                  <Image className='img top' alt='profile photo' src={children[1].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img bottom' alt='profile photo' src={childrenComments[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img top' alt='profile photo' src={childrenComments[1].author.image || '/images/placeholder.jpg'} height={20} width={20} />
                 </div>
               ) : (
                 <div className='single-comment-box'>
-                  <Image className='img' alt='profile photo' src={children[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
+                  <Image className='img' alt='profile photo' src={childrenComments[0].author.image || '/images/placeholder.jpg'} height={20} width={20} />
                 </div>
               )}
             </div>
@@ -89,7 +89,7 @@ const ThreadCard: React.FC<ThreadType> = ({ _id, currentUserId, currentUserUsern
           currentUserUsername={currentUserUsername}
           currentUserImage={currentUserImage}
           likes={likes.map((item: any) => item.toString())}
-          replies={children.length}
+          replies={childrenComments.length}
           hasComments={hasComments}
           isReposted={isReposted}
         />

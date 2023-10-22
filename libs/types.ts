@@ -29,7 +29,7 @@ export type ThreadType = {
     },
     likes: string[],
     parentId?: string,
-    children: {
+    childrenComments: {
         author: {
             id: string
             username: string
