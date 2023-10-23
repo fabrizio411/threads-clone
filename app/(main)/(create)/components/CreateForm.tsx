@@ -137,9 +137,8 @@ const CreateForm: React.FC<CreateFormProps> = ({ parentId, parentAuthor, isComme
         path: pathname
       })
       .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false))
-
       router.push('/')
+      setIsLoading(false)
     }
   }
 
