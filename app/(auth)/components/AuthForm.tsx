@@ -158,6 +158,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
         {variant === 'LOGIN' ? 'Login' : 'Register'} on Threads
       </h1>
 
+      {variant === 'LOGIN' && (
+        <div>
+          <p>DEMO</p>
+          <p>Mail: demo@mail.com</p>
+          <p>Password: password</p>
+        </div>
+      )}
+
       <form className='form' onSubmit={handleSubmit(onSubmit)}>
         <Input inputClass='PLACEHOLDER' id='email' type='email' isEmailErrors={isEmailErrors} inputLoading={isInputLoading} placeholder='Email Address' register={register} errors={errors} disabled={isLoading} required/>
         {!emailAviable && variant === 'REGISTER' && (
