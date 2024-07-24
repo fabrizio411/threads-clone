@@ -159,7 +159,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ variant }) => {
       </h1>
 
       {variant === 'LOGIN' && (
-        <div>
+        <div className='variants'>
           <p>DEMO</p>
           <p>Mail: demo@mail.com</p>
           <p>Password: password</p>
